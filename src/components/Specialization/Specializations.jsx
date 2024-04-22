@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import axios from 'axios';
-import Spezialization from './Spezialization';
+import SpezializationItem from './SpezializationItem';
 import Button from '../Button/Button';
 
 
@@ -37,7 +37,7 @@ const Spezializations = () => {
         </div>
         <div className="direct__list">
             {specializationsPiece.map(spezialization => 
-            <Spezialization key={spezialization.id} data={spezialization}/>
+            <SpezializationItem key={spezialization.id} data={spezialization}/>
             )}
         </div>
         {specializationsPiece.length !== specializationsList.length ? 

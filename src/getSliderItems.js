@@ -2,24 +2,24 @@ export function getSliderItems() {
 
     const items = [
         {
-            url: '/img/slider/slide1.png', 
+            url: '/img/slider/Make_an_appointment.svg', 
             title: 'Запись на прием', 
-            desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto et eaque culpa ad unde distinctio cumque sed iste voluptatem quod veniam magnam, repellendus exercitationem, iusto ipsa laudantium aspernatur cupiditate? A facere quam maiores et laboriosam, qui sapiente cupiditate harum velit!'
+            desc: 'Запишитесь на прием к врачу онлайн, не выходя из дома. Просто выберите нужную специализацию, подходящего врача и запланируйте прием в удобное время – все это доступно в несколько кликов. Забудьте о том, что такое ожидание в очередях и присоединяйтесь к нам прямо сейчас!'
         },
         {
-            url: '/img/slider/slide1.png', 
-            title: 'Запись на прием', 
-            desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto et eaque culpa ad unde distinctio cumque sed iste voluptatem quod veniam magnam, repellendus exercitationem, iusto ipsa laudantium aspernatur cupiditate? A facere quam maiores et laboriosam, qui sapiente cupiditate harum velit!'
+            url: '/img/slider/Electronic_card.svg', 
+            title: 'Электронная медицинская карта', 
+            desc: 'Вы можете легко и удобно просматривать все записи, сделанные врачами во время приема. Никаких лишних хлопот с поиском бумажных документов – просто войдите в свою учетную запись и ознакомьтесь с вашей медицинской историей в любое удобное время. Если вы еще не имеете учетной записи, то не откладывайте заботу о своем здоровье на потом и скорее присоединяйтесь к нам.'
         },
         {
-            url: '/img/slider/slide1.png', 
-            title: 'Запись на прием', 
-            desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto et eaque culpa ad unde distinctio cumque sed iste voluptatem quod veniam magnam, repellendus exercitationem, iusto ipsa laudantium aspernatur cupiditate? A facere quam maiores et laboriosam, qui sapiente cupiditate harum velit!'
+            url: '/img/slider/Health_diary.svg', 
+            title: 'Дневник здоровья', 
+            desc: 'Присоединяйтесь к нам и начните вести свой Дневник Здоровья.  Отмечайте ваши показатели пульса, температуры тела, артериального давления, уровня кислорода и сахара в крови, а также оставляйте заметки о своем физическом состоянии каждый день. Это поможет следить за изменениями в вашем организме, выявлять тенденции и принимать своевременные меры для улучшения самочувствия. Ваш Дневник доступен для просмотра врачам, чтобы они могли получить полную картину вашего здоровья и принимать более обоснованные решения о вашем лечении.'
         },
         {
-            url: '/img/slider/slide1.png', 
-            title: 'Запись на прием', 
-            desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto et eaque culpa ad unde distinctio cumque sed iste voluptatem quod veniam magnam, repellendus exercitationem, iusto ipsa laudantium aspernatur cupiditate? A facere quam maiores et laboriosam, qui sapiente cupiditate harum velit!'
+            url: '/img/slider/Online_consultation.svg', 
+            title: 'Онлайн консультация', 
+            desc: 'Мы рады предложить вам возможность проведения онлайн консультаций. Наши специалисты доступны для вас в удобное время, готовы ответить на все ваши вопросы и предоставить медицинские рекомендации. Современные технологии позволяют нам быть ближе к вам. Начните заботиться о своем здоровье сейчас – запишитесь на онлайн консультацию!'
         }
     ];
 
