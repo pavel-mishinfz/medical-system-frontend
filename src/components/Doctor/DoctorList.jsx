@@ -1,6 +1,6 @@
 import React from 'react';
 import Doctor from './Doctor';
-import RecordPanel from '../Record/RecordPanel';
+import RecordPanel from '../RecordPanel/RecordPanel';
 
 
 export default function DoctorList({doctors}) {
