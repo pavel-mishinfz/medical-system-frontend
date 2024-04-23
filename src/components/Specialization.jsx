@@ -4,6 +4,7 @@ import axios from 'axios';
 import Sidebar from './Sidebar/Sidebar';
 import Head from './Head/Head';
 import DoctorList from './Doctor/DoctorList';
+import Register from './Register';
 
 
 const Specialization = () => {
@@ -12,6 +13,7 @@ const Specialization = () => {
 
   const [spec, setSpec] = useState();
   const [doctors, setDoctors] = useState([]);
+  const [openRegisterModal, setOpenRegisterModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,11 +43,14 @@ const Specialization = () => {
               )}
             </div>
             {doctors.length > 0 && (
-              <DoctorList doctors={doctors}/>
+              <DoctorList doctors={doctors} openRegisterModal={() => setOpenRegisterModal(true)}/>
             )}
           </div>
         </section>
     </div>
+    {sessionStorage.getItem('authToken') === null && openRegisterModal && (
+      <Register modify={'modal'} isOpenModal={openRegisterModal} closeModal={() => setOpenRegisterModal(false)}/>
+    )}
     </>
   );
 }

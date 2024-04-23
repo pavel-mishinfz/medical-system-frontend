@@ -9,6 +9,9 @@ html {
   font-family: 'Inter', sans-serif;
   font-size: 10px;
 }
+body:has(.modal) {
+  overflow: hidden;
+}
 button {
   cursor: pointer;
   background-color: transparent;
@@ -20,6 +23,75 @@ a {
 }
 a:active {
   color: inherit;
+}
+label {
+  padding: 0 5px;
+  display: block;
+  opacity: 0;
+  position: absolute;
+  color: #1a5dd0;
+  font-weight: normal;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  background-color: #fff;
+}
+label.active {
+  opacity: 1;
+  top: -8px;
+  left: 32px;
+}
+input {
+  color: #424b58;
+  font-weight: normal;
+  font-size: 1.6rem;
+  line-height: 1.2;
+  padding: 10px 30px;
+  border: 1px solid #000;
+  border-radius: 6px;
+  outline: none;
+}
+input[type="password"] {
+  padding-right: 60px;
+}
+input.active {
+  border: 2px solid #1a5dd0;
+}
+input:focus:not(input[id="burger-checkbox"]),
+input:active:not(input[id="burger-checkbox"]) {
+  border: 2px solid #1a5dd0;
+}
+input:focus:not(input[id="burger-checkbox"])::-webkit-input-placeholder,
+input:active:not(input[id="burger-checkbox"])::-webkit-input-placeholder {
+  opacity: 0;
+}
+input:focus:not(input[id="burger-checkbox"]):-ms-input-placeholder,
+input:active:not(input[id="burger-checkbox"]):-ms-input-placeholder {
+  opacity: 0;
+}
+input:focus:not(input[id="burger-checkbox"])::-ms-input-placeholder,
+input:active:not(input[id="burger-checkbox"])::-ms-input-placeholder {
+  opacity: 0;
+}
+input:focus:not(input[id="burger-checkbox"])::placeholder,
+input:active:not(input[id="burger-checkbox"])::placeholder {
+  opacity: 0;
+}
+input:focus:not(input[id="burger-checkbox"]) ~ label,
+input:active:not(input[id="burger-checkbox"]) ~ label {
+  opacity: 1;
+  top: -8px;
+  left: 32px;
+}
+.eye {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  width: 20px;
+  height: 20px;
+}
+.eye > img {
+  width: 100%;
+  height: 100%;
 }
 .btn {
   display: -webkit-box;
@@ -784,6 +856,141 @@ a:active {
   height: 30px;
   -webkit-filter: invert(29%) sepia(97%) saturate(3842%) hue-rotate(211deg) brightness(98%) contrast(103%);
           filter: invert(29%) sepia(97%) saturate(3842%) hue-rotate(211deg) brightness(98%) contrast(103%);
+}
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ada9a990;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  z-index: 5;
+  padding: 40px 20px;
+}
+.form {
+  position: relative;
+  width: 500px;
+  min-width: 290px;
+  padding: 20px 40px;
+  -webkit-box-shadow: 0 2px 3px #000;
+          box-shadow: 0 2px 3px #000;
+  border-radius: 6px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  row-gap: 40px;
+  background-color: #fff;
+  height: 100%;
+  overflow: auto;
+}
+.form__close {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 10px;
+  font-size: 3rem;
+}
+.form__header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.form__h2 {
+  color: #111111;
+  font-weight: normal;
+  font-size: 2.4rem;
+  line-height: 1.2;
+}
+.form__fields {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  row-gap: 20px;
+}
+.form__fields-item {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  row-gap: 10px;
+}
+.form__fields-item > input {
+  width: 100%;
+}
+.form__btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.form__forgot-password {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
+}
+.form__forgot-password > a {
+  color: #111111;
+  font-weight: normal;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-decoration: underline;
+}
+.form__small {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.form__small-text {
+  color: #111111;
+  font-weight: normal;
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+.form__small-text > a {
+  text-decoration: underline;
 }
 @media (max-width: 992px) {
   .slider + .direct {

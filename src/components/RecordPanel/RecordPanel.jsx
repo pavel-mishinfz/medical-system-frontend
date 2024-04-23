@@ -4,7 +4,7 @@ import RecordDayList from './RecordDayList';
 import RecordTimeList from './RecordTimeList';
 
 
-const RecordPanel = ({doctorId}) => {
+const RecordPanel = ({doctorId, openRegisterModal}) => {
   const [currentDate, setCurrentDate] = useState(0);
   const [availableDates, setAvailableDates] = useState();
 
@@ -27,7 +27,7 @@ const RecordPanel = ({doctorId}) => {
           {availableDates && (
             <>
             <RecordDayList dayList={availableDates} onDateChange={date => setCurrentDate(date)} currentDate={currentDate}/>
-            <RecordTimeList timeList={availableDates} currentDate={currentDate}/>
+            <RecordTimeList timeList={availableDates} currentDate={currentDate} openRegisterModal={openRegisterModal}/>
             </>
           )}
       </div>
