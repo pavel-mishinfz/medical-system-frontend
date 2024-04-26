@@ -1,6 +1,7 @@
 import moment from "moment";
 
-export function getMedcardItems(cardData) {
+
+export function getMedcardItems(cardData, familyStatusList, educationList, busynessList) {
 
     const items = [
         { 
@@ -48,10 +49,10 @@ export function getMedcardItems(cardData) {
                     type: 'select',
                     name: 'is_man',
                     value: cardData.is_man,
-                    options: {
-                        0: 'женский',
-                        1: 'мужской'
-                    }
+                    options: [
+                        {id: 0, name: 'женский'},
+                        {id: 1, name: 'мужской'}
+                    ]
                 }
             ]
         },
@@ -137,10 +138,10 @@ export function getMedcardItems(cardData) {
                     type: 'select',
                     name: 'is_urban_area',
                     value: cardData.is_urban_area,
-                    options: {
-                        0: 'городская',
-                        1: 'сельская'
-                    }
+                    options: [
+                        {id: 0, name: 'городская'},
+                        {id: 1, name: 'сельская'}
+                    ]
                 }
             ]
         },
@@ -214,58 +215,46 @@ export function getMedcardItems(cardData) {
         },
         { 
             title: 'Семейное положение', 
-            body: cardData.family_status.status,
+            body: cardData.family_status.name,
             fields: [
                 {
                     title: null,
                     type: 'select',
                     name: 'id_family_status',
                     value: cardData.family_status.id,
-                    options: {
-                        1: 'состоит в зарегистрированном браке',
-                        2: 'не состоит в браке',
-                        3: 'неизвестно'
-                    }
+                    options: familyStatusList.map(status => {
+                        return {id: status.id, name: status.name}
+                    }),
                 }
             ]
         },
         { 
             title: 'Образование', 
-            body: cardData.education.type,
+            body: cardData.education.name,
             fields: [
                 {
                     title: null,
                     type: 'select',
                     name: 'id_education',
                     value: cardData.education.id,
-                    options: {
-                        1: "профессиональное высшее",
-                        2: "профессиональное среднее",
-                        3: "общее среднее",
-                        4: "общее основное",
-                        5: "общее начальное",
-                        6: "неизвестно"
-                    }
+                    options: educationList.map(education => {
+                        return {id: education.id, name: education.name}
+                    })
                 }
             ]
         },
         { 
             title: 'Занятость', 
-            body: cardData.busyness.type,
+            body: cardData.busyness.name,
             fields: [
                 {
                     title: null,
                     type: 'select',
                     name: 'id_busyness',
                     value: cardData.busyness.id,
-                    options: {
-                        1: "работает",
-                        2: "проходит военную службу и приравненную к ней службу",
-                        3: "пенсионер(ка)",
-                        4: "студент(ка)",
-                        5: "не работает",
-                        6: "прочие"
-                    }
+                    options: busynessList.map(busyness => {
+                        return {id: busyness.id, name: busyness.name}
+                    })
                 }
             ]
         },
@@ -343,10 +332,10 @@ export function getMedcardItems(cardData) {
                     type: 'select',
                     name: 'rh_factor_is_pos',
                     value: cardData.rh_factor_is_pos,
-                    options: {
-                        0: 'отрицательный',
-                        1: 'положительный'
-                    }
+                    options: [
+                        {id: 0, name: 'отрицательный'},
+                        {id: 1, name: 'положительный'}
+                    ]
                 }
             ]
         },

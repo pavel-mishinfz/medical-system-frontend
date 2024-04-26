@@ -41,7 +41,8 @@ label.active {
   left: 32px;
 }
 input,
-select {
+select,
+textarea {
   color: #424b58;
   font-weight: normal;
   font-size: 1.6rem;
@@ -52,35 +53,61 @@ select {
   outline: none;
 }
 input[type="password"],
-select[type="password"] {
+select[type="password"],
+textarea[type="password"] {
   padding-right: 60px;
 }
 input.active,
-select.active {
+select.active,
+textarea.active {
   border: 2px solid #1a5dd0;
 }
 input:focus:not(input[id="burger-checkbox"]),
-input:active:not(input[id="burger-checkbox"]) {
+input:active:not(input[id="burger-checkbox"]),
+select:focus,
+select:active,
+textarea:focus,
+textarea:active {
   border: 2px solid #1a5dd0;
 }
 input:focus:not(input[id="burger-checkbox"])::-webkit-input-placeholder,
-input:active:not(input[id="burger-checkbox"])::-webkit-input-placeholder {
+input:active:not(input[id="burger-checkbox"])::-webkit-input-placeholder,
+select:focus::-webkit-input-placeholder,
+select:active::-webkit-input-placeholder,
+textarea:focus::-webkit-input-placeholder,
+textarea:active::-webkit-input-placeholder {
   opacity: 0;
 }
 input:focus:not(input[id="burger-checkbox"]):-ms-input-placeholder,
-input:active:not(input[id="burger-checkbox"]):-ms-input-placeholder {
+input:active:not(input[id="burger-checkbox"]):-ms-input-placeholder,
+select:focus:-ms-input-placeholder,
+select:active:-ms-input-placeholder,
+textarea:focus:-ms-input-placeholder,
+textarea:active:-ms-input-placeholder {
   opacity: 0;
 }
 input:focus:not(input[id="burger-checkbox"])::-ms-input-placeholder,
-input:active:not(input[id="burger-checkbox"])::-ms-input-placeholder {
+input:active:not(input[id="burger-checkbox"])::-ms-input-placeholder,
+select:focus::-ms-input-placeholder,
+select:active::-ms-input-placeholder,
+textarea:focus::-ms-input-placeholder,
+textarea:active::-ms-input-placeholder {
   opacity: 0;
 }
 input:focus:not(input[id="burger-checkbox"])::placeholder,
-input:active:not(input[id="burger-checkbox"])::placeholder {
+input:active:not(input[id="burger-checkbox"])::placeholder,
+select:focus::placeholder,
+select:active::placeholder,
+textarea:focus::placeholder,
+textarea:active::placeholder {
   opacity: 0;
 }
 input:focus:not(input[id="burger-checkbox"]) ~ label,
-input:active:not(input[id="burger-checkbox"]) ~ label {
+input:active:not(input[id="burger-checkbox"]) ~ label,
+select:focus ~ label,
+select:active ~ label,
+textarea:focus ~ label,
+textarea:active ~ label {
   opacity: 1;
   top: -8px;
   left: 32px;
@@ -372,6 +399,24 @@ input:active:not(input[id="burger-checkbox"]) ~ label {
 }
 .section {
   margin-top: 64px;
+}
+.section__header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.section__h2 {
+  color: #111111;
+  font-weight: 500;
+  font-size: 3rem;
+  line-height: 1.2;
+  text-align: center;
 }
 .slider {
   overflow: hidden;
@@ -904,6 +949,7 @@ input:active:not(input[id="burger-checkbox"]) ~ label {
   gap: 15px;
 }
 .page {
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -919,7 +965,7 @@ input:active:not(input[id="burger-checkbox"]) ~ label {
   border-radius: 15px;
   padding: 20px;
 }
-.page__field {
+.page__row {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -930,18 +976,23 @@ input:active:not(input[id="burger-checkbox"]) ~ label {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   -webkit-column-gap: 40px;
           column-gap: 40px;
+  row-gap: 20px;
 }
-.page__field-h4 {
-  width: 30%;
+.page__row-h4 {
+  width: 100%;
+  max-width: 150px;
   color: #1a5dd0;
   font-weight: 500;
   font-size: 2rem;
   line-height: 1.2;
 }
-.page__field-text {
-  width: 70%;
+.page__row-text {
+  width: 100%;
+  max-width: 650px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -957,7 +1008,19 @@ input:active:not(input[id="burger-checkbox"]) ~ label {
   line-height: 1.2;
   line-height: 1.3;
 }
-.page__input {
+.page__row--diary > .page__row-h4 {
+  max-width: 500px;
+}
+.page__row--diary > .page__row-text {
+  text-align: left;
+}
+.page__row--diary > .page__row-text:last-child {
+  max-width: unset;
+}
+.page__row--diary > .page__row-text > .page__field {
+  width: 100%;
+}
+.page__field {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -968,23 +1031,58 @@ input:active:not(input[id="burger-checkbox"]) ~ label {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
   -webkit-column-gap: 10px;
           column-gap: 10px;
 }
-.page__input-text {
+.page__field-text {
   color: #111111;
   font-weight: normal;
   font-size: 1.6rem;
   line-height: 1.2;
   line-height: 1.3;
 }
-.page__input > input {
+.page__field > input,
+.page__field select,
+.page__field textarea {
+  width: 100%;
   padding: 10px;
 }
-.page__input > select {
-  padding: 10px;
+.page__field > textarea {
+  resize: vertical;
+}
+.page__field--diary {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+}
+.page__field--diary > input {
+  width: 80px;
+}
+.page__field--diary > textarea {
+  width: 100%;
+}
+.page__options {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-column-gap: 5px;
+          column-gap: 5px;
+}
+.page__options-item {
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+}
+.page__options-item > img {
+  width: 100%;
+  height: 100%;
 }
 .page__create-date {
   display: -webkit-box;
@@ -999,6 +1097,119 @@ input:active:not(input[id="burger-checkbox"]) ~ label {
   font-weight: normal;
   font-size: 1.6rem;
   line-height: 1.2;
+}
+.page__create {
+  max-width: 900px;
+  min-width: 290px;
+  min-height: 700px;
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #fff;
+  border: 5px dashed #d3e6ff;
+  border-radius: 15px;
+}
+.templates {
+  position: relative;
+  width: 500px;
+  min-width: 290px;
+  padding: 20px 40px;
+  -webkit-box-shadow: 0 2px 3px #000;
+          box-shadow: 0 2px 3px #000;
+  border-radius: 6px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  row-gap: 40px;
+  background-color: #fff;
+  height: 100%;
+  overflow: auto;
+}
+.templates__close {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 10px;
+  font-size: 3rem;
+}
+.templates__header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.templates__h2 {
+  color: #111111;
+  font-weight: normal;
+  font-size: 2.4rem;
+  line-height: 1.2;
+}
+.templates__list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  row-gap: 10px;
+  width: 100%;
+}
+.templates__list-item {
+  text-align: left;
+  color: #424b58;
+  font-weight: normal;
+  font-size: 1.6rem;
+  line-height: 1.2;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 6px;
+}
+.templates__list-item:hover {
+  background-color: #d3e6ff;
+  color: #1a5dd0;
+}
+.templates__divider {
+  border: solid;
+  border-color: #c7d1df;
+  border-width: thin 0 0;
+  display: block;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 0px;
+  flex: 1 1 0px;
+  height: 0;
+  max-height: 0;
+}
+.diary {
+  padding: 40px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  row-gap: 40px;
 }
 .modal {
   position: fixed;

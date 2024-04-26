@@ -2,18 +2,23 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Sidebar from './Sidebar/Sidebar';
 import Head from './Head/Head';
-import PageItemList from './Page/PageItemList';
+import Page from './Page/Page';
 import { getMedcardItems } from '../getMedcardItems';
 import Button from './Button/Button';
+import { useNavigate } from 'react-router-dom';
+import Header from './Header/Header';
 
 
 const MedicalCard = () => {
-    const [openEditForm, setOpenEditForm] = useState(false);
+    const navigate = useNavigate(); 
     const [cardData, setCardData] = useState(null);
+    const [familyStatusList, setFamilyStatusList] = useState(null);
+    const [educationList, setEducationList] = useState(null);
+    const [busynessList, setBusynessList] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
-            const currentUserId = '89f8467c-550d-4fca-86f2-ad19ed15def5'; // sessionStorage.getItem('userId')
+            const currentUserId = '9121cb64-8bc9-404c-88df-b000e4b74421'; // sessionStorage.getItem('userId')
             
             try {
                 const response = await axios.get('http://'+ window.location.hostname + `:8002/cards/user/${currentUserId}`, {
@@ -25,12 +30,45 @@ const MedicalCard = () => {
             } catch(error) {
                 console.error('Get Card Error:', error);
             }
+
+            try {
+                const response = await axios.get('http://'+ window.location.hostname + `:8002/family_status`, {
+                                // headers: {
+                                //     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                                // },
+                            });
+                setFamilyStatusList(response.data);             
+            } catch(error) {
+                console.error('Get Family Status Error:', error);
+            }
+
+            try {
+                const response = await axios.get('http://'+ window.location.hostname + `:8002/education`, {
+                                // headers: {
+                                //     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                                // },
+                            });
+                setEducationList(response.data);             
+            } catch(error) {
+                console.error('Get Education List Error:', error);
+            }
+
+            try {
+                const response = await axios.get('http://'+ window.location.hostname + `:8002/busyness`, {
+                                // headers: {
+                                //     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                                // },
+                            });
+                setBusynessList(response.data);             
+            } catch(error) {
+                console.error('Get Busyness List Error:', error);
+            }
         };
         
         fetchData();
     }, []);
 
-    const handleUpdateCardData = async () => {
+    const handlePageData = async () => {
         const requestBody = cardData;
 
         try {
@@ -40,7 +78,6 @@ const MedicalCard = () => {
                                 // }
                             });
             setCardData(response.data);
-            setOpenEditForm(false);
         } catch(error) {
             console.error('Update Medcard Error:', error);
         }
@@ -50,23 +87,19 @@ const MedicalCard = () => {
     return (
         <>
         <Sidebar />
-        {cardData && (
+        {cardData && familyStatusList && educationList && busynessList && (
             <div className="container">
             <Head />
                 <section className="section">
                     <div className="medcard">
-                        <div className="medcard__header">
-                            <h2 className="medcard__h2">Электронная медицинская карта</h2>
-                        </div>
-                        <PageItemList items={getMedcardItems(cardData)} openEditForm={openEditForm} initCardData={cardData} updateCardData={data => setCardData(data)}/>
-                        {openEditForm ? 
-                        <div className="medcard__btns">
-                            <Button text={'Сохранить'} onHandleClick={handleUpdateCardData}/>
-                            <Button modify={'btn--cancel'} text={'Отменить'} onHandleClick={() => setOpenEditForm(false)} />
-                        </div>
-                        :
-                        <Button text={'Редактировать'} onHandleClick={() => setOpenEditForm(true)} />
-                        }
+                        <Header title={'Электронная медицинская карта'} />
+                        <Page
+                        pageData={cardData}
+                        pageItems={getMedcardItems(cardData, familyStatusList, educationList, busynessList)}
+                        updatePage={data => setCardData(data)} 
+                        handlePageData={handlePageData}
+                        /> 
+                        <Button text={'Перейти к списку страниц'} onHandleClick={() => navigate(`/medical-card/${cardData.id}/pages`)} />
                     </div>
                 </section>
             </div>

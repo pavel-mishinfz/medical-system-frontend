@@ -1,15 +1,18 @@
-import React from 'react';
-import PageInput from './PageInput';
+import React, { useContext } from 'react';
+import PageField from './PageField';
+import { PageContext } from './Page';
 
 
-export default function PageItem({title, body, fields, initCardData, updateCardData, openEditForm}) {
+export default function PageItem({title, body, fields, openEditForm}) {
+  const { isPageDiary } = useContext(PageContext);
+
   return (
-    <div className="page__field">
-        <h4 className="page__field-h4">{title}</h4>
-        <div className="page__field-text">
+    <div className={isPageDiary ? 'page__row page__row--diary' : 'page__row'}>
+        <h4 className="page__row-h4">{title}</h4>
+        <div className="page__row-text">
         {openEditForm && fields ?
         fields.map((field, index) =>
-            <PageInput key={index} fields={field} initCardData={initCardData} updateCardData={updateCardData}/> 
+            <PageField key={index} fieldData={field}/>
         )
         : 
         body

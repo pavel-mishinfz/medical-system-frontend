@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { PageContext } from './Page';
 
 
-export default function PageInput({inputData: {type, name, subname, value}}) {
+export default function PageTextarea({textareaData: {type, name, subname, value}}) {
 
     const { pageData, updatePage } = useContext(PageContext);
 
@@ -25,6 +25,6 @@ export default function PageInput({inputData: {type, name, subname, value}}) {
     }
 
     return (
-        <input type={type} value={value ? value : ''} name={name} onChange={(e) => handleOnChange(e)}/>
+        <textarea value={value ? value : ''} name={name} onChange={(e) => handleOnChange(e)}/>
     );
 }
