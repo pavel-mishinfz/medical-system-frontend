@@ -6,8 +6,10 @@ import Button from '../Button/Button';
 
 export const PageContext = createContext();
 
-export default function Page({pageData, pageItems, updatePage, handlePageData, isPageDiary}) {
-  const [openEditForm, setOpenEditForm] = useState(false);
+export default function Page({pageData, pageItems, updatePage, handlePageData, deletePage, isPageDiary, isNewPage}) {
+
+  const [openEditForm, setOpenEditForm] = useState(isNewPage);
+  const [openConfirmForm, setOpenConfirmForm] = useState(false);
 
   const handleSavePageData = () => {
     handlePageData();
@@ -17,14 +19,16 @@ export default function Page({pageData, pageItems, updatePage, handlePageData, i
   return (
     <>
     <div className="page">
-        <div className="page__options">
-          <div className="page__options-item" onClick={() => setOpenEditForm(true)}>
-            <img src="/img/options/edit.svg" alt="edit card" />
+        {!isNewPage && (
+          <div className="page__options">
+            <div className="page__options-item" onClick={() => setOpenEditForm(true)}>
+              <img src="/img/options/edit.svg" alt="edit card" />
+            </div>
+            <div className="page__options-item" onClick={() => setOpenConfirmForm(true)}>
+              <img src="/img/options/delete.svg" alt="delete card" />
+            </div>
           </div>
-          <div className="page__options-item">
-            <img src="/img/options/delete.svg" alt="delete card" />
-          </div>
-        </div>
+        )}
         {pageItems.map((item, index) => 
             <PageContext.Provider
             key={index}
@@ -56,6 +60,18 @@ export default function Page({pageData, pageItems, updatePage, handlePageData, i
       <div className="medcard__btns">
         <Button text={'Сохранить'} onHandleClick={handleSavePageData}/>
         <Button modify={'btn--cancel'} text={'Отменить'} onHandleClick={() => setOpenEditForm(false)} />
+      </div>
+    )}
+    {openConfirmForm && (
+      <div className="modal">
+        <div className="before-delete">
+          <div className="before-delete__title">Удалить страницу</div>
+          <div className="before-delete__text">Вы действительно хотите удалить запись из Дневника здоровья? Данное действие удалит данные навсегда.</div>
+          <div className="before-delete__btns">
+            <Button text={'Удалить'} onHandleClick={deletePage}/>
+            <Button modify={'btn--cancel'} text={'Отмена'} onHandleClick={() => setOpenConfirmForm(false)}/>
+          </div>
+        </div>
       </div>
     )}
     </>
