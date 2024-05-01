@@ -5,38 +5,26 @@ export function getMedcardItems(cardData, familyStatusList, educationList, busyn
 
     const items = [
         { 
-            title: 'Имя', 
-            body: cardData.name, 
+            title: 'ФИО', 
+            body: `${cardData.surname} ${cardData.name} ${cardData.patronymic ? cardData.patronymic : ''}`, 
             fields: [
                 {
-                    title: null,
-                    type: 'text',
-                    name: 'name',
-                    value: cardData.name
-                }
-            ]
-        },
-        { 
-            title: 'Фамилия', 
-            body: cardData.surname,
-            fields: [
-                {
-                    title: null,
+                    title: 'Фамилия',
                     type: 'text',
                     name: 'surname',
                     value: cardData.surname
-                }
-            ]
-        },
-        { 
-            title: 'Отчество', 
-            body: cardData.patronymic ? cardData.patronymic : '',
-            fields: [
+                },
                 {
-                    title: null,
+                    title: 'Имя',
+                    type: 'text',
+                    name: 'name',
+                    value: cardData.name
+                },
+                {
+                    title: 'Отчество',
                     type: 'text',
                     name: 'patronymic',
-                    value: cardData.patronymic ? cardData.patronymic : ''
+                    value: cardData.patronymic
                 }
             ]
         },
@@ -75,8 +63,7 @@ export function getMedcardItems(cardData, familyStatusList, educationList, busyn
             ${cardData.address.locality + ', '}
             ${cardData.address.street + ', '}
             ${cardData.address.house + ', '}
-            ${cardData.address.apartment ? cardData.address.apartment + ', ' : ''}
-            ${cardData.address.phone}`, 
+            ${cardData.address.apartment ? cardData.address.apartment : ''}`, 
             fields: [
                 {
                     title: 'Субъект',
@@ -119,13 +106,18 @@ export function getMedcardItems(cardData, familyStatusList, educationList, busyn
                     name: 'address',
                     subname: 'apartment',
                     value: cardData.address.apartment
-                },
+                }
+            ]
+        },
+        { 
+            title: 'Телефон', 
+            body: cardData.phone,
+            fields: [
                 {
-                    title: 'Телефон',
+                    title: null,
                     type: 'text',
-                    name: 'address',
-                    subname: 'phone',
-                    value: cardData.address.phone
+                    name: 'phone',
+                    value: cardData.phone
                 }
             ]
         },
