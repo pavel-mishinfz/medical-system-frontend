@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, createContext } from 'react';
 import axios from 'axios';
 import Sidebar from './Sidebar/Sidebar';
 import Head from './Head/Head';
@@ -10,6 +10,7 @@ import Button from './Button/Button';
 
 
 const PageSize = 5;
+export const HealthDiaryContext = createContext();
 
 const HealthDiary = () => {
     const [addNewPage, setAddNewPage] = useState(false);
@@ -122,25 +123,40 @@ const HealthDiary = () => {
                             <Button text={'+ Добавить новую запись'} onHandleClick={() => setAddNewPage(true)}/>
                         )}
                         {addNewPage && (
-                            <Page
-                            pageData={templateNewPage}
-                            pageItems={getDiaryItems(templateNewPage)}
-                            updatePage={data => setTemplateNewPage(data)} 
-                            handlePageData={() => createPageDiary()}
-                            isPageDiary={true}
-                            isNewPage={true}
-                            />
+                            <HealthDiaryContext.Provider
+                            value={{
+                                isPageDiary: true
+                            }}
+                            >
+
+                                <Page
+                                pageData={templateNewPage}
+                                pageItems={getDiaryItems(templateNewPage)}
+                                updatePage={data => setTemplateNewPage(data)} 
+                                handlePageData={() => createPageDiary()}
+                                setAddNewPage={state => setAddNewPage(state)}
+                                isNewPage={true}
+                                />
+                
+                            </HealthDiaryContext.Provider>
                         )}
                         {currentPageData.map((page, index) =>
-                            <Page
+                            <HealthDiaryContext.Provider
                             key={index}
-                            pageData={page}
-                            pageItems={getDiaryItems(page)}
-                            updatePage={data => updatePage(data, page)} 
-                            handlePageData={() => handlePageData(page)}
-                            deletePage={() => deletePageDiary(page.id)}
-                            isPageDiary={true}
-                            />   
+                            value={{
+                                isPageDiary: true
+                            }}
+                            >
+
+                                <Page
+                                pageData={page}
+                                pageItems={getDiaryItems(page)}
+                                updatePage={data => updatePage(data, page)} 
+                                handlePageData={() => handlePageData(page)}
+                                deletePage={() => deletePageDiary(page.id)}
+                                />   
+
+                            </HealthDiaryContext.Provider>
                         )}
                         <div className="pagination">
                             <Pagination
