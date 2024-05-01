@@ -148,6 +148,25 @@ textarea:active ~ label {
   background-color: #d3e6ff;
   color: #1a5dd0;
 }
+.btn--add-page {
+  max-width: 900px;
+  min-width: 290px;
+  min-height: 700px;
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #fff;
+  border: 5px dashed #d3e6ff;
+  border-radius: 15px;
+}
 /* -------------------------------------------------------------------------------------------------------------- */
 .container {
   max-width: 192rem;
@@ -948,6 +967,20 @@ textarea:active ~ label {
       flex-wrap: wrap;
   gap: 15px;
 }
+.page-list {
+  padding: 40px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  row-gap: 40px;
+}
 .page {
   position: relative;
   display: -webkit-box;
@@ -965,7 +998,35 @@ textarea:active ~ label {
   border-radius: 15px;
   padding: 20px;
 }
-.page__row {
+.page__header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  row-gap: 20px;
+}
+.page__title {
+  text-align: center;
+  color: #111111;
+  font-weight: 500;
+  font-size: 2rem;
+  line-height: 1.2;
+  padding: 0px 30px;
+}
+.page__info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  row-gap: 10px;
+}
+.page__info-item {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -976,23 +1037,38 @@ textarea:active ~ label {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-column-gap: 40px;
-          column-gap: 40px;
-  row-gap: 20px;
+  -webkit-column-gap: 20px;
+          column-gap: 20px;
+}
+.page__info-title {
+  color: #111111;
+  font-weight: 500;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+.page__info-text {
+  color: #424b58;
+  font-weight: normal;
+  font-size: 1.8rem;
+  line-height: 1.2;
+}
+.page__row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  row-gap: 10px;
 }
 .page__row-h4 {
-  width: 100%;
-  max-width: 200px;
   color: #1a5dd0;
   font-weight: 500;
   font-size: 2rem;
   line-height: 1.2;
 }
 .page__row-text {
-  width: 100%;
-  max-width: 600px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1001,6 +1077,7 @@ textarea:active ~ label {
           align-items: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  overflow-wrap: anywhere;
   gap: 10px;
   color: #424b58;
   font-weight: normal;
@@ -1021,6 +1098,7 @@ textarea:active ~ label {
   width: 100%;
 }
 .page__field {
+  width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1034,8 +1112,9 @@ textarea:active ~ label {
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: start;
-  -webkit-column-gap: 10px;
-          column-gap: 10px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 10px;
 }
 .page__field-title {
   color: #111111;
@@ -1066,24 +1145,83 @@ textarea:active ~ label {
   width: 100%;
   min-height: 200px;
 }
-.page__options {
+.page__open-options {
   position: absolute;
   top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 50%;
+  padding: 5px;
+  cursor: pointer;
+}
+.page__open-options > p {
+  position: relative;
+  top: -24%;
+  color: #424b58;
+  font-weight: 800;
+  font-size: 2.2rem;
+  line-height: 1.2;
+}
+.page__open-options:hover,
+.page__open-options:focus,
+.page__open-options:active {
+  background-color: #fff;
+}
+.page__options {
+  position: absolute;
+  top: 44px;
   right: 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-column-gap: 5px;
-          column-gap: 5px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 10px 0;
+  background-color: #fff;
+  border-radius: 15px;
+  -webkit-box-shadow: 0 0 5px #7d7d7d;
+          box-shadow: 0 0 5px #7d7d7d;
 }
 .page__options-item {
-  width: 34px;
-  height: 34px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-column-gap: 10px;
+          column-gap: 10px;
+  padding: 5px 10px;
   cursor: pointer;
 }
 .page__options-item > img {
-  width: 100%;
-  height: 100%;
+  width: 28px;
+  height: 28px;
+}
+.page__options-item > p {
+  color: #424b58;
+  font-weight: normal;
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+.page__options-item:hover {
+  background-color: #d3e6ff;
 }
 .page__create-date {
   display: -webkit-box;
@@ -1098,25 +1236,6 @@ textarea:active ~ label {
   font-weight: normal;
   font-size: 1.6rem;
   line-height: 1.2;
-}
-.page__create {
-  max-width: 900px;
-  min-width: 290px;
-  min-height: 700px;
-  width: 100%;
-  height: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  background-color: #fff;
-  border: 5px dashed #d3e6ff;
-  border-radius: 15px;
 }
 .templates {
   position: relative;
@@ -1174,6 +1293,7 @@ textarea:active ~ label {
   width: 100%;
 }
 .templates__list-item {
+  cursor: pointer;
   text-align: left;
   color: #424b58;
   font-weight: normal;

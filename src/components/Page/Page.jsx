@@ -1,33 +1,129 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect, useContext } from 'react';
+import axios from 'axios';
 import moment from 'moment';
 import PageItem from './PageItem';
 import Button from '../Button/Button';
+import Options from '../Options/Options';
+import { HealthDiaryContext } from '../HealthDiary';
+import PageHeader from './PageHeader';
+import { MedicalCardPagesContext } from '../MedicalCardPagesList';
 
 
 export const PageContext = createContext();
 
-export default function Page({pageData, pageItems, updatePage, handlePageData, deletePage, isPageDiary, isNewPage}) {
+export default function Page({pageData, pageItems, updatePage, handlePageData, deletePage, setAddNewPage, isNewPage}) {
+
+  const { isPageDiary } = useContext(HealthDiaryContext) || false;
+  const {title, date, doctorId, patient, isMedcardPage} = useContext(MedicalCardPagesContext) || {};
 
   const [openEditForm, setOpenEditForm] = useState(isNewPage);
+  const [openOptions, setOpenOptions] = useState(false);
   const [openConfirmForm, setOpenConfirmForm] = useState(false);
+  const [doctor, setDoctor] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+        if (doctorId) {
+          try {
+            const response = await axios.get('http://'+ window.location.hostname + `:8000/users/doctor/${doctorId}`, {
+                            headers: {
+                                Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Nzc4NWI2Yi05MzdkLTQ5YTktYWRlNS04OGQ2OTI5MjhmOTIiLCJhdWQiOlsiZmFzdGFwaS11c2VyczphdXRoIl0sImdyb3VwX2lkIjoyLCJleHAiOjE3MTQ1MjAxNTl9.hq9j3yjAXWaCLdNpdIMHa-86T0Je_jS4CDpUaCbS9LE`,
+                            },
+                        });         
+            setDoctor(response.data);             
+          } catch(error) {
+              console.error('Get Doctor Error:', error);
+          }
+        } else {
+          try {
+            const response = await axios.get('http://'+ window.location.hostname + `:8000/users/me`, {
+                            headers: {
+                                Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Nzc4NWI2Yi05MzdkLTQ5YTktYWRlNS04OGQ2OTI5MjhmOTIiLCJhdWQiOlsiZmFzdGFwaS11c2VyczphdXRoIl0sImdyb3VwX2lkIjoyLCJleHAiOjE3MTQ1MjAxNTl9.hq9j3yjAXWaCLdNpdIMHa-86T0Je_jS4CDpUaCbS9LE`,
+                            },
+                        });         
+            setDoctor(response.data);             
+          } catch(error) {
+              console.error('Get Doctor Error:', error);
+          }
+        }
+        
+      };
+      
+      if (isMedcardPage) {
+        fetchData();
+      }
+  }, [doctorId]);
 
   const handleSavePageData = () => {
     handlePageData();
     setOpenEditForm(false);
   }
+
+  const handleCancel = () => {
+    setOpenEditForm(false);
+    if (setAddNewPage) {
+      setAddNewPage(false);
+    }
+  }
+
+  const handleEditClick = () => {
+    setOpenEditForm(true);
+    setOpenOptions(false);
+  }
+
+  const handleDeleteClick = () => {
+    setOpenConfirmForm(true);
+    setOpenOptions(false);
+  }
+
+  const handleOutsideClick = (e) => {
+    if (openOptions && !e.target.closest('.page__options')) {
+      setOpenOptions(false);
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    }
+  }, [openOptions])
+
  
   return (
     <>
     <div className="page">
+        {doctor && (
+          <PageHeader 
+          title={title} 
+          date={date} 
+          doctor={`${doctor.surname} ${doctor.name} ${doctor.patronymic}`} 
+          patient={`${patient.surname} ${patient.name} ${patient.patronymic}`}
+          />
+        )}
         {!isNewPage && (
-          <div className="page__options">
-            <div className="page__options-item" onClick={() => setOpenEditForm(true)}>
-              <img src="/img/options/edit.svg" alt="edit card" />
-            </div>
-            <div className="page__options-item" onClick={() => setOpenConfirmForm(true)}>
-              <img src="/img/options/delete.svg" alt="delete card" />
-            </div>
-          </div>
+          <>
+            <button className="page__open-options" onClick={() => setOpenOptions(true)}>
+              <p>...</p>
+            </button>
+          {openOptions && (
+            <Options 
+            optionsData={[
+              {
+                src: "/img/options/edit.svg",
+                text: "Редактировать",
+                onHandleClick: () => handleEditClick()
+              },
+              {
+                src: "/img/options/delete.svg",
+                text: "Удалить",
+                onHandleClick: () => handleDeleteClick()
+              }
+            ]}
+            />
+          )}
+          </>
         )}
         {pageItems.map((item, index) => 
             <PageContext.Provider
@@ -48,25 +144,27 @@ export default function Page({pageData, pageItems, updatePage, handlePageData, d
 
             </PageContext.Provider>
         )}
-        <div className="page__create-date">
-          {isPageDiary ? 
-          <p>{moment(pageData.create_date).utc(true).format('DD/MM/YYYY HH:mm')}</p>
-          :
-          <p>{moment(pageData.create_date).utc(true).format('DD/MM/YYYY')}</p>
-          }
-        </div>
+        {!isNewPage && (
+          <div className="page__create-date" style={isMedcardPage ? {display: 'none'} : {}}>
+            {isPageDiary ? 
+            <p>{moment(pageData.create_date).utc(true).format('DD/MM/YYYY HH:mm')}</p>
+            :
+            <p>{moment(pageData.create_date).utc(true).format('DD/MM/YYYY')}</p>
+            }
+          </div>
+        )}
     </div>
     {openEditForm && (
       <div className="medcard__btns">
         <Button text={'Сохранить'} onHandleClick={handleSavePageData}/>
-        <Button modify={'btn--cancel'} text={'Отменить'} onHandleClick={() => setOpenEditForm(false)} />
+        <Button modify={'btn--cancel'} text={'Отменить'} onHandleClick={handleCancel} />
       </div>
     )}
     {openConfirmForm && (
       <div className="modal">
         <div className="before-delete">
           <div className="before-delete__title">Удалить страницу</div>
-          <div className="before-delete__text">Вы действительно хотите удалить запись из Дневника здоровья? Данное действие удалит данные навсегда.</div>
+          <div className="before-delete__text">Вы действительно хотите удалить запись? Данное действие удалит данные навсегда.</div>
           <div className="before-delete__btns">
             <Button text={'Удалить'} onHandleClick={deletePage}/>
             <Button modify={'btn--cancel'} text={'Отмена'} onHandleClick={() => setOpenConfirmForm(false)}/>
