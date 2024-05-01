@@ -229,9 +229,19 @@ export default MedicalCardPagesList;
 function getTemplateItems(templateStructure, templateData) {
 
     templateStructure.map(item =>
-        item.body = item.fields.map((field, index) =>
-            item.fields.length-1 > index ? templateData[field.name] + item.divider + ' ' : templateData[field.name] 
-        )
+        item.body = item.fields.map((field, index) => {
+            if (field.type === 'select') {
+                let selectBody = "";
+                selectBody = field.options.map(option => {
+                    if (option.id == templateData[field.name]) {
+                        return option.name;
+                    }
+                })
+                return item.fields.length-1 > index ? selectBody[templateData[field.name]] + item.divider + ' ' : selectBody[templateData[field.name]];
+            } else {
+                return item.fields.length-1 > index ? templateData[field.name] + item.divider + ' ' : templateData[field.name]; 
+            }
+        })
     )
 
     templateStructure.map(item => 
