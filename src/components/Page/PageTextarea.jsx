@@ -25,6 +25,6 @@ export default function PageTextarea({textareaData: {type, name, subname, value}
     }
 
     return (
-        <textarea value={value ? value : ''} name={name} onChange={(e) => handleOnChange(e)}/>
+        <textarea value={value ? value : ''} name={name} onChange={(e) => handleOnChange(e)} style={{minHeight: '200px'}}/>
     );
 }

@@ -6,7 +6,7 @@ import Head from './Head/Head';
 import Page from './Page/Page';
 import Button from './Button/Button';
 import Pagination from './Pagination/Pagination';
-import TemplatesList from './TemplatesList';
+import TemplateModal from './Modal/TemplateModal';
 import Header from './Header/Header';
 
 
@@ -212,7 +212,7 @@ const MedicalCardPagesList = () => {
                 </section>
             </div>
         {openTemplateListModal && (
-            <TemplatesList 
+            <TemplateModal 
             onCloseModal={() => setOpenTemplateListModal(false)}
             addNewPage={() => setAddNewPage(true)}
             getTemplate={template => setTemplate(template)}
@@ -226,11 +226,11 @@ const MedicalCardPagesList = () => {
 export default MedicalCardPagesList;
 
 
-function getTemplateItems(templateStructure, templateData) {
+export function getTemplateItems(templateStructure, templateData) {
 
     templateStructure.map(item =>
         item.body = item.fields.map((field, index) => {
-            if (field.type === 'select') {
+            if (field.type === 'select' && field.options) {
                 let selectBody = "";
                 selectBody = field.options.map(option => {
                     if (option.id == templateData[field.name]) {

@@ -77,7 +77,7 @@ export default function Page({pageData, pageItems, updatePage, handlePageData, d
   }
 
   const handleOutsideClick = (e) => {
-    if (openOptions && !e.target.closest('.page__options')) {
+    if (openOptions && !e.target.closest('.page__options-item')) {
       setOpenOptions(false);
     }
   }

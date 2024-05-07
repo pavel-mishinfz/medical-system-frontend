@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
-const TemplatesList = ({onCloseModal, addNewPage, getTemplate, getTemplateData}) => {
+const TemplateModal = ({onCloseModal, addNewPage, getTemplate, getTemplateData}) => {
     const [templates, setTemplates] = useState([]);
 
     useEffect(() => {
@@ -69,7 +69,7 @@ const TemplatesList = ({onCloseModal, addNewPage, getTemplate, getTemplateData})
     );
 }
 
-export default TemplatesList;
+export default TemplateModal;
 
 
 function makeTemplateData(templateStructure) {

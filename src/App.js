@@ -4,6 +4,7 @@ import Specialization from './components/Specialization';
 import MedicalCard from './components/MedicalCard';
 import MedicalCardPagesList from './components/MedicalCardPagesList';
 import HealthDiary from './components/HealthDiary';
+import Templates from './components/Templates';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/medical-card" element={<MedicalCard />} />
         <Route path="/medical-card/:id/pages" element={<MedicalCardPagesList />} />
         <Route path="/health-diary" element={<HealthDiary />} />
+        <Route path="/templates" element={<Templates />} />
       </Routes>
     </Router>
   );
