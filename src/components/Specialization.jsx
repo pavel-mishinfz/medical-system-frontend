@@ -20,13 +20,21 @@ const Specialization = () => {
       try {
         const response = await axios.get('http://'+ window.location.hostname + `:8000/specializations/${specId}`);
     
-        setSpec(response.data.name);
-        setDoctors(response.data.doctors);
+        setSpec(response.data);
+
+      } catch (error) {
+        console.log(error);
+      }
+
+      try {
+        const response = await axios.get('http://'+ window.location.hostname + `:8000/users/specialization/${specId}`);
+    
+        setDoctors(response.data);
       } catch (error) {
         console.log(error);
       }
     }
-
+    
     fetchData();
   }, [])
 
@@ -39,7 +47,7 @@ const Specialization = () => {
           <div className="spec">
             <div className="spec__header">
               {spec && (
-                <h2 className="spec__h2">{spec}</h2>
+                <h2 className="spec__h2">{spec.name}</h2>
               )}
             </div>
             {doctors.length > 0 && (
@@ -49,7 +57,7 @@ const Specialization = () => {
         </section>
     </div>
     {sessionStorage.getItem('authToken') === null && openRegisterModal && (
-      <Register modify={'modal'} isOpenModal={openRegisterModal} closeModal={() => setOpenRegisterModal(false)}/>
+      <Register closeModal={() => setOpenRegisterModal(false)}/>
     )}
     </>
   );
