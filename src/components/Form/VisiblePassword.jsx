@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 
-export default function VisiblePassword({onHandleClick}) {
-  const [visible, setVisible] = useState(false);  
-
+export default function VisiblePassword({visible, onHandleClick}) {
   return (
-    <span className="eye" onClick={() => setVisible(!visible)}>
+    <span className="eye" onClick={onHandleClick}>
         {visible ? 
-        <img src="/img/register/eye-open.svg" alt="eye open" onClick={onHandleClick('text')}/>
+        <img src="/img/register/eye-open.svg" alt="eye open"/>
         :
-        <img src="/img/register/eye-hidden.svg" alt="eye hidden" onClick={onHandleClick('password')}/>
+        <img src="/img/register/eye-hidden.svg" alt="eye hidden"/>
         }
     </span>
   );

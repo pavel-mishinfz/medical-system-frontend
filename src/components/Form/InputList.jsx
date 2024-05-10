@@ -4,7 +4,7 @@ import Input from './Input';
 
 export default function InputList({inputListData}) {
   return (
-    <div class="form__fields">
+    <div className="form__fields">
         {inputListData.map((inputData, index) => 
             <Input 
             key={index} 

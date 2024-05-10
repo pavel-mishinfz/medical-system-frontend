@@ -4,6 +4,10 @@ import VisiblePassword from './VisiblePassword';
 export default function Input({type, htmlFor, placeholder, title, value, onChangeInput}) {
   const [inputType, setInputType] = useState(type);
 
+  const handleEyeClick = () => {
+    setInputType(inputType === 'password' ? 'text' : 'password'); // Переключение типа поля ввода
+  };
+
   return (
     <div className="form__fields-item">
         <input 
@@ -16,7 +20,7 @@ export default function Input({type, htmlFor, placeholder, title, value, onChang
         />
         <label htmlFor={htmlFor} className={value ? 'active': ''}>{title}</label>
         {type === 'password' && (
-            <VisiblePassword onHandleClick={type => setInputType(type)}/>
+            <VisiblePassword visible={inputType === 'text'} onHandleClick={handleEyeClick}/>
         )}
     </div>
   );
