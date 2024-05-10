@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Form from './Form/Form';
 
 
-const Register = ({modify, isOpenModal, closeModal}) => {
+const Register = ({isOpenModal, closeModal}) => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -51,7 +51,7 @@ const Register = ({modify, isOpenModal, closeModal}) => {
                 console.error('Request verify failed:', error);
               });
     
-            navigate('/');
+            navigate(`/confirm-register?email=${email}`);
     
           })
           .catch(error => {
@@ -61,7 +61,7 @@ const Register = ({modify, isOpenModal, closeModal}) => {
 
 
     return (
-        <div className={modify} style={isOpenModal ? {} : {display: 'none'}}>
+        <div className="modal">
             <Form 
             title={'Регистрация'}
             inputListData={[
@@ -125,6 +125,7 @@ const Register = ({modify, isOpenModal, closeModal}) => {
             textBtn={'Зарегистрироваться'}
             onHandleBtn={handleRegister}
             onCloseModal={closeModal ? closeModal : null}
+            smallText={{text: 'Уже имеете аккаунт?', nav: {addr: '/login', addrText: 'Войти'}}}
             />
         </div>
     );

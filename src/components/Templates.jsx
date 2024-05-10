@@ -38,23 +38,6 @@ const Templates = () => {
         fetchData();
     }, []);
 
-    // const handleNewTemplate = async (templateId) => {
-
-    //     try {
-    //         const response = await axios.get('http://'+ window.location.hostname + `:8003/templates/${templateId}`, {
-    //                             // headers: {
-    //                             //     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
-    //                             // }
-    //                         });
-    //         addNewPage();
-    //         getTemplate(response.data);
-    //         getTemplateData(makeTemplateData(response.data.structure)); 
-    //         onCloseModal();
-    //     } catch(error) {
-    //         console.error('Get Template Error:', error);
-    //     }
-    // }
-
 
 
     return (
