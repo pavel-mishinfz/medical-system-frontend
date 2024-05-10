@@ -1,11 +1,12 @@
 import React from 'react';
 
 
-export function Hamb() {
+export function Hamb({setSidebarIsOpen}) {
+
   return (
     <>
-    <input type="checkbox" id="burger-checkbox" class="burger-checkbox" />
-    <label for="burger-checkbox" class="burger"></label>
+    <input type="checkbox" id="burger-checkbox" className="burger-checkbox" />
+    <label htmlFor="burger-checkbox" className="burger" onClick={() => setSidebarIsOpen(true)}></label>
     </>
   );
 }
