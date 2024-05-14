@@ -5,7 +5,7 @@ import RecordTimeList from './RecordTimeList';
 
 
 const RecordPanel = ({doctorId, openRegisterModal}) => {
-  const [currentDate, setCurrentDate] = useState(0);
+  const [currentDate, setCurrentDate] = useState(null);
   const [availableDates, setAvailableDates] = useState();
 
   useEffect(() => {
@@ -14,6 +14,7 @@ const RecordPanel = ({doctorId, openRegisterModal}) => {
         const response = await axios.get('http://'+ window.location.hostname + `:8001/schedules/doctor/${doctorId}`);
         
         setAvailableDates(response.data);
+        setCurrentDate(findFirstEmptyIndex(response.data));
       } catch (error) {
         console.log(error);
       }
@@ -24,7 +25,7 @@ const RecordPanel = ({doctorId, openRegisterModal}) => {
 
   return (
       <div className="record">
-          {availableDates && (
+          {availableDates && currentDate !== null && (
             <>
             <RecordDayList dayList={availableDates} onDateChange={date => setCurrentDate(date)} currentDate={currentDate}/>
             <RecordTimeList timeList={availableDates} currentDate={currentDate} openRegisterModal={openRegisterModal}/>
@@ -35,3 +36,13 @@ const RecordPanel = ({doctorId, openRegisterModal}) => {
 }
 
 export default RecordPanel;
+
+
+function findFirstEmptyIndex(obj) {
+  for (const [index, key] of Object.keys(obj).entries()) {
+    if (obj[key].length !== 0) {
+      return index;
+    }
+  }
+  return 0;
+}

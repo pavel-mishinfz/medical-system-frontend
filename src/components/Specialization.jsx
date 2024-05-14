@@ -14,6 +14,8 @@ const Specialization = () => {
   const [spec, setSpec] = useState();
   const [doctors, setDoctors] = useState([]);
   const [openRegisterModal, setOpenRegisterModal] = useState(false);
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,7 +44,10 @@ const Specialization = () => {
     <>
     <Sidebar />
     <div className="container">
-        <Head />
+        <Head 
+        setSidebarIsOpen={setSidebarIsOpen} 
+        setUserData={(data) => setUserData(data)}
+        />
         <section className="section">
           <div className="spec">
             <div className="spec__header">
