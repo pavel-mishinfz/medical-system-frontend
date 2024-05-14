@@ -1,7 +1,7 @@
-import React, {useLayoutEffect, useRef, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 
 
-const resendTimeout = 180000;
+const resendTimeout = 10000;
 
 const Timer = ({handle, disabledInput}) => {
 
@@ -20,10 +20,15 @@ const Timer = ({handle, disabledInput}) => {
         setSendAt(Date.now());
     }
 
+    useEffect(() => {
+        setTimeout(() => {
+            disabledInput(true);
+        }, resendTimeout);
+    }, [sendAt]);
+
     return (
-        <button type="button" disabled={isDisabled} onClick={handleSend}>
-            {isDisabled ? disabledInput(false) : disabledInput(true)}
-            {isDisabled ? `${timeToRerend(msToRerend)}` : 'Отправить снова' }
+        <button type="button" disabled={isDisabled} onClick={() => {handleSend(); disabledInput(false)}}>
+            {isDisabled ? `${timeToRerend(msToRerend)}` : <>Отправить снова</> }
         </button>
     );
 };
