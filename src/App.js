@@ -13,6 +13,8 @@ import ResetPassword from './components/ResetPassword';
 import Confirm from './components/Confirm';
 import Profile from './components/Profile';
 import ChangeEmail from './components/ChangeEmail';
+import ResetEmail from './components/ResetEmail';
+import ChangePassword from './components/ChangePassword';
 
 
 function App() {
@@ -25,9 +27,11 @@ function App() {
         <Route path="/confirm-register" element={<ConfirmRegister />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/confirm" element={<Confirm />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/change-email" element={<ChangeEmail />} />
+        <Route path="/reset-email" element={<ResetEmail />} />
         <Route path="/specializations/:id" element={<Specialization />} />
         <Route path="/medical-card" element={<MedicalCard />} />
         <Route path="/medical-card/:id/pages" element={<MedicalCardPagesList />} />
