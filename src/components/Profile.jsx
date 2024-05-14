@@ -78,7 +78,7 @@ const Profile = () => {
                     {
                       src: "/img/options/key.svg",
                       text: "Изменить пароль",
-                      // onHandleClick: () => handleDeleteClick()
+                      onHandleClick: () => navigate('/change-password', { state: { email: userData.email } })
                     }
                   ]}
                 />
