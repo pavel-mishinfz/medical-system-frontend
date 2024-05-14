@@ -11,6 +11,8 @@ import Button from './Button/Button';
 const PageSize = 1;
 
 const Templates = () => {
+    const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+    const [userData, setUserData] = useState(null);
     const [templates, setTemplates] = useState([]);
     const [addNewTemplate, setAddNewTemplate] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -42,9 +44,12 @@ const Templates = () => {
 
     return (
         <>
-        <Sidebar />
+        <Sidebar sidebarIsOpen={sidebarIsOpen} setSidebarIsOpen={setSidebarIsOpen}/>
         <div className="container">
-            <Head />
+            <Head 
+            setSidebarIsOpen={setSidebarIsOpen} 
+            setUserData={(data) => setUserData(data)}
+            />
             <section className="section section--templates">
                 <Header title={'Шаблоны страниц медицинской карты'}/>
                 {templateSlice && templateSlice.map(template =>

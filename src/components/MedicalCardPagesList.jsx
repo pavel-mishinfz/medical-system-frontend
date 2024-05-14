@@ -14,6 +14,8 @@ const PageSize = 1;
 export const MedicalCardPagesContext = createContext();
 
 const MedicalCardPagesList = () => {
+    const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+    const [userData, setUserData] = useState(null);
     const [listPages, setListPages] = useState();
     const [currentPage, setCurrentPage] = useState(1);
     const [openTemplateListModal, setOpenTemplateListModal] = useState(false);
@@ -29,9 +31,9 @@ const MedicalCardPagesList = () => {
     const getTemplateById = async (templateId) => {
         try {
             const response = await axios.get('http://'+ window.location.hostname + `:8003/templates/${templateId}`, {
-                            // headers: {
-                            //     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
-                            // },
+                            headers: {
+                                Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                            },
                         });
             setTemplatePage(response.data);             
         } catch(error) {
@@ -53,17 +55,17 @@ const MedicalCardPagesList = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('http://'+ window.location.hostname + `:8002/pages/card/${cardId}`, {
-                                // headers: {
-                                //     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
-                                // },
+                                headers: {
+                                    Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                                },
                             });
                 setListPages(response.data);   
                 
                 try {
                     const response = await axios.get('http://'+ window.location.hostname + `:8002/cards/${cardId}`, {
-                                    // headers: {
-                                    //     Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwOGE1NmVhYy1iNWNhLTQ0YjgtYjU0OS00MmNmMjJiNjk3MDkiLCJhdWQiOlsiZmFzdGFwaS11c2VyczphdXRoIl0sImdyb3VwX2lkIjoyLCJleHAiOjE3MTQ1MTY0MzJ9.6S2f9KmjqkdOJWz12aLO4bjkxWEzzRlDIHaOB6aUqjE`,
-                                    // },
+                                    headers: {
+                                        Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                                    },
                                 });                
          
                     setPatient({
@@ -92,9 +94,9 @@ const MedicalCardPagesList = () => {
 
         try {
             const response = await axios.post('http://'+ window.location.hostname + `:8002/pages/card/${cardId}/template/${templateId}`, requestBody, {
-                                // headers: {
-                                //     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
-                                // }
+                                headers: {
+                                    Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                                }
                             });
             window.location.reload();
         } catch(error) {
@@ -105,9 +107,9 @@ const MedicalCardPagesList = () => {
     const deletePage = async (id) => {
         try {
             const response = await axios.delete('http://'+ window.location.hostname + `:8002/pages/${id}`, {
-                                // headers: {
-                                //     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
-                                // }
+                                headers: {
+                                    Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                                }
                             });
             window.location.reload();
         } catch(error) {
@@ -127,9 +129,9 @@ const MedicalCardPagesList = () => {
 
         try {
             const response = await axios.put('http://'+ window.location.hostname + `:8002/pages/${page.id}`, requestBody, {
-                                // headers: {
-                                //     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
-                                // }
+                                headers: {
+                                    Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                                }
                             });
             updatePage(response.data.data, page);                           
         } catch(error) {
@@ -140,9 +142,12 @@ const MedicalCardPagesList = () => {
 
     return (
         <>
-        <Sidebar />
+        <Sidebar  sidebarIsOpen={sidebarIsOpen} setSidebarIsOpen={setSidebarIsOpen}/>
             <div className="container">
-            <Head />
+            <Head 
+            setSidebarIsOpen={setSidebarIsOpen} 
+            setUserData={(data) => setUserData(data)}
+            />
                 <section className="section">
                     <div className="page-list">
                         <Header title={'Электронная медицинская карта'}/>

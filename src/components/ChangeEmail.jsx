@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 export const ChangeEmailContext = createContext();
 
 const ChangeEmail= () => {
-    const [confirmCode, setConfirmCode] = useState(false);
+    const [hasConfirmCode, setHasConfirmCode] = useState(false);
     const { state } = useLocation();
     const encodeEmail = makeEncodeEmail(state ? state.email : 'default@example.com');
 
@@ -20,7 +20,7 @@ const ChangeEmail= () => {
                             Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                         },
                     });
-        setConfirmCode(true);
+        setHasConfirmCode(true);
       } catch(error) {
           console.error('Get Request Confirm Code Error:', error);
       }
@@ -31,7 +31,7 @@ const ChangeEmail= () => {
         <div className="modal">
             <ChangeEmailContext.Provider
                 value={{
-                    confirmCode: confirmCode
+                  hasConfirmCode: hasConfirmCode
                 }}
             >
 

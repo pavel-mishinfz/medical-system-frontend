@@ -6,7 +6,7 @@ import Input from './Form/Input';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
-    const [textBtn, setTextBtn] = useState('Сбросить пароль');
+    const [textBtn, setTextBtn] = useState('Отправить');
     const [modify, setModify] = useState('');
 
     const handleRequestResetTokenPassword = async () => {
@@ -19,7 +19,7 @@ const ForgotPassword = () => {
             setTextBtn('Сообщение успешно отправлено!');
             setModify('btn--success');
             setTimeout(function() {
-                setTextBtn('Сбросить пароль');
+                setTextBtn('Отправить');
                 setModify('');
             }, 3000);
             console.log('Request reset token passwrod successful:', response.status);

@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Card = ({title, subtitle, fields, modify, textBtn, handleClick}) => {
     const navigate = useNavigate();
-    const { confirmCode } = useContext(ChangeEmailContext) || null;
+    const { hasConfirmCode } = useContext(ChangeEmailContext) || false;
 
     const [disabledInput, setDisabledInput] = useState(false);
 
@@ -21,7 +21,7 @@ const Card = ({title, subtitle, fields, modify, textBtn, handleClick}) => {
             })
             .then(response => {
                 console.log('Request verify successful:', response.status);
-                navigate('/');
+                navigate('/reset-email');
             })
             .catch(error => {
                 console.error('Request verify failed:', error);
@@ -36,10 +36,15 @@ const Card = ({title, subtitle, fields, modify, textBtn, handleClick}) => {
                 <p className="card__subtitle">{subtitle}</p>
                 {fields}
             </div>
-            {confirmCode ? 
+            {hasConfirmCode ? 
             <div className='confirm-code'>
-                <label htmlFor="id_confrim_code">Код подтверждения</label>
-                <input disabled={disabledInput} maxLength={6} onChange={(e) => handleChangeConfirmCode(e.target.value)} type='text' id="id_confrim_code"></input>
+                <input 
+                    disabled={disabledInput}
+                    maxLength={6} 
+                    placeholder='Код подтверждения'
+                    onChange={(e) => handleChangeConfirmCode(e.target.value)} 
+                    type='text' id="id_confrim_code" 
+                />
                 <Timer handle={handleClick} disabledInput={state => setDisabledInput(state)}/>
             </div>
             :

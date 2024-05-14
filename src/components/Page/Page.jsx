@@ -25,9 +25,9 @@ export default function Page({pageData, pageItems, updatePage, handlePageData, d
     const fetchData = async () => {
         if (doctorId) {
           try {
-            const response = await axios.get('http://'+ window.location.hostname + `:8000/users/doctor/${doctorId}`, {
+            const response = await axios.get('http://'+ window.location.hostname + `:8000/users/${doctorId}`, {
                             headers: {
-                                Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Nzc4NWI2Yi05MzdkLTQ5YTktYWRlNS04OGQ2OTI5MjhmOTIiLCJhdWQiOlsiZmFzdGFwaS11c2VyczphdXRoIl0sImdyb3VwX2lkIjoyLCJleHAiOjE3MTQ1MjAxNTl9.hq9j3yjAXWaCLdNpdIMHa-86T0Je_jS4CDpUaCbS9LE`,
+                                Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                             },
                         });         
             setDoctor(response.data);             
@@ -38,7 +38,7 @@ export default function Page({pageData, pageItems, updatePage, handlePageData, d
           try {
             const response = await axios.get('http://'+ window.location.hostname + `:8000/users/me`, {
                             headers: {
-                                Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Nzc4NWI2Yi05MzdkLTQ5YTktYWRlNS04OGQ2OTI5MjhmOTIiLCJhdWQiOlsiZmFzdGFwaS11c2VyczphdXRoIl0sImdyb3VwX2lkIjoyLCJleHAiOjE3MTQ1MjAxNTl9.hq9j3yjAXWaCLdNpdIMHa-86T0Je_jS4CDpUaCbS9LE`,
+                                Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                             },
                         });         
             setDoctor(response.data);             
