@@ -15,6 +15,7 @@ import Profile from './components/Profile';
 import ChangeEmail from './components/ChangeEmail';
 import ResetEmail from './components/ResetEmail';
 import ChangePassword from './components/ChangePassword';
+import Users from './components/Users';
 
 
 function App() {
@@ -37,6 +38,8 @@ function App() {
         <Route path="/medical-card/:id/pages" element={<MedicalCardPagesList />} />
         <Route path="/health-diary" element={<HealthDiary />} />
         <Route path="/templates" element={<Templates />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/users/:id" element={<Profile />} />
       </Routes>
     </Router>
   );
