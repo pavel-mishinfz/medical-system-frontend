@@ -1373,7 +1373,8 @@ input:disabled {
 
 .form {
   position: relative;
-  width: 500px;
+  max-width: 500px;
+  width: 100%;
   min-width: 290px;
   padding: 20px 40px;
   box-shadow: 0 2px 3px #000;
@@ -1714,6 +1715,38 @@ input:disabled {
     color: #787486;
     font-weight: 500;
     font-size: 1.6rem;
+  }
+}
+
+.switch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 20px;
+  max-width: 500px;
+  width: 100%;
+  min-width: 290px;
+
+  &-item {
+    cursor: pointer;
+    width: 150px;
+    padding: 10px 40px;
+    border-radius: 15px;
+    border: 1px solid #000;
+    text-align: center;
+
+    &.active {
+      background-color: @color-blue;
+      border: 1px solid @color-blue;
+
+      & > span {
+        color: #fff;
+      }
+    }
+
+    & > span {
+      .font(@color-title, 600, 1.6rem);
+    }
   }
 }
 

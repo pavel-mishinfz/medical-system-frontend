@@ -16,6 +16,7 @@ import ChangeEmail from './components/ChangeEmail';
 import ResetEmail from './components/ResetEmail';
 import ChangePassword from './components/ChangePassword';
 import Users from './components/Users';
+import CreateUser from './components/CreateUser';
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
         <Route path="/templates" element={<Templates />} />
         <Route path="/users" element={<Users />} />
         <Route path="/users/:id" element={<Profile />} />
+        <Route path="/create-user" element={<CreateUser />} />
       </Routes>
     </Router>
   );

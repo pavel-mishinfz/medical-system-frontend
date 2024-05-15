@@ -1664,7 +1664,8 @@ input:disabled:active {
 }
 .form {
   position: relative;
-  width: 500px;
+  max-width: 500px;
+  width: 100%;
   min-width: 290px;
   padding: 20px 40px;
   -webkit-box-shadow: 0 2px 3px #000;
@@ -2131,6 +2132,43 @@ input:disabled:active {
   color: #787486;
   font-weight: 500;
   font-size: 1.6rem;
+}
+.switch {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-column-gap: 20px;
+          column-gap: 20px;
+  max-width: 500px;
+  width: 100%;
+  min-width: 290px;
+}
+.switch-item {
+  cursor: pointer;
+  width: 150px;
+  padding: 10px 40px;
+  border-radius: 15px;
+  border: 1px solid #000;
+  text-align: center;
+}
+.switch-item.active {
+  background-color: #1a5dd0;
+  border: 1px solid #1a5dd0;
+}
+.switch-item.active > span {
+  color: #fff;
+}
+.switch-item > span {
+  color: #111111;
+  font-weight: 600;
+  font-size: 1.6rem;
+  line-height: 1.2;
 }
 @media (max-width: 992px) {
   .slider + .direct {
