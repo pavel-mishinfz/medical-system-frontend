@@ -207,13 +207,13 @@ export function getMedcardItems(cardData, familyStatusList, educationList, busyn
         },
         { 
             title: 'Семейное положение', 
-            body: cardData.family_status.name,
+            body: cardData.family_status ? cardData.family_status.name : '',
             fields: [
                 {
                     title: null,
                     type: 'select',
                     name: 'id_family_status',
-                    value: cardData.family_status.id,
+                    value: cardData.family_status ? cardData.family_status.id : 1,
                     options: familyStatusList.map(status => {
                         return {id: status.id, name: status.name}
                     }),
@@ -222,13 +222,13 @@ export function getMedcardItems(cardData, familyStatusList, educationList, busyn
         },
         { 
             title: 'Образование', 
-            body: cardData.education.name,
+            body: cardData.education ? cardData.education.name : '',
             fields: [
                 {
                     title: null,
                     type: 'select',
                     name: 'id_education',
-                    value: cardData.education.id,
+                    value: cardData.education ? cardData.education.id : 1,
                     options: educationList.map(education => {
                         return {id: education.id, name: education.name}
                     })
@@ -237,13 +237,13 @@ export function getMedcardItems(cardData, familyStatusList, educationList, busyn
         },
         { 
             title: 'Занятость', 
-            body: cardData.busyness.name,
+            body: cardData.busyness ? cardData.busyness.name : '',
             fields: [
                 {
                     title: null,
                     type: 'select',
                     name: 'id_busyness',
-                    value: cardData.busyness.id,
+                    value: cardData.busyness ? cardData.busyness.id : 1,
                     options: busynessList.map(busyness => {
                         return {id: busyness.id, name: busyness.name}
                     })

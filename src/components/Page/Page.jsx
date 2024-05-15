@@ -11,7 +11,7 @@ import { MedicalCardPagesContext } from '../MedicalCardPagesList';
 
 export const PageContext = createContext();
 
-export default function Page({pageData, pageItems, updatePage, handlePageData, deletePage, setAddNewPage, isNewPage}) {
+export default function Page({pageData, pageItems, updatePage, handlePageData, deletePage, setAddNewPage, isNewPage, ownerId}) {
 
   const { isPageDiary } = useContext(HealthDiaryContext) || false;
   const {title, date, doctorId, patient, isMedcardPage} = useContext(MedicalCardPagesContext) || {};
@@ -102,7 +102,7 @@ export default function Page({pageData, pageItems, updatePage, handlePageData, d
           patient={`${patient.surname} ${patient.name} ${patient.patronymic}`}
           />
         )}
-        {!isNewPage && (
+        {!isNewPage && (sessionStorage.getItem('userId') === ownerId) && (
           <>
             <button className="page__open-options" onClick={() => setOpenOptions(true)}>
               <p>...</p>
@@ -166,7 +166,7 @@ export default function Page({pageData, pageItems, updatePage, handlePageData, d
           <div className="before-delete__title">Удалить страницу</div>
           <div className="before-delete__text">Вы действительно хотите удалить запись? Данное действие удалит данные навсегда.</div>
           <div className="before-delete__btns">
-            <Button text={'Удалить'} onHandleClick={deletePage}/>
+            <Button text={'Удалить'} onHandleClick={() => {deletePage(); setOpenConfirmForm(false)}}/>
             <Button modify={'btn--cancel'} text={'Отмена'} onHandleClick={() => setOpenConfirmForm(false)}/>
           </div>
         </div>
