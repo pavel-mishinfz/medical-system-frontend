@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Sidebar from './Sidebar/Sidebar';
 import Head from './Head/Head';
-import DoctorList from './Doctor/DoctorList';
+import UsersList from './User/UsersList';
 import Register from './Register';
 
 
@@ -42,11 +42,11 @@ const Specialization = () => {
 
   return (
     <>
-    <Sidebar />
+    <Sidebar sidebarIsOpen={sidebarIsOpen} setSidebarIsOpen={setSidebarIsOpen}/>
     <div className="container">
         <Head 
         setSidebarIsOpen={setSidebarIsOpen} 
-        setUserData={(data) => setUserData(data)}
+        setUserData={sessionStorage.getItem('authToken') ?  (data) => setUserData(data) : null}
         />
         <section className="section">
           <div className="spec">
@@ -56,7 +56,7 @@ const Specialization = () => {
               )}
             </div>
             {doctors.length > 0 && (
-              <DoctorList doctors={doctors} openRegisterModal={() => setOpenRegisterModal(true)}/>
+              <UsersList users={doctors} openRegisterModal={() => setOpenRegisterModal(true)}/>
             )}
           </div>
         </section>

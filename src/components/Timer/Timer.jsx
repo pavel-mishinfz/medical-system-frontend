@@ -1,7 +1,7 @@
 import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 
 
-const resendTimeout = 10000;
+const resendTimeout = 180000;
 
 const Timer = ({handle, disabledInput}) => {
 

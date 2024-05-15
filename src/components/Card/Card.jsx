@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Card = ({title, subtitle, fields, modify, textBtn, handleClick}) => {
     const navigate = useNavigate();
-    const { hasConfirmCode } = useContext(ChangeEmailContext) || false;
+    const { hasConfirmCode, userId } = useContext(ChangeEmailContext) || false;
 
     const [disabledInput, setDisabledInput] = useState(false);
 
@@ -21,7 +21,7 @@ const Card = ({title, subtitle, fields, modify, textBtn, handleClick}) => {
             })
             .then(response => {
                 console.log('Request verify successful:', response.status);
-                navigate('/reset-email');
+                navigate('/reset-email', {state: {userId: userId}});
             })
             .catch(error => {
                 console.error('Request verify failed:', error);

@@ -6,19 +6,38 @@ import Button from './Button/Button';
 import ProfileImg from './Profile/ProfileImg';
 import ProfileInfo from './Profile/ProfileInfo';
 import Options from './Options/Options';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import 'react-image-crop/dist/ReactCrop.css';
 
 
 const Profile = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
+  const [currentUserData, setCurrentUserData] = useState(null);
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [optionsIsOpen, setOptionsIsOpen] = useState(false);
   const [isUpdateForm, setIsUpdateForm] = useState(false);
 
   const params = useParams();
   const userId = params.id ? params.id : 'me';
+
+  useEffect(() => {
+    
+    const fetchData = async () => {
+      try {
+          const response = await axios.get('http://'+ window.location.hostname + `:8000/users/${userId}`, {
+                          headers: {
+                              Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                          },
+                      });
+          setUserData(response.data);
+      } catch(error) {
+          console.error('Get User Error:', error);
+      }
+    } 
+
+    fetchData();
+  }, []);
 
   const handleUpdateProfile = async () => {
 
@@ -57,7 +76,7 @@ const Profile = () => {
     <div className="container">
       <Head
         setSidebarIsOpen={setSidebarIsOpen}
-        setUserData={(data) => setUserData(data)}
+        setUserData={(data) => setCurrentUserData(data)}
       />
       {userData && (
         <section className="section section--profile">
@@ -73,7 +92,7 @@ const Profile = () => {
                     {
                       src: "/img/options/at-sign.svg",
                       text: "Изменить почту",
-                      onHandleClick: () => navigate('/change-email', { state: { email: userData.email } })
+                      onHandleClick: () => navigate('/change-email', { state: { id: userId, email: userData.email } })
                     },
                     {
                       src: "/img/options/key.svg",

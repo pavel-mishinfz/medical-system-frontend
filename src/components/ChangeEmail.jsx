@@ -31,7 +31,8 @@ const ChangeEmail= () => {
         <div className="modal">
             <ChangeEmailContext.Provider
                 value={{
-                  hasConfirmCode: hasConfirmCode
+                  hasConfirmCode: hasConfirmCode,
+                  userId: state.id
                 }}
             >
 

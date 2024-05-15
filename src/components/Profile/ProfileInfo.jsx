@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { formatExperience } from '../Doctor/DoctorInfo';
+import { calculateExperience, formatExperience } from '../User/UserInfo';
 import Input from '../Form/Input';
 import Select from '../Form/Select';
 
 
 const ProfileInfo = ({userInfo, setUserInfo, isUpdateForm}) => {
+  const experience = calculateExperience(userInfo.date_employment);
   const age = getAgeFromBirthDate(userInfo.birthday);
   const [specializationsList, setSpecializationsList] = useState();
 
@@ -83,7 +84,7 @@ const ProfileInfo = ({userInfo, setUserInfo, isUpdateForm}) => {
         <div className="profile__info-age">{age} {getTextAge(age)}</div>
         {userInfo.specialization_id && (<div className="profile__info-spec">{specializationsList && specializationsList.find(item => item.id === userInfo.specialization_id).name}</div>)}
         {userInfo.specialization_id && (<div className="profile__info-desc">{userInfo.desc}</div>)}
-        {userInfo.specialization_id && (<div className="profile__info-exp">Стаж {userInfo.experience} {formatExperience(userInfo.experience)}</div>)}
+        {userInfo.specialization_id && (<div className="profile__info-exp">Стаж {experience > 0 ? experience : 'меньше'} {formatExperience(experience)}</div>)}
         <div className="profile__info-email">{userInfo.email}</div>
       </>}
       

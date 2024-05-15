@@ -2,12 +2,13 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import Card from './Card/Card';
 import Input from './Form/Input';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 const ResetEmail = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
+    const { state } = useLocation();
     
     const handleResetEmail = async () => {
       
@@ -15,7 +16,7 @@ const ResetEmail = () => {
         email: email
       };
 
-      axios.patch('http://' + window.location.hostname + ':8000/users/me', requestBody, {
+      axios.patch('http://' + window.location.hostname + `:8000/users/${state.userId}`, requestBody, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
         },
@@ -28,7 +29,11 @@ const ResetEmail = () => {
           axios.post('http://' + window.location.hostname + ':8000/auth/request-verify-token', requestBody)
             .then(response => {
               console.log('Request verify successful:', response.status);
-              navigate('/');
+              if (state.userId === 'me') {
+                navigate('/');
+              } else {
+                navigate('/users');
+              }
             })
             .catch(error => {
               console.error('Request verify failed:', error);

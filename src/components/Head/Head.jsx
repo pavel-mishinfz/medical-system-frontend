@@ -53,7 +53,11 @@ const Head = ({setSidebarIsOpen, setUserData, setSpecialization}) => {
         setRenderHead(true);
       };
   
-      fetchData();
+      if (setUserData) {
+        fetchData();
+      } else {
+        setRenderHead(true);
+      }
     }, [])
 
     return (
