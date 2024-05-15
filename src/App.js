@@ -36,8 +36,10 @@ function App() {
         <Route path="/reset-email" element={<ResetEmail />} />
         <Route path="/specializations/:id" element={<Specialization />} />
         <Route path="/medical-card" element={<MedicalCard />} />
+        <Route path="/medical-card/:id" element={<MedicalCard />} />
         <Route path="/medical-card/:id/pages" element={<MedicalCardPagesList />} />
-        <Route path="/health-diary" element={<HealthDiary />} />
+        <Route path="/health-diary/" element={<HealthDiary />} />
+        <Route path="/health-diary/:id" element={<HealthDiary />} />
         <Route path="/templates" element={<Templates />} />
         <Route path="/users" element={<Users />} />
         <Route path="/users/:id" element={<Profile />} />
