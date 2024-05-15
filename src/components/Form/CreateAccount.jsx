@@ -165,8 +165,8 @@ const CreateAccount = ({isDoctor}) => {
             <Input
               type={'date'}
               htmlFor={'dateEmployment'}
-              placeholder={'Дата принятия на работу'}
-              title={'Дата принятия на работу'}
+              placeholder={'Дата начала работы'}
+              title={'Дата начала работы'}
               value={dateEmployment}
               onChangeInput={(e) => setDateEmployment(e.target.value)}
             />
