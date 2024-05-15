@@ -89,7 +89,7 @@ const MedicalCardPagesList = () => {
     const createPage = async (templateId) => {
         const requestBody = {
             data: templateData,
-            id_doctor: '08a56eac-b5ca-44b8-b549-42cf22b69709'
+            id_doctor: sessionStorage.getItem('userId')
         };
 
         try {
@@ -98,7 +98,10 @@ const MedicalCardPagesList = () => {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 }
                             });
-            window.location.reload();
+            let newListPage = [...listPages];
+            newListPage.push(response.data);
+            setListPages(newListPage);
+            setAddNewPage(false);
         } catch(error) {
             console.error('Create Page Error:', error);
         }
@@ -111,7 +114,7 @@ const MedicalCardPagesList = () => {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 }
                             });
-            window.location.reload();
+            setListPages(listPages.filter(page => page.id !== response.data.id));
         } catch(error) {
             console.error('Delete Page Error:', error);
         }
@@ -169,6 +172,7 @@ const MedicalCardPagesList = () => {
                             updatePage={data => updatePage(data, page)} 
                             handlePageData={() => handlePageData(page)}
                             deletePage={() => deletePage(page.id)}
+                            ownerId={page.id_doctor}
                             />
 
                             </MedicalCardPagesContext.Provider>   
