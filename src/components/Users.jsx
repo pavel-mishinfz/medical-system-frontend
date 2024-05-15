@@ -21,7 +21,7 @@ const Users = () => {
       try {
         const response = await axios.get('http://'+ window.location.hostname + `:8000/users`);
     
-        setUsers(response.data.filter(user => user.is_superuser === false));
+        setUsers(response.data.filter(user => user.id !== sessionStorage.getItem('userId') && user.is_superuser === false));
 
       } catch (error) {
         console.log(error);
