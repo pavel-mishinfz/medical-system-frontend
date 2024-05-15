@@ -1750,6 +1750,31 @@ input:disabled {
   }
 }
 
+.panel-user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    cursor: pointer;
+
+    & > img {
+      width: 38px;
+      height: 38px;
+    }
+
+    & > p {
+      .font(@color-blue, 500, 1.6rem);
+      text-decoration: underline;
+    }
+  }
+}
+
 @media (max-width: 992px) {
   .slider {
     
