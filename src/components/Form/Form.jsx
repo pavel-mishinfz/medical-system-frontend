@@ -5,7 +5,7 @@ import Button from '../Button/Button';
 import SmallText from './SmallText';
 
 
-export default function Form({isLogin, title, inputListData, textBtn, onHandleBtn, onCloseModal, smallText}) {
+export default function Form({isLogin, title, inputListData, modify, textBtn, onHandleBtn, onCloseModal, smallText}) {
 
   return (
     <div className="form">
@@ -13,8 +13,8 @@ export default function Form({isLogin, title, inputListData, textBtn, onHandleBt
         <FormHeader title={title} />
         <InputList inputListData={inputListData} />
         {isLogin && (<SmallText modify={'form__small--login'} nav={{addr: '/forgot-password', addrText: 'Забыли пароль?'}}/>)}
-        <Button text={textBtn} onHandleClick={onHandleBtn}/>
-        <SmallText text={smallText.text} nav={smallText.nav}/>
+        <Button modify={modify} text={textBtn} onHandleClick={onHandleBtn}/>
+        {smallText && (<SmallText text={smallText.text} nav={smallText.nav}/>)}
     </div>
   );
 }
