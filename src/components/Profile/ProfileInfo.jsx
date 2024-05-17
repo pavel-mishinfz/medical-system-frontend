@@ -5,7 +5,7 @@ import Input from '../Form/Input';
 import Select from '../Form/Select';
 
 
-const ProfileInfo = ({userInfo, setUserInfo, isUpdateForm}) => {
+const ProfileInfo = ({userInfo, setUserInfo, isUpdateForm, isAdmin, isDoctor}) => {
   const experience = calculateExperience(userInfo.date_employment);
   const age = getAgeFromBirthDate(userInfo.birthday);
   const [specializationsList, setSpecializationsList] = useState();
@@ -59,8 +59,16 @@ const ProfileInfo = ({userInfo, setUserInfo, isUpdateForm}) => {
             value={userInfo.birthday}
             onChangeInput={(e) => setUserInfo({...userInfo, birthday: e.target.value})}
           />
-          {userInfo.is_superuser && specializationsList && (
+          {isAdmin && isDoctor && specializationsList && (
             <>
+            <Input
+              type={'date'}
+              htmlFor={'dateEmployment'}
+              placeholder={'Дата начала работы'}
+              title={'Дата начала работы'}
+              value={userInfo.date_employment}
+              onChangeInput={(e) => setUserInfo({ ...userInfo, date_employment: e.target.value })}
+            />
             <Select 
               options={specializationsList}
               value={userInfo.specialization_id}
@@ -95,7 +103,7 @@ const ProfileInfo = ({userInfo, setUserInfo, isUpdateForm}) => {
 export default ProfileInfo;
 
 
-function getAgeFromBirthDate(birthDate) {
+export function getAgeFromBirthDate(birthDate) {
   const today = new Date();
   const year = birthDate.substr(0, 4);
   const month = birthDate.substr(5, 2) - 1;
@@ -111,12 +119,12 @@ function getAgeFromBirthDate(birthDate) {
   return age;
 }
 
-function getTextAge(age) {
-  if (age % 10 === 1) {
-      return 'год';
+export function getTextAge(age) {
+  if (age % 10 === 1 && age % 100 !== 11) {
+    return 'год';
+  } else if ([2, 3, 4].includes(age % 10) && ![12, 13, 14].includes(age % 100)) {
+    return 'года';
+  } else {
+    return 'лет';
   }
-  if (age % 10 === 2 || age % 10 === 3 || age % 10 === 4) {
-      return 'года';
-  }
-  return 'лет';
 }
