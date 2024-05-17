@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 import { Menu } from './Menu';
 import Title from './Title';
 
 
-const Head = ({setSidebarIsOpen, setUserData, setSpecialization}) => {
+const Head = ({setSidebarIsOpen, setUserData, setSpecialization, isAuthenticated}) => {
     const menuItems = [
         {
             title: 'Регистрация',
@@ -16,63 +15,15 @@ const Head = ({setSidebarIsOpen, setUserData, setSpecialization}) => {
         }
     ];
 
-    const [isAuthorized, setIsAuthorized] = useState(false);
-    const [renderHead, setRenderHead] = useState(false);
-  
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await axios.get('http://' + window.location.hostname + ':8000/users/me', {
-            headers: {
-              Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
-            },
-          });
-          
-          const specId = response.data.specialization_id; 
-          setUserData(response.data);
-  
-          if (setSpecialization) {
-            try {
-              const response = await axios.get('http://' + window.location.hostname + `:8000/specializations/${specId}`, {
-                headers: {
-                  Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
-                },
-              });
-
-              setSpecialization(response.data);
-            } catch (error) {
-              console.error('Get Specialization Error:', error);
-            }
-          }
-
-          setIsAuthorized(true);
-        } catch (error) {
-          console.error('Get User Error:', error);
-        }
-        
-        setRenderHead(true);
-      };
-  
-      if (setUserData) {
-        fetchData();
-      } else {
-        setRenderHead(true);
-      }
-    }, [])
-
     return (
-        <>
-        {renderHead && (
-            <header className="header">
-                <Title />
-                {isAuthorized ?
-                    <Menu items={[]} setSidebarIsOpen={setSidebarIsOpen} />
-                    :
-                    <Menu items={menuItems} setSidebarIsOpen={setSidebarIsOpen} />
-                }
-            </header>
-        )}
-        </>
+      <header className="header">
+        <Title />
+        {isAuthenticated ?
+          <Menu items={[]} setSidebarIsOpen={setSidebarIsOpen} />
+          :
+          <Menu items={menuItems} setSidebarIsOpen={setSidebarIsOpen} />
+        }
+      </header>
     );
 }
 
