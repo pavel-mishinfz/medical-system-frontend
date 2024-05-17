@@ -63,48 +63,48 @@ select.active,
 textarea.active {
   border: 2px solid #1a5dd0;
 }
-input:focus:not(input[id="burger-checkbox"]),
-input:active:not(input[id="burger-checkbox"]),
+input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]),
+input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]),
 select:focus,
 select:active,
 textarea:focus,
 textarea:active {
   border: 2px solid #1a5dd0;
 }
-input:focus:not(input[id="burger-checkbox"])::-webkit-input-placeholder,
-input:active:not(input[id="burger-checkbox"])::-webkit-input-placeholder,
+input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"])::-webkit-input-placeholder,
+input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"])::-webkit-input-placeholder,
 select:focus::-webkit-input-placeholder,
 select:active::-webkit-input-placeholder,
 textarea:focus::-webkit-input-placeholder,
 textarea:active::-webkit-input-placeholder {
   opacity: 0;
 }
-input:focus:not(input[id="burger-checkbox"]):-ms-input-placeholder,
-input:active:not(input[id="burger-checkbox"]):-ms-input-placeholder,
+input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]):-ms-input-placeholder,
+input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]):-ms-input-placeholder,
 select:focus:-ms-input-placeholder,
 select:active:-ms-input-placeholder,
 textarea:focus:-ms-input-placeholder,
 textarea:active:-ms-input-placeholder {
   opacity: 0;
 }
-input:focus:not(input[id="burger-checkbox"])::-ms-input-placeholder,
-input:active:not(input[id="burger-checkbox"])::-ms-input-placeholder,
+input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"])::-ms-input-placeholder,
+input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"])::-ms-input-placeholder,
 select:focus::-ms-input-placeholder,
 select:active::-ms-input-placeholder,
 textarea:focus::-ms-input-placeholder,
 textarea:active::-ms-input-placeholder {
   opacity: 0;
 }
-input:focus:not(input[id="burger-checkbox"])::placeholder,
-input:active:not(input[id="burger-checkbox"])::placeholder,
+input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"])::placeholder,
+input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"])::placeholder,
 select:focus::placeholder,
 select:active::placeholder,
 textarea:focus::placeholder,
 textarea:active::placeholder {
   opacity: 0;
 }
-input:focus:not(input[id="burger-checkbox"]) ~ label,
-input:active:not(input[id="burger-checkbox"]) ~ label,
+input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]) ~ label,
+input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]) ~ label,
 select:focus ~ label,
 select:active ~ label,
 textarea:focus ~ label,
@@ -434,7 +434,8 @@ input:disabled:active {
 .section {
   padding-top: 64px;
 }
-.section--profile {
+.section--profile,
+.section--record-confirm {
   width: 100%;
   height: 100vh;
   display: -webkit-box;
@@ -2206,6 +2207,157 @@ input:disabled:active {
   line-height: 1.2;
   text-decoration: underline;
 }
+.record-confirm {
+  position: relative;
+  background-color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  row-gap: 20px;
+  max-width: 600px;
+  min-width: 290px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 15px;
+  -webkit-box-shadow: 0 2px 3px #000;
+          box-shadow: 0 2px 3px #000;
+}
+.record-confirm__wrap {
+  padding: 40px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  row-gap: 40px;
+}
+.record-confirm__doctor {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  gap: 20px;
+}
+.record-confirm__doctor > .doctor__img {
+  min-width: 100px;
+  min-height: 100px;
+  max-width: 100px;
+  max-height: 100px;
+}
+.record-confirm__doctor > .doctor__info > .doctor__info-name {
+  font-size: 2rem;
+}
+.record-confirm__date {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-column-gap: 20px;
+          column-gap: 20px;
+}
+.record-confirm__date > img {
+  width: 24px;
+  height: 24px;
+}
+.record-confirm__date > p {
+  color: #111111;
+  font-weight: normal;
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+.record-confirm__patient {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-column-gap: 20px;
+          column-gap: 20px;
+}
+.record-confirm__patient > img {
+  width: 24px;
+  height: 24px;
+}
+.record-confirm__patient-data {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  row-gap: 5px;
+}
+.record-confirm__patient-name {
+  color: #111111;
+  font-weight: normal;
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+.record-confirm__patient-age {
+  color: #424b58;
+  font-weight: normal;
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+.record-confirm__format {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-column-gap: 20px;
+          column-gap: 20px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+.record-confirm__format-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-column-gap: 10px;
+          column-gap: 10px;
+}
+.record-confirm__format-item > label {
+  position: relative;
+  opacity: 1;
+  color: #424b58;
+  font-weight: normal;
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+.record-confirm__btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
 @media (max-width: 992px) {
   .slider + .direct {
     margin-top: 770px;
@@ -2321,6 +2473,13 @@ input:disabled:active {
     width: 50px;
     height: 30px;
     font-size: 1.4rem;
+  }
+  .record-confirm__doctor {
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
   }
 }
 @media (max-width: 320px) {

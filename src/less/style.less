@@ -71,8 +71,8 @@ input, select, textarea {
     }
 }
 
-input:focus:not(input[id="burger-checkbox"]),
-input:active:not(input[id="burger-checkbox"]),
+input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]),
+input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]),
 select:focus,
 select:active,
 textarea:focus,
@@ -403,7 +403,8 @@ input:disabled {
   .section {
     padding-top: 64px;
 
-    &--profile {
+    &--profile,
+    &--record-confirm {
       width: 100%;
       height: 100vh;
       display: flex;
@@ -1775,6 +1776,111 @@ input:disabled {
   }
 }
 
+.record-confirm {
+  position: relative;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  max-width: 600px;
+  min-width: 290px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 2px 3px #000;
+
+  &__wrap {
+    padding: 40px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 40px;
+  }
+
+  &__doctor {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
+
+    & > .doctor__img {
+      min-width: 100px;
+      min-height: 100px;
+      max-width: 100px;
+      max-height: 100px;
+    }
+
+    & > .doctor__info > .doctor__info-name {
+      font-size: 2rem;
+    }
+  }
+
+  &__date {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+
+    & > img {
+      width: 24px;
+      height: 24px;
+    }
+
+    & > p {
+      .font(@color-title, normal, 1.6rem);
+    }
+  }
+
+  &__patient {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+
+    & > img {
+      width: 24px;
+      height: 24px;
+    }
+
+    &-data {
+      display: flex;
+      flex-direction: column;
+      row-gap: 5px;
+    }
+
+    &-name {
+      .font(@color-title, normal, 1.6rem);
+    }
+
+    &-age {
+      .font(@color-text, normal, 1.6rem);
+    }
+  }
+
+  &__format {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+    flex-wrap: wrap;
+
+    &-item {
+      display: flex;
+      align-items: center;
+      column-gap: 10px;
+
+      & > label {
+        position: relative;
+        opacity: 1;
+        .font(@color-text, normal, 1.6rem);
+      }
+    }
+  }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 @media (max-width: 992px) {
   .slider {
     
@@ -1926,7 +2032,15 @@ input:disabled {
         font-size: 1.4rem;
       }
     }
+
+    &-confirm {
+      &__doctor {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
   }
+
 }
 @media (max-width: 320px) {
   .form {
