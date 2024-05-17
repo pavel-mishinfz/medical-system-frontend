@@ -7,7 +7,7 @@ import UsersList from './User/UsersList';
 import Register from './Register';
 
 
-const Specialization = () => {
+const Specialization = ({isAuthenticated}) => {
   const params = useParams();
   const specId = params.id;
 
@@ -15,7 +15,6 @@ const Specialization = () => {
   const [doctors, setDoctors] = useState([]);
   const [openRegisterModal, setOpenRegisterModal] = useState(false);
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
-  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,7 +45,7 @@ const Specialization = () => {
     <div className="container">
         <Head 
         setSidebarIsOpen={setSidebarIsOpen} 
-        setUserData={sessionStorage.getItem('authToken') ?  (data) => setUserData(data) : null}
+        isAuthenticated={isAuthenticated}
         />
         <section className="section">
           <div className="spec">

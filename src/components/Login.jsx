@@ -32,7 +32,8 @@ const Login = () => {
             sessionStorage.setItem('userId', decodedToken.sub);
             sessionStorage.setItem('groupId', decodedToken.group_id);
     
-            navigate('/');
+            // navigate('/');
+            window.location.replace('/');
           } catch (error) {
             console.error('Login failed:', error);
           }

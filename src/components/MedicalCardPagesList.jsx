@@ -13,9 +13,9 @@ import Header from './Header/Header';
 const PageSize = 1;
 export const MedicalCardPagesContext = createContext();
 
-const MedicalCardPagesList = () => {
+const MedicalCardPagesList = ({currentUserData}) => {
     const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
-    const [userData, setUserData] = useState(null);
+    const [pagesIsLoading, setPagesIsLoading] = useState(false);
     const [listPages, setListPages] = useState();
     const [currentPage, setCurrentPage] = useState(1);
     const [openTemplateListModal, setOpenTemplateListModal] = useState(false);
@@ -81,6 +81,8 @@ const MedicalCardPagesList = () => {
             } catch(error) {
                 console.error('Get List Pages Error:', error);
             }
+
+            setPagesIsLoading(true);
         };
         
         fetchData();
@@ -145,89 +147,93 @@ const MedicalCardPagesList = () => {
 
     return (
         <>
-        <Sidebar  sidebarIsOpen={sidebarIsOpen} setSidebarIsOpen={setSidebarIsOpen}/>
-            <div className="container">
-            <Head 
-            setSidebarIsOpen={setSidebarIsOpen} 
-            setUserData={(data) => setUserData(data)}
-            />
-                <section className="section">
-                    <div className="page-list">
-                        <Header title={'Электронная медицинская карта'}/>
-                        {templatePage && pageData.length > 0 && pageData.map(page =>
-                            <MedicalCardPagesContext.Provider
-                            key={page.id}
-                            value={{
-                                title: templatePage.name,
-                                date: page.create_date,
-                                doctorId: page.id_doctor,
-                                patient: patient,
-                                isMedcardPage: true
-                            }}
-                            >
+            {currentUserData && (
+                <>
+                    <Sidebar sidebarIsOpen={sidebarIsOpen} setSidebarIsOpen={setSidebarIsOpen} />
+                    <div className="container">
+                        <Head
+                            setSidebarIsOpen={setSidebarIsOpen}
+                            isAuthenticated
+                        />
+                        <section className="section">
+                            <div className="page-list">
+                                <Header title={'Электронная медицинская карта'} />
+                                {templatePage && pageData.length > 0 && pageData.map(page =>
+                                    <MedicalCardPagesContext.Provider
+                                        key={page.id}
+                                        value={{
+                                            title: templatePage.name,
+                                            date: page.create_date,
+                                            doctorId: page.id_doctor,
+                                            patient: patient,
+                                            isMedcardPage: true
+                                        }}
+                                    >
 
-                            <Page
-                            pageData={page.data}
-                            pageItems={getTemplateItems(templatePage.structure, page.data)}
-                            updatePage={data => updatePage(data, page)} 
-                            handlePageData={() => handlePageData(page)}
-                            deletePage={() => deletePage(page.id)}
-                            ownerId={page.id_doctor}
-                            />
+                                        <Page
+                                            pageData={page.data}
+                                            pageItems={getTemplateItems(templatePage.structure, page.data)}
+                                            updatePage={data => updatePage(data, page)}
+                                            handlePageData={() => handlePageData(page)}
+                                            deletePage={() => deletePage(page.id)}
+                                            ownerId={page.id_doctor}
+                                        />
 
-                            </MedicalCardPagesContext.Provider>   
-                        )}
-                        {listPages && !addNewPage && currentPage === Math.ceil((listPages.length+1) / PageSize) && (
-                            <Button 
-                            modify={'btn--add-page'}
-                            text={<span className="btn">+ Добавить страницу</span>}
-                            onHandleClick={() => setOpenTemplateListModal(true)}
-                            />
-                        )}
-                        {addNewPage && (
-                            <MedicalCardPagesContext.Provider
-                            value={{
-                                title: template.name,
-                                date: null,
-                                doctorId: null,
-                                patient: patient,
-                                isMedcardPage: true
-                            }}
-                            >
+                                    </MedicalCardPagesContext.Provider>
+                                )}
+                                {currentUserData.specialization_id && pagesIsLoading && !addNewPage && currentPage === Math.ceil((listPages.length + 1) / PageSize) && (
+                                    <Button
+                                        modify={'btn--add-page'}
+                                        text={<span className="btn">+ Добавить страницу</span>}
+                                        onHandleClick={() => setOpenTemplateListModal(true)}
+                                    />
+                                )}
+                                {addNewPage && (
+                                    <MedicalCardPagesContext.Provider
+                                        value={{
+                                            title: template.name,
+                                            date: null,
+                                            doctorId: null,
+                                            patient: patient,
+                                            isMedcardPage: true
+                                        }}
+                                    >
 
-                            <Page
-                            pageData={templateData}
-                            pageItems={getTemplateItems(template.structure, templateData)}
-                            updatePage={data => setTemplateData(data)} 
-                            handlePageData={() => createPage(template.id)}
-                            setAddNewPage={state => setAddNewPage(state)}
-                            isNewPage={true}
-                            />
+                                        <Page
+                                            pageData={templateData}
+                                            pageItems={getTemplateItems(template.structure, templateData)}
+                                            updatePage={data => setTemplateData(data)}
+                                            handlePageData={() => createPage(template.id)}
+                                            setAddNewPage={state => setAddNewPage(state)}
+                                            isNewPage={true}
+                                        />
 
-                            </MedicalCardPagesContext.Provider>
-                        )}
-                        {listPages && (
-                        <div className="pagination">
-                            <Pagination
-                                className="pagination-bar"
-                                currentPage={currentPage}
-                                totalCount={listPages.length+1}
-                                pageSize={PageSize}
-                                onPageChange={page => setCurrentPage(page)}
-                            />
-                        </div>
-                        )}
+                                    </MedicalCardPagesContext.Provider>
+                                )}
+                                {listPages && (
+                                    <div className="pagination">
+                                        <Pagination
+                                            className="pagination-bar"
+                                            currentPage={currentPage}
+                                            totalCount={currentUserData.specialization_id ? listPages.length + 1 : listPages.length}
+                                            pageSize={PageSize}
+                                            onPageChange={page => setCurrentPage(page)}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        </section>
                     </div>
-                </section>
-            </div>
-        {openTemplateListModal && (
-            <TemplateModal 
-            onCloseModal={() => setOpenTemplateListModal(false)}
-            addNewPage={() => setAddNewPage(true)}
-            getTemplate={template => setTemplate(template)}
-            getTemplateData={data => setTemplateData(data)}
-            />
-        )}
+                </>
+            )}
+            {openTemplateListModal && (
+                <TemplateModal
+                    onCloseModal={() => setOpenTemplateListModal(false)}
+                    addNewPage={() => setAddNewPage(true)}
+                    getTemplate={template => setTemplate(template)}
+                    getTemplateData={data => setTemplateData(data)}
+                />
+            )}
         </>
     );
 }

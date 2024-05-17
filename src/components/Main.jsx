@@ -5,17 +5,16 @@ import Sidebar from './Sidebar/Sidebar';
 import Head from './Head/Head';
 
 
-const Main = () => {
+const Main = ({isAuthenticated}) => {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
-  const [userData, setUserData] = useState(null);
 
   return (
     <>
     <Sidebar sidebarIsOpen={sidebarIsOpen} setSidebarIsOpen={setSidebarIsOpen}/>
     <div className="container">
         <Head 
-          setSidebarIsOpen={setSidebarIsOpen} 
-          setUserData={(data) => setUserData(data)}
+          setSidebarIsOpen={setSidebarIsOpen}
+          isAuthenticated={isAuthenticated} 
         />
         <section className="section">
             <Slider />

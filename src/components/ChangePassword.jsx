@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import Card from './Card/Card';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 const ChangePassword = () => {
+    const navigate = useNavigate();
     const { state } = useLocation();
     const encodeEmail = makeEncodeEmail(state ? state.email : 'default@example.com');
     const [textBtn, setTextBtn] = useState('Отправить');
@@ -29,6 +30,14 @@ const ChangePassword = () => {
             setTextBtn('Отправить');
             setModify('');
         }, 3000);
+
+        if (state.id === 'me') {
+          sessionStorage.clear();
+          navigate('/');
+        } else {
+          navigate('/users');
+        }
+       
       } catch(error) {
           console.error('Request Reset Token Password Error:', error);
       }
@@ -36,15 +45,17 @@ const ChangePassword = () => {
 
     return (
       <div className="container">
-        <div className="modal">
-          <Card
+        {state && (
+          <div className="modal">
+            <Card
               title={'Изменить пароль?'}
               subtitle={`Пришлём ссылку для сброса пароля на почту ${encodeEmail}`}
               textBtn={textBtn}
               modify={modify}
               handleClick={handleRequestResetTokenPassword}
-          />
-        </div>
+            />
+          </div>
+        )}
       </div>
     );
 };

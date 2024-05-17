@@ -28,23 +28,25 @@ const ChangeEmail= () => {
 
     return (
       <div className="container">
-        <div className="modal">
+        {state && (
+          <div className="modal">
             <ChangeEmailContext.Provider
-                value={{
-                  hasConfirmCode: hasConfirmCode,
-                  userId: state.id
-                }}
+              value={{
+                hasConfirmCode: hasConfirmCode,
+                userId: state.id
+              }}
             >
 
-                <Card
-                    title={'Изменить почту?'}
-                    subtitle={`Пришлём код подтверждения на почту ${encodeEmail}`}
-                    textBtn={'Отправить'}
-                    handleClick={handleRequestConfirmCode}
-                />
+              <Card
+                title={'Изменить почту?'}
+                subtitle={`Пришлём код подтверждения на почту ${encodeEmail}`}
+                textBtn={'Отправить'}
+                handleClick={handleRequestConfirmCode}
+              />
 
             </ChangeEmailContext.Provider>
-        </div>
+          </div>
+        )}
       </div>
     );
 };

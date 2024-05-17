@@ -11,17 +11,14 @@ const ResetEmail = () => {
     const { state } = useLocation();
     
     const handleResetEmail = async () => {
-      
-      const requestBody = {
-        email: email
-      };
 
-      axios.patch('http://' + window.location.hostname + `:8000/users/${state.userId}`, requestBody, {
+      axios.patch('http://' + window.location.hostname + `:8000/users/${state.userId}/email?email=${email}`, '', {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
         },
       })
         .then(response => {
+          
           const requestBody = {
             email: response.data.email
           };
@@ -30,7 +27,7 @@ const ResetEmail = () => {
             .then(response => {
               console.log('Request verify successful:', response.status);
               if (state.userId === 'me') {
-                navigate('/');
+                window.location.replace('/');
               } else {
                 navigate('/users');
               }
@@ -38,6 +35,7 @@ const ResetEmail = () => {
             .catch(error => {
               console.error('Request verify failed:', error);
             });
+
         })
         .catch(error => {
           console.error('Reset Email Error:', error);
@@ -46,24 +44,26 @@ const ResetEmail = () => {
 
     return (
       <div className="container">
-        <div className="modal">
-          <Card
-            title={'Смена почты'}
-            subtitle={'Укажите новый адрес электронной почты'}
-            fields={
-              <Input
-                type={'email'}
-                htmlFor={'email'}
-                title={'Email'}
-                placeholder={'user@example.com'}
-                value={email}
-                onChangeInput={(e) => setEmail(e.target.value)}
-              />
-            }
-            textBtn={'Изменить'}
-            handleClick={handleResetEmail}
-          />
-        </div>
+        {state && (
+          <div className="modal">
+            <Card
+              title={'Смена почты'}
+              subtitle={'Укажите новый адрес электронной почты'}
+              fields={
+                <Input
+                  type={'email'}
+                  htmlFor={'email'}
+                  title={'Email'}
+                  placeholder={'user@example.com'}
+                  value={email}
+                  onChangeInput={(e) => setEmail(e.target.value)}
+                />
+              }
+              textBtn={'Изменить'}
+              handleClick={handleResetEmail}
+            />
+          </div>
+        )}
       </div>
     );
 };

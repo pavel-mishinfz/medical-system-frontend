@@ -15,7 +15,6 @@ export const HealthDiaryContext = createContext();
 
 const HealthDiary = () => {
     const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
-    const [userData, setUserData] = useState(null);
     const [addNewPage, setAddNewPage] = useState(false);
     const [templateNewPage, setTemplateNewPage] = useState(
         {
@@ -120,67 +119,71 @@ const HealthDiary = () => {
 
     return (
         <>
-        <Sidebar sidebarIsOpen={sidebarIsOpen} setSidebarIsOpen={setSidebarIsOpen}/>
-        <div className="container">
-            <Head
-                setSidebarIsOpen={setSidebarIsOpen}
-                setUserData={(data) => setUserData(data)}
-            />
-            <section className="section">
-                <div className="diary">
-                    <Header title={'Дневник здоровья'} />
-                    {!addNewPage && currentPage === 1 && (
-                        <Button text={'+ Добавить новую запись'} onHandleClick={() => setAddNewPage(true)} />
-                    )}
-                    {addNewPage && (
-                        <HealthDiaryContext.Provider
-                            value={{
-                                isPageDiary: true
-                            }}
-                        >
-
-                            <Page
-                                pageData={templateNewPage}
-                                pageItems={getDiaryItems(templateNewPage)}
-                                updatePage={data => setTemplateNewPage(data)}
-                                handlePageData={() => createPageDiary()}
-                                setAddNewPage={state => setAddNewPage(state)}
-                                isNewPage={true}
-                            />
-
-                        </HealthDiaryContext.Provider>
-                    )}         
-                    {currentPageData.length > 0 && currentPageData.map((page, index) =>
-                        <HealthDiaryContext.Provider
-                            key={index}
-                            value={{
-                                isPageDiary: true
-                            }}
-                        >
-                            
-                            <Page
-                                pageData={page}
-                                pageItems={getDiaryItems(page)}
-                                updatePage={data => updatePage(data, page)}
-                                handlePageData={() => handlePageData(page)}
-                                deletePage={() => deletePageDiary(page.id)}
-                                ownerId={page.id_user}
-                            />
-
-                        </HealthDiaryContext.Provider>
-                    )}
-                    <div className="pagination">
-                        <Pagination
-                            className="pagination-bar"
-                            currentPage={currentPage}
-                            totalCount={listOfDiaryPages.length}
-                            pageSize={PageSize}
-                            onPageChange={page => setCurrentPage(page)}
+            {userId && (
+                <>
+                    <Sidebar sidebarIsOpen={sidebarIsOpen} setSidebarIsOpen={setSidebarIsOpen} />
+                    <div className="container">
+                        <Head
+                            setSidebarIsOpen={setSidebarIsOpen}
+                            isAuthenticated
                         />
+                        <section className="section">
+                            <div className="diary">
+                                <Header title={'Дневник здоровья'} />
+                                {!addNewPage && currentPage === 1 && (
+                                    <Button text={'+ Добавить новую запись'} onHandleClick={() => setAddNewPage(true)} />
+                                )}
+                                {addNewPage && (
+                                    <HealthDiaryContext.Provider
+                                        value={{
+                                            isPageDiary: true
+                                        }}
+                                    >
+
+                                        <Page
+                                            pageData={templateNewPage}
+                                            pageItems={getDiaryItems(templateNewPage)}
+                                            updatePage={data => setTemplateNewPage(data)}
+                                            handlePageData={() => createPageDiary()}
+                                            setAddNewPage={state => setAddNewPage(state)}
+                                            isNewPage
+                                        />
+
+                                    </HealthDiaryContext.Provider>
+                                )}
+                                {currentPageData.length > 0 && currentPageData.map((page, index) =>
+                                    <HealthDiaryContext.Provider
+                                        key={index}
+                                        value={{
+                                            isPageDiary: true
+                                        }}
+                                    >
+
+                                        <Page
+                                            pageData={page}
+                                            pageItems={getDiaryItems(page)}
+                                            updatePage={data => updatePage(data, page)}
+                                            handlePageData={() => handlePageData(page)}
+                                            deletePage={() => deletePageDiary(page.id)}
+                                            ownerId={page.id_user}
+                                        />
+
+                                    </HealthDiaryContext.Provider>
+                                )}
+                                <div className="pagination">
+                                    <Pagination
+                                        className="pagination-bar"
+                                        currentPage={currentPage}
+                                        totalCount={listOfDiaryPages.length}
+                                        pageSize={PageSize}
+                                        onPageChange={page => setCurrentPage(page)}
+                                    />
+                                </div>
+                            </div>
+                        </section>
                     </div>
-                </div>
-            </section>
-        </div>
+                </>
+            )}
         </>
     );
 }

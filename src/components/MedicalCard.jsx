@@ -10,10 +10,10 @@ import Header from './Header/Header';
 import { getNewMedicalCard } from '../getNewMedicalCard';
 
 
-const MedicalCard = () => {
+const MedicalCard = ({currentUserData}) => {
     const navigate = useNavigate(); 
     const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
-    const [userData, setUserData] = useState(null);
+    const [cardIsLoading, setCardIsLoading] = useState(false);
     const [cardData, setCardData] = useState(null);
     const [familyStatusList, setFamilyStatusList] = useState(null);
     const [educationList, setEducationList] = useState(null);
@@ -28,7 +28,7 @@ const MedicalCard = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            
+
             try {
                 const response = await axios.get('http://'+ window.location.hostname + `:8002/cards/user/${userId}`, {
                                 headers: {
@@ -73,6 +73,8 @@ const MedicalCard = () => {
             } catch(error) {
                 console.error('Get Busyness List Error:', error);
             }
+
+            setCardIsLoading(true);
         };
         
         fetchData();
@@ -127,48 +129,57 @@ const MedicalCard = () => {
 
     return (
         <>
-        <Sidebar sidebarIsOpen={sidebarIsOpen} setSidebarIsOpen={setSidebarIsOpen}/>
-        <div className="container">
-            <Head
-                setSidebarIsOpen={setSidebarIsOpen}
-                setUserData={(data) => setUserData(data)}
-            />
-            <section className="section">
-                <div className="medcard">
-                    <Header title={'Электронная медицинская карта'} />
-                    {hasMedcard ? (
-                        cardData && familyStatusList && educationList && busynessList && 
-                        <Page
-                            pageData={cardData}
-                            pageItems={getMedcardItems(cardData, familyStatusList, educationList, busynessList)}
-                            updatePage={data => setCardData(data)}
-                            handlePageData={handleUpdateMedcard}
-                            deletePage={() => handleDeleteMedcard()}
-                            ownerId={userData.is_superuser && userData.id}
+            {currentUserData && (
+                <>
+                    <Sidebar sidebarIsOpen={sidebarIsOpen} setSidebarIsOpen={setSidebarIsOpen} />
+                    <div className="container">
+                        <Head
+                            setSidebarIsOpen={setSidebarIsOpen}
+                            isAuthenticated
+                        // setUserData={(data) => setUserData(data)}
                         />
-                    ) : (
-                        !addMedcard && (
-                            <Button
-                                modify={'btn--add-page'}
-                                text={<span className="btn">Создать медкарту</span>}
-                                onHandleClick={() => setAddMedcard(true)}
-                            />
-                        )
-                    )}
-                    {addMedcard && (
-                        <Page
-                            pageData={newCardData}
-                            pageItems={getMedcardItems(newCardData, familyStatusList, educationList, busynessList)}
-                            updatePage={data => setNewCardData(data)}
-                            isNewPage
-                            setAddNewPage={() => setAddMedcard(false)}
-                            handlePageData={handleCreateMedcard}
-                        />
-                    )}
-                    {hasMedcard && <Button text={'Перейти к списку страниц'} onHandleClick={() => navigate(`/medical-card/${cardData.id}/pages`)} />}
-                </div>
-            </section>
-        </div>
+                        <section className="section">
+                            <div className="medcard">
+                                <Header title={'Электронная медицинская карта'} />
+                                {!hasMedcard && cardIsLoading && !currentUserData.is_superuser && (
+                                    <div className='alert' style={{ padding: '20px', maxWidth: '900px', minWidth: '290px', border: '3px solid #1a5dd0', backgroundColor: '#d3e6ff' }}>
+                                        <p className='alert__text' style={{ color: '#111', fontWeight: '500', fontSize: '1.6rem', lineHeight: 1.5 }}>Уважаемый пользователь! У Вас еще нет электронной медицинской карты. Вы можете завести её, если лично посетите наше учреждение. В случае отсутствия данной возможности, Вы всегда можете отправить <a href="#" style={{ color: '#1a5dd0' }}>необходимые документы</a> на почту <a href="#" style={{ color: '#1a5dd0' }}>admin@admin.ru</a></p>
+                                    </div>
+                                )}
+                                {!hasMedcard && !addMedcard && cardIsLoading && currentUserData.is_superuser && (
+                                    <Button
+                                        modify={'btn--add-page'}
+                                        text={<span className="btn">Создать медкарту</span>}
+                                        onHandleClick={() => setAddMedcard(true)}
+                                    />
+                                )}
+                                {hasMedcard && cardIsLoading && (
+                                    cardData && familyStatusList && educationList && busynessList &&
+                                    <Page
+                                        pageData={cardData}
+                                        pageItems={getMedcardItems(cardData, familyStatusList, educationList, busynessList)}
+                                        updatePage={data => setCardData(data)}
+                                        handlePageData={handleUpdateMedcard}
+                                        deletePage={() => handleDeleteMedcard()}
+                                        ownerId={currentUserData.is_superuser && (currentUserData.id)}
+                                    />
+                                )}
+                                {addMedcard && (
+                                    <Page
+                                        pageData={newCardData}
+                                        pageItems={getMedcardItems(newCardData, familyStatusList, educationList, busynessList)}
+                                        updatePage={data => setNewCardData(data)}
+                                        isNewPage
+                                        setAddNewPage={() => setAddMedcard(false)}
+                                        handlePageData={handleCreateMedcard}
+                                    />
+                                )}
+                                {hasMedcard && cardIsLoading && <Button text={'Перейти к списку страниц'} onHandleClick={() => navigate(`/medical-card/${cardData.id}/pages`)} />}
+                            </div>
+                        </section>
+                    </div>
+                </>
+            )}
         </>
     );
 }
