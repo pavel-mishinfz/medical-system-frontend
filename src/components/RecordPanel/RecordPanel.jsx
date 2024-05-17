@@ -4,14 +4,14 @@ import RecordDayList from './RecordDayList';
 import RecordTimeList from './RecordTimeList';
 
 
-const RecordPanel = ({doctorId, openRegisterModal}) => {
+const RecordPanel = ({doctor, openRegisterModal}) => {
   const [currentDate, setCurrentDate] = useState(null);
   const [availableDates, setAvailableDates] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://'+ window.location.hostname + `:8001/schedules/doctor/${doctorId}`);
+        const response = await axios.get('http://'+ window.location.hostname + `:8001/schedules/doctor/${doctor.id}`);
         
         setAvailableDates(response.data);
         setCurrentDate(findFirstEmptyIndex(response.data));
@@ -28,7 +28,7 @@ const RecordPanel = ({doctorId, openRegisterModal}) => {
           {availableDates && currentDate !== null && (
             <>
             <RecordDayList dayList={availableDates} onDateChange={date => setCurrentDate(date)} currentDate={currentDate}/>
-            <RecordTimeList timeList={availableDates} currentDate={currentDate} openRegisterModal={openRegisterModal}/>
+            <RecordTimeList doctor={doctor} timeList={availableDates} currentDate={currentDate} openRegisterModal={openRegisterModal}/>
             </>
           )}
       </div>
