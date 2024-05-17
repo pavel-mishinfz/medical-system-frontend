@@ -13,7 +13,7 @@ export default function UsersList({users, openRegisterModal}) {
         <div key={user.id} className="spec__doctors-item">
           <User userData={user}/>
           {user.specialization_id !== null ? (
-            <RecordPanel doctorId={user.id} openRegisterModal={openRegisterModal}/>
+            <RecordPanel doctor={user} openRegisterModal={openRegisterModal}/>
           ) : (
             <div className="panel-user">
               <div className="panel-user__item" onClick={() => navigate(`/medical-card/${user.id}`)}>
