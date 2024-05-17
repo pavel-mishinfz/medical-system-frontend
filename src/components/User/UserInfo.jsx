@@ -3,7 +3,7 @@ import moment from 'moment';
 
 
 export default function UserInfo({data}) {
-  const experience = calculateExperience(data.date_employment);
+  const experience = data.date_employment && calculateExperience(data.date_employment);
 
   return (
     <div className="doctor__info">
@@ -22,18 +22,15 @@ export default function UserInfo({data}) {
   );
 }
 
-export function formatExperience(exp) {
-  if ((exp > 9 && exp < 15) || exp % 10 >= 5) {
+export const formatExperience = (exp) => {
+  if (exp % 10 === 1 && exp % 100 !== 11) {
+    return 'год';
+  } else if ([2, 3, 4].includes(exp % 10) && ![12, 13, 14].includes(exp % 100)) {
+    return 'года';
+  } else {
     return 'лет';
   }
-  if (exp % 10 === 1) {
-    return 'год';
-  }
-  // if ((exp % 10 > 1) && (exp % 10 < 5)) {
-  //   return 'года';
-  // }
-  return 'года';
-}
+};
 
 
 export function calculateExperience(dateEmployment) {
