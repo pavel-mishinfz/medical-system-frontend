@@ -130,7 +130,7 @@ const HealthDiary = () => {
                         <section className="section">
                             <div className="diary">
                                 <Header title={'Дневник здоровья'} />
-                                {!addNewPage && currentPage === 1 && (
+                                {!params.id && !addNewPage && currentPage === 1 && (
                                     <Button text={'+ Добавить новую запись'} onHandleClick={() => setAddNewPage(true)} />
                                 )}
                                 {addNewPage && (
@@ -184,6 +184,7 @@ const HealthDiary = () => {
                     </div>
                 </>
             )}
+            <div className={`popup popup--sidebar ${sidebarIsOpen && 'active'}`} />
         </>
     );
 }

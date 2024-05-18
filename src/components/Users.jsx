@@ -18,8 +18,12 @@ const Users = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://'+ window.location.hostname + `:8000/users`);
-    
+        const response = await axios.get('http://' + window.location.hostname + `:8000/users`, {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+          },
+        });
+
         setUsers(response.data.filter(user => user.id !== sessionStorage.getItem('userId')));
 
       } catch (error) {
@@ -77,6 +81,7 @@ const Users = () => {
           </div>
         </>
       )}
+      <div className={`popup popup--sidebar ${sidebarIsOpen && 'active'}`} />
     </>
   );
 }

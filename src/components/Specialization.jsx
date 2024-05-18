@@ -63,6 +63,7 @@ const Specialization = ({isAuthenticated}) => {
     {sessionStorage.getItem('authToken') === null && openRegisterModal && (
       <Register closeModal={() => setOpenRegisterModal(false)}/>
     )}
+    <div className={`popup popup--sidebar ${sidebarIsOpen && 'active'}`} />
     </>
   );
 }

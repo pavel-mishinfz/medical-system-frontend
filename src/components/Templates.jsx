@@ -91,6 +91,7 @@ const Templates = () => {
                     </div>
                 </>
             )}
+            <div className={`popup popup--sidebar ${sidebarIsOpen && 'active'}`} />
         </>
     );
 }

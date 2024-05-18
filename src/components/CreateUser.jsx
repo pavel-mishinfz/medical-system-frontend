@@ -42,6 +42,7 @@ const CreateUser = () => {
           </div>
         </>
       )}
+      <div className={`popup popup--sidebar ${sidebarIsOpen && 'active'}`} />
     </>
   );
 }

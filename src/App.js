@@ -23,6 +23,7 @@ import ConfirmRecord from './components/ConfirmRecord';
 import NotFound from './components/NotFound';
 import RecordsList from './components/RecordsList';
 import RecordsListAll from './components/RecordsListAll';
+import Header from './components/Header/Header';
 
 
 const ProtectedRoute = ({isAuthenticated, redirectPath='/', children}) => {
@@ -66,6 +67,8 @@ const App = () => {
   return (
     <Router>
       <Routes>
+
+        {/* Unauthorized users */}
         <Route path="/" element={fetchData && (<Main isAuthenticated={isAuthenticated}/>)} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -75,34 +78,38 @@ const App = () => {
         <Route path="/confirm" element={<Confirm />} />
         <Route path="/specializations/:id" element={fetchData && (<Specialization isAuthenticated={isAuthenticated}/>)} />
 
-        <Route element={fetchData && (<ProtectedRoute isAuthenticated={isAuthenticated && (user.specialization_id || user.is_superuser)}/>)} >
-          <Route path="/medical-card/:id" element={<MedicalCard currentUserData={user}/>} />
+        {/* Authorized users */}
+        <Route element={fetchData && (<ProtectedRoute isAuthenticated={isAuthenticated}/>)} >
+          <Route path="/profile" element={fetchData && <Profile currentUserData={user}/>} />
+          <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/change-email" element={<ChangeEmail />} />
+          <Route path="/reset-email" element={<ResetEmail />} />
+          <Route path="/medical-card" element={fetchData && <MedicalCard currentUserData={user}/>} />
+          <Route path="/medical-card/:id/pages" element={fetchData && <MedicalCardPagesList currentUserData={user}/>} />
+          <Route path="/health-diary/" element={<HealthDiary />} />
+          <Route path="/confirm-record/:id" element={fetchData && <ConfirmRecord currentUserData={user}/>} />
+          <Route path="/records/me" element={fetchData && <RecordsList currentUserData={user} isPatient/>} />
         </Route>
 
+        {/* Doctors and administrators */}
+        <Route element={fetchData && (<ProtectedRoute isAuthenticated={isAuthenticated && (user.specialization_id || user.is_superuser)}/>)} >
+          <Route path="/medical-card/:id" element={fetchData && <MedicalCard currentUserData={user}/>} />
+        </Route>
+
+        {/* Doctors */}
         <Route element={fetchData && (<ProtectedRoute isAuthenticated={isAuthenticated && user.specialization_id}/>)} >
-          <Route path="/medical-card/:id/pages" element={<MedicalCardPagesList currentUserData={user}/>} />
+          <Route path="/medical-card/:id/pages" element={fetchData && <MedicalCardPagesList currentUserData={user}/>} />
           <Route path="/health-diary/:id" element={<HealthDiary />} />
           <Route path="/records" element={fetchData && <RecordsList currentUserData={user} />} />
         </Route>
 
+        {/* Administrators */}
         <Route element={fetchData && (<ProtectedRoute isAuthenticated={isAuthenticated && user.is_superuser}/>)} >
           <Route path="/templates" element={<Templates />} />
           <Route path="/users" element={<Users />} />
-          <Route path="/users/:id" element={<Profile currentUserData={user}/>} />
+          <Route path="/users/:id" element={fetchData && <Profile currentUserData={user}/>} />
           <Route path="/create-user" element={<CreateUser />} />
           <Route path="/records/all" element={<RecordsListAll />} />
-        </Route>
-
-        <Route element={fetchData && (<ProtectedRoute isAuthenticated={isAuthenticated}/>)} >
-          <Route path="/profile" element={<Profile currentUserData={user && (user)}/>} />
-          <Route path="/change-password" element={<ChangePassword />} />
-          <Route path="/change-email" element={<ChangeEmail />} />
-          <Route path="/reset-email" element={<ResetEmail />} />
-          <Route path="/medical-card" element={<MedicalCard currentUserData={user}/>} />
-          <Route path="/medical-card/:id/pages" element={<MedicalCardPagesList currentUserData={user}/>} />
-          <Route path="/health-diary/" element={<HealthDiary />} />
-          <Route path="/confirm-record/:id" element={<ConfirmRecord currentUserData={user}/>} />
-          <Route path="/records/me" element={fetchData && <RecordsList currentUserData={user} isPatient/>} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

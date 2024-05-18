@@ -234,6 +234,7 @@ const MedicalCardPagesList = ({currentUserData}) => {
                     getTemplateData={data => setTemplateData(data)}
                 />
             )}
+            <div className={`popup popup--sidebar ${sidebarIsOpen && 'active'}`} />
         </>
     );
 }

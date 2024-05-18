@@ -178,6 +178,7 @@ const MedicalCard = ({currentUserData}) => {
                     </div>
                 </>
             )}
+            <div className={`popup popup--sidebar ${sidebarIsOpen && 'active'}`} />
         </>
     );
 }

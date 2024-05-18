@@ -26,7 +26,7 @@ export default function Page({pageData, pageItems, updatePage, handlePageData, d
     const fetchData = async () => {
         if (doctorId) {
           try {
-            const response = await axios.get('http://'+ window.location.hostname + `:8000/users/doctor/${doctorId}`, {
+            const response = await axios.get('http://'+ window.location.hostname + `:8000/users/doctor/${doctorId}/summary`, {
                             headers: {
                                 Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                             },

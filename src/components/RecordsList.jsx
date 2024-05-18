@@ -81,6 +81,7 @@ const RecordsList = ({currentUserData, isPatient}) => {
                     </div>
                 </>
             )}
+            <div className={`popup popup--sidebar ${sidebarIsOpen && 'active'}`} />
         </>
     );
 };

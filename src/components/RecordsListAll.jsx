@@ -80,6 +80,7 @@ const RecordsListAll = () => {
                     </div>
                 </>
             )}
+            <div className={`popup popup--sidebar ${sidebarIsOpen && 'active'}`} />
         </>
     );
 };
