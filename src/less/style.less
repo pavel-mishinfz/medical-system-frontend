@@ -1872,6 +1872,10 @@ input:disabled {
         .font(@color-text, normal, 1.6rem);
       }
     }
+
+    &-text {
+      .font(@color-title, normal, 1.8rem);
+    }
   }
 
   &__btn {
@@ -1879,6 +1883,15 @@ input:disabled {
     align-items: center;
     justify-content: center;
   }
+}
+
+.records-list {
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 40px;
 }
 
 @media (max-width: 992px) {

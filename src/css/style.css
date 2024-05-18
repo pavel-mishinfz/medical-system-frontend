@@ -2347,6 +2347,12 @@ input:disabled:active {
   font-size: 1.6rem;
   line-height: 1.2;
 }
+.record-confirm__format-text {
+  color: #111111;
+  font-weight: normal;
+  font-size: 1.8rem;
+  line-height: 1.2;
+}
 .record-confirm__btn {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2357,6 +2363,23 @@ input:disabled:active {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+.records-list {
+  padding: 40px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  row-gap: 40px;
 }
 @media (max-width: 992px) {
   .slider + .direct {
