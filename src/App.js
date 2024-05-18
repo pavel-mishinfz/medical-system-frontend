@@ -21,6 +21,8 @@ import Users from './components/Users';
 import CreateUser from './components/CreateUser';
 import ConfirmRecord from './components/ConfirmRecord';
 import NotFound from './components/NotFound';
+import RecordsList from './components/RecordsList';
+import RecordsListAll from './components/RecordsListAll';
 
 
 const ProtectedRoute = ({isAuthenticated, redirectPath='/', children}) => {
@@ -73,6 +75,24 @@ const App = () => {
         <Route path="/confirm" element={<Confirm />} />
         <Route path="/specializations/:id" element={fetchData && (<Specialization isAuthenticated={isAuthenticated}/>)} />
 
+        <Route element={fetchData && (<ProtectedRoute isAuthenticated={isAuthenticated && (user.specialization_id || user.is_superuser)}/>)} >
+          <Route path="/medical-card/:id" element={<MedicalCard currentUserData={user}/>} />
+        </Route>
+
+        <Route element={fetchData && (<ProtectedRoute isAuthenticated={isAuthenticated && user.specialization_id}/>)} >
+          <Route path="/medical-card/:id/pages" element={<MedicalCardPagesList currentUserData={user}/>} />
+          <Route path="/health-diary/:id" element={<HealthDiary />} />
+          <Route path="/records" element={fetchData && <RecordsList currentUserData={user} />} />
+        </Route>
+
+        <Route element={fetchData && (<ProtectedRoute isAuthenticated={isAuthenticated && user.is_superuser}/>)} >
+          <Route path="/templates" element={<Templates />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/users/:id" element={<Profile currentUserData={user}/>} />
+          <Route path="/create-user" element={<CreateUser />} />
+          <Route path="/records/all" element={<RecordsListAll />} />
+        </Route>
+
         <Route element={fetchData && (<ProtectedRoute isAuthenticated={isAuthenticated}/>)} >
           <Route path="/profile" element={<Profile currentUserData={user && (user)}/>} />
           <Route path="/change-password" element={<ChangePassword />} />
@@ -82,22 +102,7 @@ const App = () => {
           <Route path="/medical-card/:id/pages" element={<MedicalCardPagesList currentUserData={user}/>} />
           <Route path="/health-diary/" element={<HealthDiary />} />
           <Route path="/confirm-record/:id" element={<ConfirmRecord currentUserData={user}/>} />
-        </Route>
-
-        <Route element={fetchData && (<ProtectedRoute isAuthenticated={isAuthenticated && (user.specialization_id || user.is_superuser)}/>)} >
-          <Route path="/medical-card/:id" element={<MedicalCard currentUserData={user}/>} />
-        </Route>
-
-        <Route element={fetchData && (<ProtectedRoute isAuthenticated={isAuthenticated && user.specialization_id}/>)} >
-          <Route path="/medical-card/:id/pages" element={<MedicalCardPagesList currentUserData={user}/>} />
-          <Route path="/health-diary/:id" element={<HealthDiary />} />
-        </Route>
-
-        <Route element={fetchData && (<ProtectedRoute isAuthenticated={isAuthenticated && user.is_superuser}/>)} >
-          <Route path="/templates" element={<Templates />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/users/:id" element={<Profile currentUserData={user}/>} />
-          <Route path="/create-user" element={<CreateUser />} />
+          <Route path="/records/me" element={fetchData && <RecordsList currentUserData={user} isPatient/>} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
