@@ -7,6 +7,7 @@ import Options from '../Options/Options';
 import { HealthDiaryContext } from '../HealthDiary';
 import PageHeader from './PageHeader';
 import { MedicalCardPagesContext } from '../MedicalCardPagesList';
+import BeforeDelete from '../Modal/BeforeDelete';
 
 
 export const PageContext = createContext();
@@ -161,16 +162,7 @@ export default function Page({pageData, pageItems, updatePage, handlePageData, d
       </div>
     )}
     {openConfirmForm && (
-      <div className="modal">
-        <div className="before-delete">
-          <div className="before-delete__title">Удалить страницу</div>
-          <div className="before-delete__text">Вы действительно хотите удалить запись? Данное действие удалит данные навсегда.</div>
-          <div className="before-delete__btns">
-            <Button text={'Удалить'} onHandleClick={() => {deletePage(); setOpenConfirmForm(false)}}/>
-            <Button modify={'btn--cancel'} text={'Отмена'} onHandleClick={() => setOpenConfirmForm(false)}/>
-          </div>
-        </div>
-      </div>
+      <BeforeDelete title={'Удалить страницу'} handleDelete={deletePage} setOpenConfirmForm={setOpenConfirmForm}/>
     )}
     </>
   );

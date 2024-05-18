@@ -8,6 +8,7 @@ import ProfileInfo from './Profile/ProfileInfo';
 import Options from './Options/Options';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'react-image-crop/dist/ReactCrop.css';
+import BeforeDelete from './Modal/BeforeDelete';
 
 
 const Profile = ({currentUserData}) => {
@@ -126,7 +127,6 @@ const Profile = ({currentUserData}) => {
             <Head
               setSidebarIsOpen={setSidebarIsOpen}
               isAuthenticated
-            // setUserData={(data) => setCurrentUserData(data)}
             />
             {userData && (
               <section className="section section--profile">
@@ -176,16 +176,7 @@ const Profile = ({currentUserData}) => {
                   </div>
                 </div>
                 {openConfirmForm && (
-                  <div className="modal">
-                    <div className="before-delete">
-                      <div className="before-delete__title">Удалить пользователя</div>
-                      <div className="before-delete__text">Вы действительно хотите удалить пользователя? Данное действие удалит данные навсегда.</div>
-                      <div className="before-delete__btns">
-                        <Button text={'Удалить'} onHandleClick={() => handleDeleteUser()} />
-                        <Button modify={'btn--cancel'} text={'Отмена'} onHandleClick={() => setOpenConfirmForm(false)} />
-                      </div>
-                    </div>
-                  </div>
+                  <BeforeDelete title={'Удалить пользователя'} handleDelete={handleDeleteUser} setOpenConfirmForm={setOpenConfirmForm}/>
                 )}
               </section>
             )}
