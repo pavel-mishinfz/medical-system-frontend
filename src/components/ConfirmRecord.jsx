@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import RecordConfirm from './RecordPanel/RecordConfirm';
+import RecordConfirm from './Record/RecordConfirm';
 import { useLocation, useParams } from 'react-router-dom';
 import Sidebar from './Sidebar/Sidebar';
 import Head from './Head/Head';
@@ -17,7 +17,7 @@ const ConfirmRecord = ({currentUserData}) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://' + window.location.hostname + `:8000/users/${doctorId}`, {
+                const response = await axios.get('http://' + window.location.hostname + `:8000/users/doctor/${doctorId}`, {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                     },
