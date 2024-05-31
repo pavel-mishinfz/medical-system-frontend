@@ -33,9 +33,9 @@ const Template = ({template, setAddNewTemplate, setTemplates}) => {
 
         try {
             const response = await axios.post('http://' + window.location.hostname + `:8003/templates`, requestBody, {
-                // headers: {
-                //     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
-                // }
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                }
             });
             window.location.reload();
         } catch (error) {
@@ -51,9 +51,9 @@ const Template = ({template, setAddNewTemplate, setTemplates}) => {
 
         try {
             const response = await axios.put('http://' + window.location.hostname + `:8003/templates/${template.id}`, requestBody, {
-                // headers: {
-                //     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
-                // }
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                }
             });
             setTemplates(response.data);
             setReadTemplate(true);
@@ -65,9 +65,9 @@ const Template = ({template, setAddNewTemplate, setTemplates}) => {
     const handleDeleteTemplate = async () => {
         try {
             const response = await axios.delete('http://' + window.location.hostname + `:8003/templates/${template.id}`, {
-                // headers: {
-                //     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
-                // }
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                }
             });
             setTemplates(null);
             setReadTemplate(true);

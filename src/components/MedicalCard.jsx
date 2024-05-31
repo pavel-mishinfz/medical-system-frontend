@@ -25,21 +25,29 @@ const MedicalCard = ({currentUserData}) => {
 
 
     const params = useParams();
-    const userId = params.id ? params.id : sessionStorage.getItem('userId');
+    const paramsId = params.id;
+    let url = '';
+    if (paramsId && Number.isInteger(Number(paramsId))) {
+        url = `http://${window.location.hostname}:8002/cards/${paramsId}`
+    } else if (!paramsId) {
+        url = `http://${window.location.hostname}:8002/cards/me/${currentUserData.id}`
+    }
 
     useEffect(() => {
         const fetchData = async () => {
 
-            try {
-                const response = await axios.get('http://'+ window.location.hostname + `:8002/cards/user/${userId}`, {
-                                headers: {
-                                    Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
-                                },
-                            });
-                setCardData(response.data); 
-                setHasMedcard(true);            
-            } catch(error) {
-                console.error('Get Card Error:', error);
+            if (url) {
+                try {
+                    const response = await axios.get(url, {
+                                    headers: {
+                                        Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                                    },
+                                });
+                    setCardData(response.data); 
+                    setHasMedcard(true);            
+                } catch(error) {
+                    console.error('Get Card Error:', error);
+                }
             }
 
             try {
@@ -82,10 +90,13 @@ const MedicalCard = ({currentUserData}) => {
     }, []);
 
     const handleCreateMedcard = async () => {
-        const requestBody = newCardData;
+        const requestBody = {
+            ...newCardData,
+            id_user: paramsId
+        };
 
         try {
-            const response = await axios.post('http://'+ window.location.hostname + `:8002/cards/user/${userId}`, requestBody, {
+            const response = await axios.post('http://'+ window.location.hostname + `:8002/cards`, requestBody, {
                                 headers: {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 }
@@ -142,7 +153,11 @@ const MedicalCard = ({currentUserData}) => {
                             <div className="medcard">
                                 <Header title={'Электронная медицинская карта'} />
                                 {!hasMedcard && cardIsLoading && !currentUserData.is_superuser && (
-                                    <Alert />
+                                    <Alert text={
+                                        <>
+                                        Уважаемый пользователь! У Вас еще нет электронной медицинской карты. Вы можете завести её, если лично посетите наше учреждение. В случае отсутствия данной возможности, Вы всегда можете отправить <a href="/" style={{ color: '#1a5dd0' }}>необходимые документы</a> на почту <a href="/" style={{ color: '#1a5dd0' }}>admin@admin.ru</a>
+                                        </>
+                                    }/>
                                 )}
                                 {!hasMedcard && !addMedcard && cardIsLoading && currentUserData.is_superuser && (
                                     <Button

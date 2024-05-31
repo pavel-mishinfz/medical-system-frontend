@@ -7,7 +7,7 @@ import UsersList from './User/UsersList';
 import Register from './Register';
 
 
-const Specialization = ({isAuthenticated}) => {
+const Specialization = ({ isAuthenticated }) => {
   const params = useParams();
   const specId = params.id;
 
@@ -19,8 +19,14 @@ const Specialization = ({isAuthenticated}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://'+ window.location.hostname + `:8000/specializations/${specId}`);
-    
+        const response = await axios.get('http://' + window.location.hostname + `:8000/specializations/${specId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+            }
+          }
+        );
+
         setSpec(response.data);
 
       } catch (error) {
@@ -28,24 +34,28 @@ const Specialization = ({isAuthenticated}) => {
       }
 
       try {
-        const response = await axios.get('http://'+ window.location.hostname + `:8000/users/specialization/${specId}`);
-    
+        const response = await axios.get('http://' + window.location.hostname + `:8000/users/specialization/${specId}`, {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+          }
+        });
+
         setDoctors(response.data);
       } catch (error) {
         console.log(error);
       }
     }
-    
+
     fetchData();
   }, [])
 
   return (
     <>
-    <Sidebar sidebarIsOpen={sidebarIsOpen} setSidebarIsOpen={setSidebarIsOpen}/>
-    <div className="container">
-        <Head 
-        setSidebarIsOpen={setSidebarIsOpen} 
-        isAuthenticated={isAuthenticated}
+      <Sidebar sidebarIsOpen={sidebarIsOpen} setSidebarIsOpen={setSidebarIsOpen} />
+      <div className="container">
+        <Head
+          setSidebarIsOpen={setSidebarIsOpen}
+          isAuthenticated={isAuthenticated}
         />
         <section className="section">
           <div className="spec">
@@ -55,15 +65,15 @@ const Specialization = ({isAuthenticated}) => {
               )}
             </div>
             {doctors.length > 0 && (
-              <UsersList users={doctors} openRegisterModal={() => setOpenRegisterModal(true)}/>
+              <UsersList users={doctors} openRegisterModal={() => setOpenRegisterModal(true)} />
             )}
           </div>
         </section>
-    </div>
-    {sessionStorage.getItem('authToken') === null && openRegisterModal && (
-      <Register closeModal={() => setOpenRegisterModal(false)}/>
-    )}
-    <div className={`popup popup--sidebar ${sidebarIsOpen && 'active'}`} />
+      </div>
+      {sessionStorage.getItem('authToken') === null && openRegisterModal && (
+        <Register closeModal={() => setOpenRegisterModal(false)} />
+      )}
+      <div className={`popup popup--sidebar ${sidebarIsOpen && 'active'}`} />
     </>
   );
 }

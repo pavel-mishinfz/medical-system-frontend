@@ -4,27 +4,39 @@ import Sidebar from './Sidebar/Sidebar';
 import Head from './Head/Head';
 import UsersList from './User/UsersList';
 import Header from './Header/Header';
-import { useNavigate } from 'react-router-dom';
 
 
 export const UsersContext = createContext();
 
 const Users = () => {
-  const navigate = useNavigate();
   const [users, setUsers] = useState(null);
+  const [medicalCards, setMedicalCards] = useState(null);
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [filter, setFilter] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://' + window.location.hostname + `:8000/users`, {
+        const response = await axios.get('http://' + window.location.hostname + `:8000/users/all/summary`, {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
           },
         });
 
         setUsers(response.data.filter(user => user.id !== sessionStorage.getItem('userId')));
+
+      } catch (error) {
+        console.log(error);
+      }
+
+      try {
+        const response = await axios.get('http://' + window.location.hostname + `:8002/cards`, {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+          },
+        });
+
+        setMedicalCards(response.data);
 
       } catch (error) {
         console.log(error);
@@ -37,7 +49,7 @@ const Users = () => {
 
   return (
     <>
-      {users && (
+      {users && medicalCards && (
         <>
           <Sidebar sidebarIsOpen={sidebarIsOpen} setSidebarIsOpen={setSidebarIsOpen} />
           <div className="container">
@@ -54,24 +66,29 @@ const Users = () => {
                       <option value="0">Все пользователи</option>
                       <option value="1">Врачи</option>
                       <option value="2">Пациенты</option>
+                      <option value="3">Новые пациенты</option>
                     </select>
                   </div>
                   <UsersContext.Provider
                     value={{
-                      navToUserProfile: (userId) => navigate(`/users/${userId}`)
+                      navToUserProfile: (userId) => window.location.replace(`/users/${userId}`)
                     }}
                   >
 
                     {filter === 0 &&
-                      <UsersList users={users} />
+                      <UsersList users={users} medicalCards={medicalCards} isAdminUsersList/>
                     }
 
                     {filter === 1 &&
-                      <UsersList users={users.filter(user => user.specialization_id !== null)} />
+                      <UsersList users={users.filter(user => user.specialization !== null)} isAdminUsersList/>
                     }
 
                     {filter === 2 &&
-                      <UsersList users={users.filter(user => user.specialization_id === null)} />
+                      <UsersList users={users.filter(user => user.specialization === null && medicalCards.find(card => card.id_user === user.id))} medicalCards={medicalCards}/>
+                    }
+
+                    {filter === 3 &&
+                      <UsersList users={users.filter(user => user.specialization === null && !medicalCards.find(card => card.id_user === user.id))} medicalCards={medicalCards}/>
                     }
 
                   </UsersContext.Provider>

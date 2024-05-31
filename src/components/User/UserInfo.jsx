@@ -10,7 +10,7 @@ export default function UserInfo({data}) {
   return (
     <div className="doctor__info">
         <h3 className="doctor__info-name">{`${data.surname} ${data.name} ${data.patronymic}`}</h3>
-        {data.specialization_id !== null ?
+        {data.specialization ?
         <>
         <p className="doctor__info-desc">{data.desc}</p>
         <p className="doctor__info-exp">Стаж {experience > 0 ? experience : 'меньше'} {formatExperience(experience)}</p>
@@ -18,7 +18,7 @@ export default function UserInfo({data}) {
         :
         <>
         <p className="doctor__info-exp">{age} {getTextAge(age)}</p>
-        <p className="doctor__info-desc">{data.email}</p>
+        {data.email && <p className="doctor__info-desc">{data.email}</p>}
         </>
         }
     </div>

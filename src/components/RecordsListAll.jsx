@@ -11,6 +11,7 @@ const PageSize = 5;
 
 const RecordsListAll = () => {
     const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+    const [meetingsList, setMeetingsList] = useState(null);
     const [recordsList, setRecordsList] = useState([]);
     const [recordsIsLoading, setRecordsIsLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -35,6 +36,18 @@ const RecordsListAll = () => {
             } catch (error) {
                 console.error('Get Records Error:', error);
             }
+
+            axios.get('http://' + window.location.hostname + `:8005/meetings`, {
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                },
+            })
+                .then(response => {
+                    setMeetingsList(response.data);
+                })
+                .catch(error => {
+                    console.error('Get meetings list failed:', error);
+                });
         };
 
         fetchData();
@@ -42,7 +55,7 @@ const RecordsListAll = () => {
 
     return (
         <>
-            {recordsIsLoading && (
+            {recordsIsLoading && meetingsList && (
                 <>
                     <Sidebar sidebarIsOpen={sidebarIsOpen} setSidebarIsOpen={setSidebarIsOpen} />
                     <div className="container">
@@ -64,6 +77,7 @@ const RecordsListAll = () => {
                                         isOnlineFormat={record.is_online}
                                         setRecordsList={(record) => setRecordsList(recordsList.filter(item => item.id !== record.id))}
                                         isAdmin
+                                        meetingsList={meetingsList}
                                     />
                                 )}
                                 <div className="pagination">

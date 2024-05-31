@@ -11,6 +11,7 @@ const PageSize = 3;
 
 const RecordsList = ({currentUserData, isPatient}) => {
     const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+    const [meetingsList, setMeetingsList] = useState(null);
     const [recordsList, setRecordsList] = useState([]);
     const [recordsIsLoading, setRecordsIsLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -37,6 +38,18 @@ const RecordsList = ({currentUserData, isPatient}) => {
             } catch (error) {
                 console.error('Get Records Error:', error);
             }
+
+            axios.get('http://' + window.location.hostname + `:8005/meetings`, {
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                },
+            })
+                .then(response => {
+                    setMeetingsList(response.data);
+                })
+                .catch(error => {
+                    console.error('Get meetings list failed:', error);
+                });
         };
 
         fetchData();
@@ -44,7 +57,7 @@ const RecordsList = ({currentUserData, isPatient}) => {
 
     return (
         <>
-            {currentUserData && recordsIsLoading && (
+            {currentUserData && recordsIsLoading && meetingsList && (
                 <>
                     <Sidebar sidebarIsOpen={sidebarIsOpen} setSidebarIsOpen={setSidebarIsOpen} />
                     <div className="container">
@@ -58,6 +71,7 @@ const RecordsList = ({currentUserData, isPatient}) => {
                                 {currentRecords.length > 0 && currentRecords.map(record => 
                                     <Record 
                                         key={record.id}
+                                        id={record.id}
                                         doctor={currentUserData.specialization_id && currentUserData}
                                         user={!currentUserData.specialization_id && currentUserData}
                                         doctorId={!currentUserData.specialization_id && record.id_doctor}
@@ -65,6 +79,7 @@ const RecordsList = ({currentUserData, isPatient}) => {
                                         day={record.date}
                                         time={record.time}
                                         isOnlineFormat={record.is_online}
+                                        meetingsList={meetingsList}
                                     />
                                 )}
                                 <div className="pagination">

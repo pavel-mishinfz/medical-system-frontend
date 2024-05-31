@@ -9,9 +9,9 @@ const TemplateModal = ({onCloseModal, addNewPage, getTemplate, getTemplateData})
         const fetchData = async () => {
             try {
                 const response = await axios.get('http://'+ window.location.hostname + `:8003/templates`, {
-                                // headers: {
-                                //     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
-                                // },
+                                headers: {
+                                    Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                                },
                             });
                 setTemplates(response.data);             
             } catch(error) {
@@ -26,9 +26,9 @@ const TemplateModal = ({onCloseModal, addNewPage, getTemplate, getTemplateData})
 
         try {
             const response = await axios.get('http://'+ window.location.hostname + `:8003/templates/${templateId}`, {
-                                // headers: {
-                                //     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
-                                // }
+                                headers: {
+                                    Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                                }
                             });
             addNewPage();
             getTemplate(response.data);

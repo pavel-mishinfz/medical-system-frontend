@@ -23,7 +23,8 @@ import ConfirmRecord from './components/ConfirmRecord';
 import NotFound from './components/NotFound';
 import RecordsList from './components/RecordsList';
 import RecordsListAll from './components/RecordsListAll';
-import Header from './components/Header/Header';
+import Patients from './components/Patients';
+import Schedule from './components/Schedule';
 
 
 const ProtectedRoute = ({isAuthenticated, redirectPath='/', children}) => {
@@ -101,6 +102,7 @@ const App = () => {
           <Route path="/medical-card/:id/pages" element={fetchData && <MedicalCardPagesList currentUserData={user}/>} />
           <Route path="/health-diary/:id" element={<HealthDiary />} />
           <Route path="/records" element={fetchData && <RecordsList currentUserData={user} />} />
+          <Route path="/patients" element={<Patients />} />
         </Route>
 
         {/* Administrators */}
@@ -110,6 +112,7 @@ const App = () => {
           <Route path="/users/:id" element={fetchData && <Profile currentUserData={user}/>} />
           <Route path="/create-user" element={<CreateUser />} />
           <Route path="/records/all" element={<RecordsListAll />} />
+          <Route path="/schedule/:id" element={<Schedule />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

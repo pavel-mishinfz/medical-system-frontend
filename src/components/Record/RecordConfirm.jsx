@@ -8,14 +8,14 @@ import RecordType from './RecordType';
 import Alert from '../Alert/Alert';
 
 
-const RecordConfirm = ({doctor, user, day, time}) => {
+const RecordConfirm = ({ doctor, user, day, time }) => {
     const [isOnlineFormat, setIsOnlineFormat] = useState(false);
     const [hasMedcard, setHasMedcard] = useState(false);
     const [textBtn, setTextBtn] = useState('Записаться');
     const [modify, setModify] = useState('');
 
     useEffect(() => {
-        axios.get('http://' + window.location.hostname + `:8002/cards/user/${user.id}`, {
+        axios.get('http://' + window.location.hostname + `:8002/cards/me/${user.id}`, {
             headers: {
                 Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
             },
@@ -29,7 +29,7 @@ const RecordConfirm = ({doctor, user, day, time}) => {
     }, []);
 
     const handleCreateRecord = async () => {
-        const requestBody = {
+        let requestBody = {
             date: day,
             time: time,
             id_user: user.id,
@@ -44,27 +44,51 @@ const RecordConfirm = ({doctor, user, day, time}) => {
         })
             .then(response => {
                 console.log('Create Record successful:', response.status);
-                setTextBtn('Вы записаны!');
-                setModify('btn--success');
-                setTimeout(function() {
-                    window.location.replace('/');
-                }, 3000);
+
+                if (isOnlineFormat) {
+                    requestBody = {
+                        record_id: response.data.id,
+                        start_date: day,
+                        start_time: time
+                    }
+
+                    axios.post('http://' + window.location.hostname + `:8005/meetings`, requestBody, {
+                        headers: {
+                            Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                        },
+                    })
+                        .then(response => {
+                            console.log('Create meeting successful:', response.status);
+                            setTextBtn('Вы записаны!');
+                            setModify('btn--success');
+                            setTimeout(function () {
+                                window.location.replace('/');
+                            }, 3000);
+                        })
+                        .catch(error => {
+                            console.error('Create meeting failed:', error);
+                        });
+                }
             })
             .catch(error => {
                 console.error('Create Record failed:', error);
             });
     }
-    
+
     return (
         <div className="record-confirm">
-            <RecordDoctor doctor={doctor}/>
+            <RecordDoctor doctor={doctor} />
             <hr className="sidebar__divider" />
-            <RecordDate day={day} time={time}/>
-            <RecordPatient user={user}/>
+            <RecordDate day={day} time={time} />
+            <RecordPatient user={user} />
             <hr className="sidebar__divider" />
-            <RecordType setIsOnlineFormat={setIsOnlineFormat}/>
+            <RecordType setIsOnlineFormat={setIsOnlineFormat} />
             {isOnlineFormat && !hasMedcard && (
-                <Alert />
+                <Alert text={
+                    <>
+                    Уважаемый пользователь! У Вас еще нет электронной медицинской карты. Вы можете завести её, если лично посетите наше учреждение. В случае отсутствия данной возможности, Вы всегда можете отправить <a href="/" style={{ color: '#1a5dd0' }}>необходимые документы</a> на почту <a href="/" style={{ color: '#1a5dd0' }}>admin@admin.ru</a>
+                    </>
+                }/>
             )}
             {(!isOnlineFormat || hasMedcard) && (
                 <div className="record-confirm__btn">

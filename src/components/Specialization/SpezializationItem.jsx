@@ -8,7 +8,7 @@ export default function SpezializationItem({ data: { id, name, img } }) {
   const navigate = useNavigate();
   
   return (
-    <div className="direct__list-item" onClick={() => navigate(`/specializations/${id}`)}>
+    <div className="direct__list-item" onClick={() => window.location.replace(`/specializations/${id}`)}>
       <SpezializationImage src={img} />
       <SpezializationTitle title={name} />
     </div>

@@ -116,7 +116,7 @@ const MedicalCardPagesList = ({currentUserData}) => {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 }
                             });
-            setListPages(listPages.filter(page => page.id !== response.data.id));
+            setListPages(listPages.filter(page => page.id !== id));
         } catch(error) {
             console.error('Delete Page Error:', error);
         }

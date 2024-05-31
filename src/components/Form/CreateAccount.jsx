@@ -30,6 +30,7 @@ const CreateAccount = ({isDoctor}) => {
       axios.get('http://' + window.location.hostname + ':8000/specializations')
         .then(response => {
           setSpecializationsList(response.data);
+          setSpecializationId(response.data[0].id);
         })
         .catch(error => {
           console.error('Get Specializations failed:', error);
@@ -108,7 +109,10 @@ const CreateAccount = ({isDoctor}) => {
       setSpecializationId(null);
       setDescription('');
       setDateEmployment('');
-      setPassword(generatePassword(PasswordLength));
+
+      const initPassword = generatePassword(PasswordLength);
+      setPassword(initPassword);
+      setPasswordConfirm(initPassword);
     }
 
 

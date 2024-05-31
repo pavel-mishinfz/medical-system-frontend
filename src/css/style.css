@@ -25,7 +25,7 @@ a {
 a:active {
   color: inherit;
 }
-label {
+label:not(label[name="schedule"]):not(label[name="confirm_record"]) {
   padding: 0 5px;
   display: block;
   opacity: 0;
@@ -36,7 +36,7 @@ label {
   line-height: 1.2;
   background-color: #fff;
 }
-label.active {
+label:not(label[name="schedule"]):not(label[name="confirm_record"]).active {
   opacity: 1;
   top: -8px;
   left: 32px;
@@ -63,48 +63,48 @@ select.active,
 textarea.active {
   border: 2px solid #1a5dd0;
 }
-input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]),
-input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]),
+input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]):not(input[name="schedule"]),
+input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]):not(input[name="schedule"]),
 select:focus,
 select:active,
 textarea:focus,
 textarea:active {
   border: 2px solid #1a5dd0;
 }
-input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"])::-webkit-input-placeholder,
-input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"])::-webkit-input-placeholder,
+input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]):not(input[name="schedule"])::-webkit-input-placeholder,
+input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]):not(input[name="schedule"])::-webkit-input-placeholder,
 select:focus::-webkit-input-placeholder,
 select:active::-webkit-input-placeholder,
 textarea:focus::-webkit-input-placeholder,
 textarea:active::-webkit-input-placeholder {
   opacity: 0;
 }
-input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]):-ms-input-placeholder,
-input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]):-ms-input-placeholder,
+input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]):not(input[name="schedule"]):-ms-input-placeholder,
+input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]):not(input[name="schedule"]):-ms-input-placeholder,
 select:focus:-ms-input-placeholder,
 select:active:-ms-input-placeholder,
 textarea:focus:-ms-input-placeholder,
 textarea:active:-ms-input-placeholder {
   opacity: 0;
 }
-input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"])::-ms-input-placeholder,
-input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"])::-ms-input-placeholder,
+input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]):not(input[name="schedule"])::-ms-input-placeholder,
+input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]):not(input[name="schedule"])::-ms-input-placeholder,
 select:focus::-ms-input-placeholder,
 select:active::-ms-input-placeholder,
 textarea:focus::-ms-input-placeholder,
 textarea:active::-ms-input-placeholder {
   opacity: 0;
 }
-input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"])::placeholder,
-input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"])::placeholder,
+input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]):not(input[name="schedule"])::placeholder,
+input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]):not(input[name="schedule"])::placeholder,
 select:focus::placeholder,
 select:active::placeholder,
 textarea:focus::placeholder,
 textarea:active::placeholder {
   opacity: 0;
 }
-input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]) ~ label,
-input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]) ~ label,
+input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]):not(input[name="schedule"]) ~ label,
+input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]):not(input[name="schedule"]) ~ label,
 select:focus ~ label,
 select:active ~ label,
 textarea:focus ~ label,
@@ -2381,6 +2381,141 @@ input:disabled:active {
           justify-content: center;
   row-gap: 40px;
 }
+.schedule {
+  position: relative;
+  background-color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  row-gap: 20px;
+  max-width: 500px;
+  min-width: 290px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 15px;
+  -webkit-box-shadow: 0 2px 3px #000;
+          box-shadow: 0 2px 3px #000;
+}
+.schedule-wrap {
+  padding: 40px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  row-gap: 40px;
+}
+.schedule__left {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 20px;
+}
+.schedule__left > img {
+  width: 150px;
+  height: 150px;
+}
+.schedule__left > p {
+  color: #1a5dd0;
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+.schedule__right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  row-gap: 20px;
+}
+.schedule__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-column-gap: 10px;
+          column-gap: 10px;
+}
+.schedule__item > label {
+  color: #111111;
+  font-weight: normal;
+  font-size: 1.8rem;
+  line-height: 1.2;
+}
+.schedule__item-settings {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  row-gap: 10px;
+}
+.schedule__item-time {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-column-gap: 10px;
+          column-gap: 10px;
+}
+.schedule__item-time > label {
+  color: #424b58;
+  font-weight: normal;
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+.schedule__item-time > input {
+  padding: 5px 10px;
+  max-width: 100px;
+  width: 100%;
+}
+.schedule__btns {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-column-gap: 20px;
+          column-gap: 20px;
+}
 @media (max-width: 992px) {
   .slider + .direct {
     margin-top: 770px;
@@ -2473,6 +2608,9 @@ input:disabled:active {
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
+  }
+  .doctor__info {
+    text-align: center;
   }
   .doctor__info-name {
     font-size: 2rem;

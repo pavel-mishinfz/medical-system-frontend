@@ -11,7 +11,7 @@ const RecordPanel = ({doctor, openRegisterModal}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://'+ window.location.hostname + `:8001/schedules/doctor/${doctor.id}`);
+        const response = await axios.get('http://'+ window.location.hostname + `:8001/schedules/doctor/${doctor.id}/available_dates`);
         
         setAvailableDates(response.data);
         setCurrentDate(findFirstEmptyIndex(response.data));

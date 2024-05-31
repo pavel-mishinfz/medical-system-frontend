@@ -40,7 +40,7 @@ a:active {
   color: inherit;
 }
 
-label {
+label:not(label[name="schedule"]):not(label[name="confirm_record"]) {
     padding: 0 5px;
     display: block;
     opacity: 0;
@@ -71,8 +71,8 @@ input, select, textarea {
     }
 }
 
-input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]),
-input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]),
+input:focus:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]):not(input[name="schedule"]),
+input:active:not(input[id="burger-checkbox"]):not(input[id="format_offline"]):not(input[id="format_online"]):not(input[name="schedule"]),
 select:focus,
 select:active,
 textarea:focus,
@@ -1894,6 +1894,92 @@ input:disabled {
   row-gap: 40px;
 }
 
+.schedule {
+  position: relative;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  max-width: 500px;
+  min-width: 290px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 2px 3px #000;
+
+  &-wrap {
+    padding: 40px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 40px;
+  }
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    & > img {
+      width: 150px;
+      height: 150px;
+    }
+
+    & > p {
+      .font(@color-blue, 600, 2rem);
+    }
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+  }
+
+  &__item {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    column-gap: 10px;
+
+    & > label {
+      .font(@color-title, normal, 1.8rem);
+    }
+
+    &-settings {
+      display: flex;
+      flex-direction: column;
+      row-gap: 10px;
+    }
+
+    &-time {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      column-gap: 10px;
+
+      & > label {
+        .font(@color-text, normal, 1.6rem);
+      }
+
+      & > input {
+        padding: 5px 10px;
+        max-width: 100px;
+        width: 100%;
+      }
+    }
+  }
+
+  &__btns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 20px;
+  }
+}
+
 @media (max-width: 992px) {
   .slider {
     
@@ -2017,6 +2103,7 @@ input:disabled {
     align-items: center;
 
     &__info {
+      text-align: center;
 
       &-name {
         font-size: 2rem;
