@@ -18,7 +18,7 @@ const ConfirmRegister = () => {
             email: email
           };
       
-        axios.post('http://' + window.location.hostname + ':8000/auth/request-verify-token', requestBody)
+        axios.post('http://' + window.location.hostname + ':8006/auth/request-verify-token', requestBody)
         .then(response => {
             setTextBtn('Сообщение успешно отправлено!');
             setModify('btn--success');

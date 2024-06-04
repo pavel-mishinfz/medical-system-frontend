@@ -18,7 +18,7 @@ const ChangePassword = () => {
         email: state.email
       };
       try {
-        const response = await axios.post('http://'+ window.location.hostname + ':8000/auth/forgot-password', requestBody, {
+        const response = await axios.post('http://'+ window.location.hostname + ':8006/auth/forgot-password', requestBody, {
                         headers: {
                             Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                         },

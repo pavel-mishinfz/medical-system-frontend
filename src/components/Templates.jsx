@@ -26,7 +26,7 @@ const Templates = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://'+ window.location.hostname + `:8003/templates`, {
+                const response = await axios.get('http://'+ window.location.hostname + `:8006/templates`, {
                                 headers: {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 },

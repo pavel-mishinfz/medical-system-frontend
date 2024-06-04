@@ -11,11 +11,12 @@ export function getNavItems(groupId) {
             url: "/profile",
             title: "Профиль"
         },
-        // {
-        //     img: "/img/sidebar/nav/notification.svg",
-        //     url: "#",
-        //     title: "Уведомления"
-        // },
+        {
+            img: "/img/sidebar/nav/template.svg",
+            url: "/templates",
+            title: "Шаблоны",
+            owner: 1
+        },
         {
             img: "/img/sidebar/nav/calendar.svg",
             url: "/records/all",

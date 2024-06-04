@@ -32,7 +32,7 @@ const Template = ({template, setAddNewTemplate, setTemplates}) => {
         }
 
         try {
-            const response = await axios.post('http://' + window.location.hostname + `:8003/templates`, requestBody, {
+            const response = await axios.post('http://' + window.location.hostname + `:8006/templates`, requestBody, {
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                 }
@@ -50,7 +50,7 @@ const Template = ({template, setAddNewTemplate, setTemplates}) => {
         }
 
         try {
-            const response = await axios.put('http://' + window.location.hostname + `:8003/templates/${template.id}`, requestBody, {
+            const response = await axios.put('http://' + window.location.hostname + `:8006/templates/${template.id}`, requestBody, {
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                 }
@@ -64,7 +64,7 @@ const Template = ({template, setAddNewTemplate, setTemplates}) => {
 
     const handleDeleteTemplate = async () => {
         try {
-            const response = await axios.delete('http://' + window.location.hostname + `:8003/templates/${template.id}`, {
+            const response = await axios.delete('http://' + window.location.hostname + `:8006/templates/${template.id}`, {
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                 }

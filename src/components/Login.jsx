@@ -17,7 +17,7 @@ const Login = () => {
         requestBody.append('password', password);
 
         try {
-            const response = await axios.post('http://'+ window.location.hostname + ':8000/auth/jwt/login', requestBody, {
+            const response = await axios.post('http://'+ window.location.hostname + ':8006/auth/jwt/login', requestBody, {
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
               },

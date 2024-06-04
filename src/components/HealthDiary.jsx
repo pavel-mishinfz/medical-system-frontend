@@ -44,7 +44,7 @@ const HealthDiary = () => {
         const fetchData = async () => {
             
             try {
-                const response = await axios.get('http://'+ window.location.hostname + `:8004/diaries/user/${userId}`, {
+                const response = await axios.get('http://'+ window.location.hostname + `:8006/diaries/user/${userId}`, {
                                 headers: {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 },
@@ -63,7 +63,7 @@ const HealthDiary = () => {
         const requestBody = page;
 
         try {
-            const response = await axios.patch('http://'+ window.location.hostname + `:8004/diaries/${page.id}`, requestBody, {
+            const response = await axios.patch('http://'+ window.location.hostname + `:8006/diaries/${page.id}`, requestBody, {
                                 headers: {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 }
@@ -86,7 +86,7 @@ const HealthDiary = () => {
 
     const deletePageDiary = async (id) => {
         try {
-            const response = await axios.delete('http://'+ window.location.hostname + `:8004/diaries/${id}`, {
+            const response = await axios.delete('http://'+ window.location.hostname + `:8006/diaries/${id}`, {
                                 headers: {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 }
@@ -101,7 +101,7 @@ const HealthDiary = () => {
         const requestBody = templateNewPage;
 
         try {
-            const response = await axios.post('http://'+ window.location.hostname + `:8004/diaries/user/${userId}`, requestBody, {
+            const response = await axios.post('http://'+ window.location.hostname + `:8006/diaries/user/${userId}`, requestBody, {
                                 headers: {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 }

@@ -12,7 +12,7 @@ const ResetEmail = () => {
     
     const handleResetEmail = async () => {
 
-      axios.patch('http://' + window.location.hostname + `:8000/users/${state.userId}/email?email=${email}`, '', {
+      axios.patch('http://' + window.location.hostname + `:8006/users/${state.userId}/email?email=${email}`, '', {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
         },
@@ -23,7 +23,7 @@ const ResetEmail = () => {
             email: response.data.email
           };
 
-          axios.post('http://' + window.location.hostname + ':8000/auth/request-verify-token', requestBody)
+          axios.post('http://' + window.location.hostname + ':8006/auth/request-verify-token', requestBody)
             .then(response => {
               console.log('Request verify successful:', response.status);
               if (state.userId === 'me') {

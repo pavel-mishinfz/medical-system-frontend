@@ -13,7 +13,7 @@ const ProfileImg = ({userData, setUserData, userId}) => {
     formData.append('file', image);
 
     try {
-      const response = await axios.patch('http://' + window.location.hostname + `:8000/users/${userId}/image`, formData, {
+      const response = await axios.patch('http://' + window.location.hostname + `:8006/users/${userId}/image`, formData, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
           ContentType: 'multipart/form-data'
@@ -28,7 +28,7 @@ const ProfileImg = ({userData, setUserData, userId}) => {
 
   const deleteAvatar = async () => {
     try {
-      const response = await axios.delete('http://' + window.location.hostname + `:8000/users/${userId}/image`, {
+      const response = await axios.delete('http://' + window.location.hostname + `:8006/users/${userId}/image`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
           ContentType: 'multipart/form-data'
@@ -44,7 +44,7 @@ const ProfileImg = ({userData, setUserData, userId}) => {
   return (
     <>
     <div className="profile__img">
-        <img src={`http://${window.location.hostname}:8000/${userData.img ? userData.img : 'storage/img_user_none.jpg'}`} alt="user avatar" />
+        <img src={`http://${window.location.hostname}:8006/${userData.img ? userData.img : 'storage/img_user_none.jpg'}`} alt="user avatar" />
         {userData.img && (
             <button className='profile__img-delete' >
                 <img src="/img/options/delete.svg" alt="delete" onClick={deleteAvatar}/>

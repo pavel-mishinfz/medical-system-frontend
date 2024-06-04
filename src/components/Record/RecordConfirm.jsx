@@ -15,7 +15,7 @@ const RecordConfirm = ({ doctor, user, day, time }) => {
     const [modify, setModify] = useState('');
 
     useEffect(() => {
-        axios.get('http://' + window.location.hostname + `:8002/cards/me/${user.id}`, {
+        axios.get('http://' + window.location.hostname + `:8006/cards/me/${user.id}`, {
             headers: {
                 Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
             },
@@ -37,7 +37,7 @@ const RecordConfirm = ({ doctor, user, day, time }) => {
             is_online: isOnlineFormat
         }
 
-        axios.post('http://' + window.location.hostname + `:8001/records`, requestBody, {
+        axios.post('http://' + window.location.hostname + `:8006/records`, requestBody, {
             headers: {
                 Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
             },
@@ -52,7 +52,7 @@ const RecordConfirm = ({ doctor, user, day, time }) => {
                         start_time: time
                     }
 
-                    axios.post('http://' + window.location.hostname + `:8005/meetings`, requestBody, {
+                    axios.post('http://' + window.location.hostname + `:8006/meetings`, requestBody, {
                         headers: {
                             Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                         },
@@ -68,6 +68,12 @@ const RecordConfirm = ({ doctor, user, day, time }) => {
                         .catch(error => {
                             console.error('Create meeting failed:', error);
                         });
+                } else {
+                    setTextBtn('Вы записаны!');
+                    setModify('btn--success');
+                    setTimeout(function () {
+                        window.location.replace('/');
+                    }, 3000);
                 }
             })
             .catch(error => {

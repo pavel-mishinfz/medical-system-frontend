@@ -29,7 +29,7 @@ const Schedule = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://' + window.location.hostname + `:8000/users/user/${userId}/summary`, {
+                const response = await axios.get('http://' + window.location.hostname + `:8006/users/user/${userId}/summary`, {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                     }
@@ -41,7 +41,7 @@ const Schedule = () => {
             }
 
             try {
-                const response = await axios.get('http://' + window.location.hostname + `:8001/schedules/doctor/${userId}`, {
+                const response = await axios.get('http://' + window.location.hostname + `:8006/schedules/doctor/${userId}`, {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                     }
@@ -67,7 +67,7 @@ const Schedule = () => {
         };
 
         try {
-            const response = await axios.post('http://' + window.location.hostname + `:8001/schedules`, requestBody, {
+            const response = await axios.post('http://' + window.location.hostname + `:8006/schedules`, requestBody, {
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                 }
@@ -89,7 +89,7 @@ const Schedule = () => {
         };
 
         try {
-            const response = await axios.patch('http://' + window.location.hostname + `:8001/schedules/${scheduleData.id}`, requestBody, {
+            const response = await axios.patch('http://' + window.location.hostname + `:8006/schedules/${scheduleData.id}`, requestBody, {
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                 }
@@ -118,7 +118,7 @@ const Schedule = () => {
                                 <Header title={'График работы'} />
                                 <div className="schedule">
                                     <div className="schedule__left">
-                                        <img src={`http://${window.location.hostname}:8000/${userData.img ? userData.img : 'storage/img_user_none.jpg'}`} alt="avatar" />
+                                        <img src={`http://${window.location.hostname}:8006/${userData.img ? userData.img : 'storage/img_user_none.jpg'}`} alt="avatar" />
                                         <p>{userData.surname} {userData.name} {userData.patronymic}</p>
                                     </div>
                                     <div className="schedule__right">

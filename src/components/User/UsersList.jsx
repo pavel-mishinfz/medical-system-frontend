@@ -48,4 +48,5 @@ function getParamMedcardUrl(cards, user) {
       return user.id;
     }
   }
+  return '';
 }

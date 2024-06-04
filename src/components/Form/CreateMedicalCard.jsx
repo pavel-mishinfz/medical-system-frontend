@@ -27,7 +27,7 @@ const CreateMedicalCard = ({isDoctor}) => {
     const [modify, setModify] = useState('');
 
     useEffect(() => {
-      axios.get('http://' + window.location.hostname + ':8000/specializations')
+      axios.get('http://' + window.location.hostname + ':8006/specializations')
         .then(response => {
           setSpecializationsList(response.data);
         })
@@ -66,7 +66,7 @@ const CreateMedicalCard = ({isDoctor}) => {
           requestBody = {...data, group_id: 3}
         }
     
-        axios.post('http://' + window.location.hostname + ':8000/auth/register', requestBody)
+        axios.post('http://' + window.location.hostname + ':8006/auth/register', requestBody)
           .then(response => {
             console.log('Registration successful:', response.status);
             
@@ -77,7 +77,7 @@ const CreateMedicalCard = ({isDoctor}) => {
               password: password
             };
         
-            axios.post('http://' + window.location.hostname + ':8000/auth/request-verify-token', requestBody)
+            axios.post('http://' + window.location.hostname + ':8006/auth/request-verify-token', requestBody)
               .then(response => {
                 console.log('Request verify successful:', response.status);
                 setTextBtn('Пользователь успешно создан!');

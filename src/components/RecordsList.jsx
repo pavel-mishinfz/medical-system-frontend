@@ -28,7 +28,7 @@ const RecordsList = ({currentUserData, isPatient}) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://' + window.location.hostname + `:8001/records/${currentUser}/${userId}`, {
+                const response = await axios.get('http://' + window.location.hostname + `:8006/records/${currentUser}/${userId}`, {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                     },
@@ -39,7 +39,7 @@ const RecordsList = ({currentUserData, isPatient}) => {
                 console.error('Get Records Error:', error);
             }
 
-            axios.get('http://' + window.location.hostname + `:8005/meetings`, {
+            axios.get('http://' + window.location.hostname + `:8006/meetings`, {
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                 },

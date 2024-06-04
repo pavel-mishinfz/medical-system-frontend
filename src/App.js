@@ -42,7 +42,7 @@ const App = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    axios.get('http://' + window.location.hostname + ':8000/users/me', {
+    axios.get('http://' + window.location.hostname + ':8006/users/me', {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
