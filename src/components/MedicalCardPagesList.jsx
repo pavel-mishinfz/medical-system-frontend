@@ -16,7 +16,7 @@ export const MedicalCardPagesContext = createContext();
 const MedicalCardPagesList = ({currentUserData}) => {
     const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
     const [pagesIsLoading, setPagesIsLoading] = useState(false);
-    const [listPages, setListPages] = useState();
+    const [listPages, setListPages] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [openTemplateListModal, setOpenTemplateListModal] = useState(false);
     const [addNewPage, setAddNewPage] = useState(false);
@@ -61,7 +61,7 @@ const MedicalCardPagesList = ({currentUserData}) => {
                             });
                 setListPages(response.data);   
                 
-                if (currentUserData.specialization) {
+                if (currentUserData.specialization_id) {
                     try {
                         const response = await axios.get('http://'+ window.location.hostname + `:8006/cards/${cardId}`, {
                                         headers: {
@@ -70,6 +70,7 @@ const MedicalCardPagesList = ({currentUserData}) => {
                                     });                
              
                         setPatient({
+                            id: response.data.id_user,
                             name: response.data.name,
                             surname: response.data.surname,
                             patronymic: response.data.patronymic
@@ -97,7 +98,7 @@ const MedicalCardPagesList = ({currentUserData}) => {
     }, []);
 
     const createPage = async (templateId) => {
-        const requestBody = {
+        let requestBody = {
             data: templateData,
             id_doctor: sessionStorage.getItem('userId')
         };
@@ -108,10 +109,31 @@ const MedicalCardPagesList = ({currentUserData}) => {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 }
                             });
+            
+            if (listPages.length === 0) {
+                requestBody = {
+                    doctor_id: sessionStorage.getItem('userId'),
+                    patient_id: patient.id
+                }
+    
+                axios.post('http://' + window.location.hostname + `:8006/chats`, requestBody, {
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                    }
+                })
+                .then(response => {
+                    console.log(response.status);
+                })
+                .catch(error => {
+                    console.error('Create Chat Error:', error);
+                })
+            }
+
             let newListPage = [...listPages];
             newListPage.push(response.data);
             setListPages(newListPage);
             setAddNewPage(false);
+
         } catch(error) {
             console.error('Create Page Error:', error);
         }
@@ -218,7 +240,7 @@ const MedicalCardPagesList = ({currentUserData}) => {
 
                                     </MedicalCardPagesContext.Provider>
                                 )}
-                                {listPages && (
+                                {listPages.length > 0 && (
                                     <div className="pagination">
                                         <Pagination
                                             className="pagination-bar"

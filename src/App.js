@@ -25,6 +25,7 @@ import RecordsList from './components/RecordsList';
 import RecordsListAll from './components/RecordsListAll';
 import Patients from './components/Patients';
 import Schedule from './components/Schedule';
+import Chat from './components/Chat';
 
 
 const ProtectedRoute = ({isAuthenticated, redirectPath='/', children}) => {
@@ -78,6 +79,7 @@ const App = () => {
         <Route path="/confirm-register" element={<ConfirmRegister />} />
         <Route path="/confirm" element={<Confirm />} />
         <Route path="/specializations/:id" element={fetchData && (<Specialization isAuthenticated={isAuthenticated}/>)} />
+        <Route path="/messages" element={fetchData && <Chat currentUser={user}/>} />
 
         {/* Authorized users */}
         <Route element={fetchData && (<ProtectedRoute isAuthenticated={isAuthenticated}/>)} >
