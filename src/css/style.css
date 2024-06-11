@@ -2532,11 +2532,25 @@ input:disabled:active {
           box-shadow: 0 2px 3px #000;
 }
 .chat__left {
-  min-width: 400px;
+  min-width: 270px;
   max-width: 400px;
+  width: 100%;
   height: 100%;
   overflow-y: auto;
   border-right: 0.8px solid #c7d1df;
+  background-color: #fff;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+.chat__left.active {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: unset;
+  width: 100%;
+  z-index: 1;
+  border-radius: 15px;
 }
 .chat__right {
   width: 100%;
@@ -2553,7 +2567,7 @@ input:disabled:active {
 }
 .chat__head {
   width: 100%;
-  padding: 15px 30px;
+  padding: 15px 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2683,6 +2697,7 @@ input:disabled:active {
           align-items: start;
   row-gap: 5px;
   max-width: 450px;
+  overflow-wrap: anywhere;
 }
 .chat__files-item {
   display: -webkit-box;
@@ -2798,6 +2813,13 @@ input:disabled:active {
   color: red;
   cursor: pointer;
 }
+.chat__expand {
+  display: none;
+  background-color: #c7d1df;
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+  cursor: pointer;
+}
 .message-list {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2819,6 +2841,9 @@ input:disabled:active {
   -webkit-column-gap: 20px;
           column-gap: 20px;
   cursor: pointer;
+}
+.message-item.active {
+  background-color: #d3e6ff;
 }
 .message-item:first-child {
   border-top-left-radius: 15px;
@@ -2848,6 +2873,7 @@ input:disabled:active {
   font-weight: 600;
   font-size: 1.6rem;
   line-height: 1.2;
+  overflow-wrap: anywhere;
 }
 .message-item__text {
   color: #424b58;
@@ -2870,6 +2896,12 @@ input:disabled:active {
   font-size: 16px;
   line-height: 1.5;
 }
+@media (max-width: 1200px) {
+  .chat__left {
+    min-width: 350px;
+    max-width: 350px;
+  }
+}
 @media (max-width: 992px) {
   .slider + .direct {
     margin-top: 770px;
@@ -2884,6 +2916,21 @@ input:disabled:active {
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center;
+  }
+  .chat__left {
+    min-width: 300px;
+    max-width: 300px;
+  }
+  .chat__message-body > p {
+    max-width: 300px;
+  }
+  .chat__files {
+    max-width: 300px;
+  }
+}
+@media (max-width: 768px) {
+  .chat__expand {
+    display: block;
   }
 }
 @media (max-width: 576px) {

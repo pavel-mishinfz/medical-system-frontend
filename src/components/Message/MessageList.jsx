@@ -1,7 +1,7 @@
 import React from 'react';
 import MessageItem from './MessageItem';
 
-const MessageList = ({ listChats, userGroup, handleConnectToWebSocket }) => {
+const MessageList = ({ selectedChatId, listChats, userGroup, handleConnectToWebSocket }) => {
 
     return (
         <div className="message-list">
@@ -11,6 +11,7 @@ const MessageList = ({ listChats, userGroup, handleConnectToWebSocket }) => {
                     userId={userGroup === 'doctor' ? chat.patient_id : chat.doctor_id}
                     chatId={chat.id}
                     handleConnectToWebSocket={handleConnectToWebSocket}
+                    chatIsSelect={selectedChatId === chat.id}
                 />
             )}
         </div>

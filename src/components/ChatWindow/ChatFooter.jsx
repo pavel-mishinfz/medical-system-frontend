@@ -12,6 +12,7 @@ const ChatFooter = ({ handleSendMessage, filesOfMessage, setFilesOfMessage }) =>
     const handleFileChange = (event) => {
         const newFiles = Array.from(event.target.files);
         setFilesOfMessage([...filesOfMessage, ...newFiles]);
+        event.target.value = '';
     };
 
     const handleFileDelete = (targetIndex) => {
@@ -44,7 +45,21 @@ const ChatFooter = ({ handleSendMessage, filesOfMessage, setFilesOfMessage }) =>
                     )}
                 </div>
             )}
-            <input type="file" multiple hidden id='fileMessage' onChange={handleFileChange}/>
+            <input 
+                type="file" 
+                multiple 
+                hidden 
+                id='fileMessage' 
+                onChange={handleFileChange}
+                accept='
+                application/pdf,
+                application/msword,
+                application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+                application/x-zip-compressed,
+                image/png,
+                image/jpeg
+                '
+            />
         </>
     );
 };

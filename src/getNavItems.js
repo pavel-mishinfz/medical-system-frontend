@@ -66,6 +66,18 @@ export function getNavItems(groupId) {
             owner: 3
         },
         {
+            img: "/img/sidebar/nav/chat.svg",
+            url: "/messages",
+            title: "Сообщения",
+            owner: 2
+        },
+        {
+            img: "/img/sidebar/nav/chat.svg",
+            url: "/messages",
+            title: "Сообщения",
+            owner: 3
+        },
+        {
             img: "/img/sidebar/nav/exit.svg",
             url: "/logout",
             title: "Выйти"

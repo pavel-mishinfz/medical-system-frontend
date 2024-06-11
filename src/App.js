@@ -79,7 +79,6 @@ const App = () => {
         <Route path="/confirm-register" element={<ConfirmRegister />} />
         <Route path="/confirm" element={<Confirm />} />
         <Route path="/specializations/:id" element={fetchData && (<Specialization isAuthenticated={isAuthenticated}/>)} />
-        <Route path="/messages" element={fetchData && <Chat currentUser={user}/>} />
 
         {/* Authorized users */}
         <Route element={fetchData && (<ProtectedRoute isAuthenticated={isAuthenticated}/>)} >
@@ -92,6 +91,7 @@ const App = () => {
           <Route path="/health-diary/" element={<HealthDiary />} />
           <Route path="/confirm-record/:id" element={fetchData && <ConfirmRecord currentUserData={user}/>} />
           <Route path="/records/me" element={fetchData && <RecordsList currentUserData={user} isPatient/>} />
+          <Route path="/messages" element={fetchData && <Chat currentUser={user}/>} />
         </Route>
 
         {/* Doctors and administrators */}

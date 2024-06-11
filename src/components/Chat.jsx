@@ -14,24 +14,24 @@ const Chat = ({ currentUser }) => {
     const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
     const [targetUserId, setTargetUserId] = useState(null);
     const [messages, setMessages] = useState(null);
-    const [chatId, setChatId] = useState(null);
+    const [selectedChatId, setSelectedChatId] = useState(null);
     const [listChats, setListChats] = useState(null);
     const [filesOfMessage, setFilesOfMessage] = useState([]);
+    const [activeChatLeft, setActiveChatLeft] = useState(false);
+    const [hiddenChatLeft, setHiddenChatLeft] = useState(false);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     const userGroup = currentUser.specialization_id ? 'doctor' : 'patient';
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://${window.location.hostname}:8005/chats/${userGroup}/${currentUser.id}`, {
+                const response = await axios.get(`http://${window.location.hostname}:8006/chats/${currentUser.id}`, {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                     },
                 });
                 setListChats(response.data);
-                if (response.data.length > 0) {
-                    setTargetUserId(userGroup === 'doctor' ? response.data[0].patient_id : response.data[0].doctor_id)
-                }
             } catch (error) {
                 console.error('Get List Chats Error:', error);
             }
@@ -52,60 +52,69 @@ const Chat = ({ currentUser }) => {
             return;
         }
 
-        let data = {
-            'message': '',
-            'files': []
-        };
         let input = document.getElementById("messageText");
         const message = input.value.trim();
+        let fileData = null;
 
         if (!message && !filesOfMessage.length) {
             console.log("Message cannot be empty.");
-        } else {
-            if (filesOfMessage.length > 0) {
-                const formData = new FormData();
-                filesOfMessage.forEach((file, index) => {
-                    formData.append('files', file);
-                });
-    
-                try {
-                    const response = await axios.post(`http://${window.location.hostname}:8005/messages/files/`, formData, {
-                        headers: {
-                            Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
-                            ContentType: 'multipart/form-data',
-                        },
-                    });
-    
-                    data['files'] = response.data;
-    
-                } catch (error) {
-                    console.error('Add files to message Error:', error);
-                }
-            }
+            return;
+        } 
 
-            data['message'] = message;
-            ws.send(JSON.stringify(data));
-    
-            input.value = '';
-            setFilesOfMessage([]);
+        if (filesOfMessage.length > 0) {
+            const fileDataPromises = filesOfMessage.map(file => {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        const base64Data = reader.result.split(',')[1];
+                        resolve({
+                            file_name: file.name,
+                            file_content: base64Data,
+                            mime_type: file.type,
+                        });
+                    };
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+            });
+
+            fileData = await Promise.all(fileDataPromises);
         }
+
+        const messageData = JSON.stringify({
+            message: message,
+            files: fileData,
+        });
+        ws.send(messageData);
+
+        input.value = '';
+        setFilesOfMessage([]);
     }
 
-    const connectToWebSocket = async (chatId) => {
-        setChatId(chatId);
-
+    const connectToWebSocket = async (chatId, userId) => {
         if (!chatId) {
             console.log("Room ID is required.");
             return;
         }
 
-        if (ws && ws.readyState === WebSocket.OPEN) {
+        setActiveChatLeft(false)
+        if (windowWidth <= 768) {
+            setHiddenChatLeft(true);
+        }
+        if (ws && ws.readyState === WebSocket.OPEN && chatId === selectedChatId) {
             console.log("Already connected to a session.");
             return;
         }
 
-        ws = new WebSocket(`ws://localhost:8005/ws/${chatId}/${currentUser.id}`);
-        ws.binaryType = "arraybuffer";
+        if (ws && ws.readyState === WebSocket.OPEN) {
+            ws.close();
+            ws = null;
+        }
+
+        setSelectedChatId(chatId);
+        setTargetUserId(userId);
+
+        ws = new WebSocket(`ws://${window.location.hostname}:8006/ws/${chatId}/${currentUser.id}?token=${sessionStorage.getItem('authToken')}`);
 
         ws.onopen = function () {
             console.log("Connected to the session.");
@@ -120,12 +129,13 @@ const Chat = ({ currentUser }) => {
         ws.onerror = function () {
             console.log("Connection error.");
         };
+
     }
 
     const getLastMessages = async (chatId) => {
         if (ws && ws.readyState === WebSocket.OPEN) {
             try {
-                const response = await axios.get(`http://${window.location.hostname}:8005/messages/last/${chatId}`, {
+                const response = await axios.get(`http://${window.location.hostname}:8006/messages/last/${chatId}`, {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                     },
@@ -136,6 +146,32 @@ const Chat = ({ currentUser }) => {
             }
         }
     }
+
+    useEffect(() => {
+        return () => {
+            if (ws) {
+                ws.close();
+            }
+        };
+    }, []);
+
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    useEffect(() => {
+        if (windowWidth <= 768 && !ws) {
+            setActiveChatLeft(true);
+        } else if (windowWidth <= 768) {
+            setHiddenChatLeft(true);
+        } else {
+            setActiveChatLeft(false);
+            setHiddenChatLeft(false);
+        }
+    }, [windowWidth]);
 
     return (
         <>
@@ -149,16 +185,27 @@ const Chat = ({ currentUser }) => {
                         />
                         <section className="section section--chat">
                             <div className="chat">
-                                <div className="chat__left">
-                                    <MessageList listChats={listChats} userGroup={userGroup} handleConnectToWebSocket={connectToWebSocket} />
+                                <div className={activeChatLeft ? 'chat__left active' : 'chat__left'} style={hiddenChatLeft ? {display: 'none'} : {}}>
+                                    <MessageList
+                                        selectedChatId={selectedChatId}
+                                        listChats={listChats}
+                                        userGroup={userGroup} 
+                                        handleConnectToWebSocket={connectToWebSocket}
+                                    />
                                 </div>
                                 {ws && targetUserId && messages && (
                                     <div className="chat__right">
-                                        <ChatHead targetUserId={targetUserId} />
+                                        <ChatHead 
+                                            targetUserId={targetUserId} 
+                                            setActiveChatLeft={(state) => {
+                                                setActiveChatLeft(state);
+                                                setHiddenChatLeft(false);
+                                            }}
+                                        />
                                         <ChatWindow 
                                             messages={messages} 
                                             setMessages={setMessages}
-                                            chatId={chatId}
+                                            chatId={selectedChatId}
                                             ownerId={currentUser.id} 
                                         />
                                         <ChatFooter
