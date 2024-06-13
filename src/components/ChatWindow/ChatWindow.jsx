@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ChatWindowItem from './ChatWindowItem';
 import moment from 'moment';
 import Button from '../Button/Button';
@@ -7,6 +7,11 @@ import axios from 'axios';
 const ChatWindow = ({ messages, setMessages, chatId, ownerId }) => {
     const [skip, setSkip] = useState(0);
     const [prevMessagesIsNone, setPrevMessagesIsNone] = useState(false);
+
+    useEffect(() => {
+        setPrevMessagesIsNone(false);
+        setSkip(0);
+    }, [chatId])
 
     const handleShowPrevMessage = async() => {
         try {
@@ -28,7 +33,7 @@ const ChatWindow = ({ messages, setMessages, chatId, ownerId }) => {
 
     return (
         <div className="chat__window">
-            {!prevMessagesIsNone && messages.length > 0 && (
+            {!prevMessagesIsNone && messages.length > 19 && (
                 <Button text={'Показать еще'} onHandleClick={handleShowPrevMessage}/>
             )}
             {Object.keys(groupedMessages(messages)).map(date =>

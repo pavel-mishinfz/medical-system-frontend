@@ -16,6 +16,7 @@ const Chat = ({ currentUser }) => {
     const [messages, setMessages] = useState(null);
     const [selectedChatId, setSelectedChatId] = useState(null);
     const [listChats, setListChats] = useState(null);
+    const [listUsers, setListUsers] = useState(null);
     const [filesOfMessage, setFilesOfMessage] = useState([]);
     const [activeChatLeft, setActiveChatLeft] = useState(false);
     const [hiddenChatLeft, setHiddenChatLeft] = useState(false);
@@ -34,6 +35,17 @@ const Chat = ({ currentUser }) => {
                 setListChats(response.data);
             } catch (error) {
                 console.error('Get List Chats Error:', error);
+            }
+
+            try {
+                const response = await axios.get(`http://${window.location.hostname}:8006/users/all/summary`, {
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+                    },
+                });
+                setListUsers(response.data);
+            } catch (error) {
+                console.error('Get List Users Error:', error);
             }
         }
 
@@ -175,7 +187,7 @@ const Chat = ({ currentUser }) => {
 
     return (
         <>
-            {listChats && (
+            {listChats && listUsers && (
                 <>
                     <Sidebar sidebarIsOpen={sidebarIsOpen} setSidebarIsOpen={setSidebarIsOpen} />
                     <div className="container">
@@ -189,6 +201,7 @@ const Chat = ({ currentUser }) => {
                                     <MessageList
                                         selectedChatId={selectedChatId}
                                         listChats={listChats}
+                                        listUsers={listUsers}
                                         userGroup={userGroup} 
                                         handleConnectToWebSocket={connectToWebSocket}
                                     />
@@ -196,7 +209,7 @@ const Chat = ({ currentUser }) => {
                                 {ws && targetUserId && messages && (
                                     <div className="chat__right">
                                         <ChatHead 
-                                            targetUserId={targetUserId} 
+                                            targetUserData={listUsers.find(user => user.id === targetUserId)} 
                                             setActiveChatLeft={(state) => {
                                                 setActiveChatLeft(state);
                                                 setHiddenChatLeft(false);
