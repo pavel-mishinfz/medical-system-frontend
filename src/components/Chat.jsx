@@ -21,6 +21,7 @@ const Chat = ({ currentUser }) => {
     const [activeChatLeft, setActiveChatLeft] = useState(false);
     const [hiddenChatLeft, setHiddenChatLeft] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const [error, setError] = useState(null);
 
     const userGroup = currentUser.specialization_id ? 'doctor' : 'patient';
 
@@ -69,7 +70,10 @@ const Chat = ({ currentUser }) => {
         let fileData = null;
 
         if (!message && !filesOfMessage.length) {
-            console.log("Message cannot be empty.");
+            setError('Сообщение не может быть пустым');
+            setTimeout(function () {
+                setError(null);
+            }, 3000);
             return;
         } 
 
@@ -225,6 +229,7 @@ const Chat = ({ currentUser }) => {
                                             handleSendMessage={sendMessage}
                                             filesOfMessage={filesOfMessage}
                                             setFilesOfMessage={setFilesOfMessage}
+                                            error={error}
                                         />
                                     </div>
                                 )}

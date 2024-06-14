@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AutoExpandTextarea from './AutoExpandTextarea';
 
 
-const ChatFooter = ({ handleSendMessage, filesOfMessage, setFilesOfMessage }) => {
+const ChatFooter = ({ handleSendMessage, filesOfMessage, setFilesOfMessage, error }) => {
     const [message, setMessage] = useState('');
 
     const handleInputChange = (event) => {
@@ -44,6 +44,9 @@ const ChatFooter = ({ handleSendMessage, filesOfMessage, setFilesOfMessage }) =>
                         </div>
                     )}
                 </div>
+            )}
+            {error && (
+                <p style={{color: 'red', width: '100%', textAlign: 'center', marginBottom: '15px'}}>{error}</p>
             )}
             <input 
                 type="file" 

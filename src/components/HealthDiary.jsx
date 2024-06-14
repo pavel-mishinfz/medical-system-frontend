@@ -22,22 +22,26 @@ const HealthDiary = () => {
             temperature: '',
             upper_pressure: '',
             lower_pressure: '',
-            oxygen_level: '',
-            sugar_level: '',
-            comment: '',
+            oxygen_level: null,
+            sugar_level: null,
+            comment: null,
         }
     ); 
     const [listOfDiaryPages, setListOfDiaryPages] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [errors, setErrors] = useState({});
 
     const params = useParams();
     const userId = params.id ? params.id : sessionStorage.getItem('userId');
 
 
     const currentPageData = useMemo(() => {
-        const firstPageIndex = (currentPage - 1) * PageSize;
-        const lastPageIndex = firstPageIndex + PageSize;
-        return listOfDiaryPages.slice(firstPageIndex, lastPageIndex);
+        if (listOfDiaryPages.length > 0) {
+            const firstPageIndex = (currentPage - 1) * PageSize;
+            const lastPageIndex = firstPageIndex + PageSize;
+            return listOfDiaryPages.slice(firstPageIndex, lastPageIndex);
+        }
+        return [];
     }, [currentPage, listOfDiaryPages]);
 
     useEffect(() => {
@@ -72,8 +76,17 @@ const HealthDiary = () => {
             const idx = listOfDiaryPages.indexOf(page);
             newList[idx] = response.data;                
             setListOfDiaryPages(newList);
+            setErrors({});
+            return {};
         } catch(error) {
-            console.error('Update Diary Error:', error);
+            const errorData = error.response.data;
+            const errorDetails = {};
+            errorData.detail.forEach((error) => {
+                const field = error.loc[1];
+                errorDetails[field] = error.msg.split(',')[1];
+            });
+            setErrors(errorDetails);
+            return errorDetails;
         }
     }
 
@@ -111,8 +124,28 @@ const HealthDiary = () => {
             newListOfDiaryPages.sort((a, b) => new Date(b.create_date) - new Date(a.create_date));
             setListOfDiaryPages(newListOfDiaryPages);
             setAddNewPage(false);
+            setTemplateNewPage(
+                {
+                    pulse: '',
+                    temperature: '',
+                    upper_pressure: '',
+                    lower_pressure: '',
+                    oxygen_level: null,
+                    sugar_level: null,
+                    comment: null,
+                }
+            );
+            setErrors({});
+            return {};
         } catch(error) {
-            console.error('Create Page Diary Error:', error);
+            const errorData = error.response.data;
+            const errorDetails = {};
+            errorData.detail.forEach((error) => {
+                const field = error.loc[1];
+                errorDetails[field] = error.msg.split(',')[1];
+            });
+            setErrors(errorDetails);
+            return errorDetails;
         }
     }
 
@@ -146,6 +179,7 @@ const HealthDiary = () => {
                                             updatePage={data => setTemplateNewPage(data)}
                                             handlePageData={() => createPageDiary()}
                                             setAddNewPage={state => setAddNewPage(state)}
+                                            errors={errors}
                                             isNewPage
                                         />
 
@@ -165,6 +199,7 @@ const HealthDiary = () => {
                                             updatePage={data => updatePage(data, page)}
                                             handlePageData={() => handlePageData(page)}
                                             deletePage={() => deletePageDiary(page.id)}
+                                            errors={errors}
                                             ownerId={page.id_user}
                                         />
 

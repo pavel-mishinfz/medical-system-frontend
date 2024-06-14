@@ -5,7 +5,7 @@ import { PageContext } from './Page';
 import PageTextarea from './PageTextarea';
 
 
-export default function PageField({fieldData}) {
+export default function PageField({fieldData, error}) {
     const { isPageDiary } = useContext(PageContext);
 
     return (
@@ -13,7 +13,7 @@ export default function PageField({fieldData}) {
         <div className={isPageDiary ? 'page__field page__field--diary' : 'page__field'}>
             <p className="page__field-title" style={fieldData.title === null ? {display: 'none'} : {}}>{fieldData.title}</p>
             {(fieldData.type === 'text' || fieldData.type === 'date') && 
-            <PageInput inputData={fieldData} />
+            <PageInput inputData={fieldData}/>
             }
             {fieldData.type === 'select' &&
             <PageSelect selectData={fieldData}/>
@@ -22,6 +22,9 @@ export default function PageField({fieldData}) {
             <PageTextarea textareaData={fieldData}/>
             }
         </div>
+        {error && (
+            <p style={{color: 'red'}}>{error}</p>
+        )}
         </>
     );
 }

@@ -10,7 +10,7 @@ export function getNewMedicalCard(familyStatus, education, busyness) {
             district: null,
             locality: "",
             street: "",
-            house: 0,
+            house: null,
             apartment: null
         },
         phone: "",

@@ -22,6 +22,8 @@ const CreateAccount = ({isDoctor}) => {
     const [description, setDescription] = useState('');
     const [dateEmployment, setDateEmployment] = useState('');
     const [specializationsList, setSpecializationsList] = useState('');
+    const [errors, setErrors] = useState({});
+    const errorDetails = {};
 
     const [textBtn, setTextBtn] = useState('Создать аккаунт');
     const [modify, setModify] = useState('');
@@ -37,11 +39,17 @@ const CreateAccount = ({isDoctor}) => {
         });
     }, [])
 
+    useEffect(() => {
+      setErrors({});
+    }, [isDoctor])
 
     const handleRegister = async () => {
         if (password !== passwordConfirm) {
-            console.log('Пароли должны совпадать!');
+          errorDetails['password_confirm'] = 'Пароли должны совпадать';
+          setErrors(errorDetails);
+          return;
         }
+
         let requestBody = {};
         const data = {
           email,
@@ -96,7 +104,19 @@ const CreateAccount = ({isDoctor}) => {
   
           })
           .catch(error => {
-            console.error('Registration failed:', error);
+            console.log(error)
+            const errorData = error.response.data;
+            if (errorData.detail === "REGISTER_USER_ALREADY_EXISTS") {
+              errorDetails['email'] = 'Пользователь с такой почтой уже существует';
+            } else if (errorData.detail.code === "REGISTER_INVALID_PASSWORD") {
+              errorDetails['password'] = errorData.detail.reason;
+            } else {
+              errorData.detail.forEach((error) => {
+                  const field = error.loc[1];
+                  errorDetails[field] = error.msg.split(',')[1];
+              });
+            }
+            setErrors(errorDetails);
           });
     };
 
@@ -126,6 +146,7 @@ const CreateAccount = ({isDoctor}) => {
           title={'Имя'}
           value={name}
           onChangeInput={(e) => setName(e.target.value)}
+          error={errors['name']}
         />
         <Input 
           type={'text'}
@@ -134,6 +155,7 @@ const CreateAccount = ({isDoctor}) => {
           title={'Фамилия'}
           value={surname}
           onChangeInput={(e) => setSurname(e.target.value)}
+          error={errors['surname']}
         />
         <Input 
           type={'text'}
@@ -150,6 +172,7 @@ const CreateAccount = ({isDoctor}) => {
           title={'Дата рождения'}
           value={birthday}
           onChangeInput={(e) => setBirthday(e.target.value)}
+          error={errors['birthday']}
         />
         {isDoctor && specializationsList && (
           <>
@@ -157,6 +180,7 @@ const CreateAccount = ({isDoctor}) => {
               options={specializationsList}
               value={specializationId}
               onChangeSelect={(specId) => setSpecializationId(specId)}
+              error={errors['specialization_id']}
             />
             <Input
               type={'text'}
@@ -165,6 +189,7 @@ const CreateAccount = ({isDoctor}) => {
               title={'Описание'}
               value={description}
               onChangeInput={(e) => setDescription(e.target.value)}
+              error={errors['desc']}
             />
             <Input
               type={'date'}
@@ -173,6 +198,7 @@ const CreateAccount = ({isDoctor}) => {
               title={'Дата начала работы'}
               value={dateEmployment}
               onChangeInput={(e) => setDateEmployment(e.target.value)}
+              error={errors['date_employment']}
             />
           </>
         )}
@@ -183,6 +209,7 @@ const CreateAccount = ({isDoctor}) => {
           title={'Email'}
           value={email}
           onChangeInput={(e) => setEmail(e.target.value)}
+          error={errors['email']}
         />
         <Input 
           type={'password'}
@@ -191,6 +218,7 @@ const CreateAccount = ({isDoctor}) => {
           title={'Пароль'}
           value={password}
           onChangeInput={(e) => setPassword(e.target.value)}
+          error={errors['password']}
         />
         <Input 
           type={'password'}
@@ -199,6 +227,7 @@ const CreateAccount = ({isDoctor}) => {
           title={'Подтвердите пароль'}
           value={passwordConfirm}
           onChangeInput={(e) => setPasswordConfirm(e.target.value)}
+          error={errors['password_confirm']}
         />
         <Button modify={modify} text={textBtn} onHandleClick={handleRegister} />
       </div>

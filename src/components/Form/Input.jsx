@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import VisiblePassword from './VisiblePassword';
 
-export default function Input({type, htmlFor, placeholder, title, value, onChangeInput}) {
+export default function Input({type, htmlFor, placeholder, title, value, onChangeInput, error}) {
   const [inputType, setInputType] = useState(type);
 
   const handleEyeClick = () => {
@@ -19,6 +19,9 @@ export default function Input({type, htmlFor, placeholder, title, value, onChang
         className={value ? 'active': ''}
         />
         <label htmlFor={htmlFor} className={value ? 'active': ''}>{title}</label>
+        {error && (
+          <p style={{color: 'red'}}>{error}</p>
+        )}
         {type === 'password' && (
             <VisiblePassword visible={inputType === 'text'} onHandleClick={handleEyeClick}/>
         )}

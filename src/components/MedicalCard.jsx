@@ -22,6 +22,7 @@ const MedicalCard = ({currentUserData}) => {
     const [hasMedcard, setHasMedcard] = useState(false);
     const [addMedcard, setAddMedcard] = useState(false);
     const [newCardData, setNewCardData] = useState(getNewMedicalCard());
+    const [errors, setErrors] = useState({});
 
 
     const params = useParams();
@@ -104,8 +105,29 @@ const MedicalCard = ({currentUserData}) => {
             setCardData(response.data);
             setHasMedcard(true);
             setAddMedcard(false);
+            setErrors({});
+            return {};
         } catch(error) {
-            console.error('Create Medcard Error:', error);
+            const errorData = error.response.data;
+            const errorDetails = {};
+            errorData.detail.forEach((error) => {
+                let field = error.loc[1];
+                if (field === 'address' || field === 'passport') {
+                    field = error.loc[2];
+                }
+                if (field === 'disability') {
+                    if (error.loc[2]) {
+                        field = error.loc[2] + field;
+                    } else {
+                        errorDetails['name' + field] = error.msg.split(',')[1];
+                        errorDetails['group' + field] = error.msg.split(',')[1];
+                        errorDetails['create_date' + field] = error.msg.split(',')[1];
+                    }
+                }
+                errorDetails[field] = error.msg.split(',')[1];
+            });
+            setErrors(errorDetails);
+            return errorDetails;
         }
     }
 
@@ -119,8 +141,29 @@ const MedicalCard = ({currentUserData}) => {
                                 }
                             });
             setCardData(response.data);
+            setErrors({});
+            return {};
         } catch(error) {
-            console.error('Update Medcard Error:', error);
+            const errorData = error.response.data;
+            const errorDetails = {};
+            errorData.detail.forEach((error) => {
+                let field = error.loc[1];
+                if (field === 'address' || field === 'passport') {
+                    field = error.loc[2];
+                }
+                if (field === 'disability') {
+                    if (error.loc[2]) {
+                        field = error.loc[2] + field;
+                    } else {
+                        errorDetails['name' + field] = error.msg.split(',')[1];
+                        errorDetails['group' + field] = error.msg.split(',')[1];
+                        errorDetails['create_date' + field] = error.msg.split(',')[1];
+                    }
+                }
+                errorDetails[field] = error.msg.split(',')[1];
+            });
+            setErrors(errorDetails);
+            return errorDetails;
         }
     }
 
@@ -175,6 +218,7 @@ const MedicalCard = ({currentUserData}) => {
                                         handlePageData={handleUpdateMedcard}
                                         deletePage={() => handleDeleteMedcard()}
                                         ownerId={currentUserData.is_superuser && (currentUserData.id)}
+                                        errors={errors}
                                     />
                                 )}
                                 {addMedcard && (
@@ -185,6 +229,7 @@ const MedicalCard = ({currentUserData}) => {
                                         isNewPage
                                         setAddNewPage={() => setAddMedcard(false)}
                                         handlePageData={handleCreateMedcard}
+                                        errors={errors}
                                     />
                                 )}
                                 {hasMedcard && cardIsLoading && !currentUserData.is_superuser && <Button text={'Перейти к списку страниц'} onHandleClick={() => navigate(`/medical-card/${cardData.id}/pages`)} />}

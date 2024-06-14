@@ -5,7 +5,7 @@ import Input from '../Form/Input';
 import Select from '../Form/Select';
 
 
-const ProfileInfo = ({userInfo, setUserInfo, isUpdateForm, isAdmin, isDoctor}) => {
+const ProfileInfo = ({userInfo, setUserInfo, errors, isUpdateForm, isAdmin, isDoctor}) => {
   const experience = calculateExperience(userInfo.date_employment);
   const age = getAgeFromBirthDate(userInfo.birthday);
   const [specializationsList, setSpecializationsList] = useState();
@@ -34,6 +34,7 @@ const ProfileInfo = ({userInfo, setUserInfo, isUpdateForm, isAdmin, isDoctor}) =
             title={'Имя'}
             value={userInfo.name}
             onChangeInput={(e) => setUserInfo({...userInfo, name: e.target.value})}
+            error={errors['name']}
           />
           <Input 
             type={'text'}
@@ -42,6 +43,7 @@ const ProfileInfo = ({userInfo, setUserInfo, isUpdateForm, isAdmin, isDoctor}) =
             title={'Фамилия'}
             value={userInfo.surname}
             onChangeInput={(e) => setUserInfo({...userInfo, surname: e.target.value})}
+            error={errors['surname']}
           />
           <Input 
             type={'text'}
@@ -58,6 +60,7 @@ const ProfileInfo = ({userInfo, setUserInfo, isUpdateForm, isAdmin, isDoctor}) =
             title={'Дата рождения'}
             value={userInfo.birthday}
             onChangeInput={(e) => setUserInfo({...userInfo, birthday: e.target.value})}
+            error={errors['birthday']}
           />
           {isAdmin && isDoctor && specializationsList && (
             <>
@@ -68,11 +71,13 @@ const ProfileInfo = ({userInfo, setUserInfo, isUpdateForm, isAdmin, isDoctor}) =
               title={'Дата начала работы'}
               value={userInfo.date_employment}
               onChangeInput={(e) => setUserInfo({ ...userInfo, date_employment: e.target.value })}
+              error={errors['date_employment']}
             />
             <Select 
               options={specializationsList}
               value={userInfo.specialization_id}
               onChangeSelect={specId => setUserInfo({...userInfo, specialization_id: specId})}
+              error={errors['specialization_id']}
             />
             <Input 
               type={'text'}
@@ -81,6 +86,7 @@ const ProfileInfo = ({userInfo, setUserInfo, isUpdateForm, isAdmin, isDoctor}) =
               title={'Описание'}
               value={userInfo.desc}
               onChangeInput={(e) => setUserInfo({...userInfo, desc: e.target.value})}
+              error={errors['desc']}
             />
             </>
           )}

@@ -12,7 +12,7 @@ import BeforeDelete from '../Modal/BeforeDelete';
 
 export const PageContext = createContext();
 
-export default function Page({pageData, pageItems, updatePage, handlePageData, deletePage, setAddNewPage, isNewPage, ownerId}) {
+export default function Page({pageData, pageItems, updatePage, handlePageData, deletePage, setAddNewPage, errors, isNewPage, ownerId}) {
 
   const { isPageDiary } = useContext(HealthDiaryContext) || false;
   const {title, date, doctorId, patient, isMedcardPage} = useContext(MedicalCardPagesContext) || {};
@@ -55,9 +55,11 @@ export default function Page({pageData, pageItems, updatePage, handlePageData, d
       }
   }, [doctorId]);
 
-  const handleSavePageData = () => {
-    handlePageData();
-    setOpenEditForm(false);
+  const handleSavePageData = async () => {
+    const hasErrors = await handlePageData();
+    if (Object.keys(hasErrors).length === 0) {
+      setOpenEditForm(false);
+    }
   }
 
   const handleCancel = () => {
@@ -141,6 +143,7 @@ export default function Page({pageData, pageItems, updatePage, handlePageData, d
               body={item.body} 
               fields={item.fields}
               openEditForm={openEditForm}
+              errors={errors}
               />
 
             </PageContext.Provider>

@@ -9,6 +9,7 @@ const Login = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState({});
 
     const handleLogin = async () => {
         
@@ -35,7 +36,15 @@ const Login = () => {
             // navigate('/');
             window.location.replace('/');
           } catch (error) {
-            console.error('Login failed:', error);
+            const errorData = error.response.data;
+            const errorDetails = {};
+            if (errorData.detail === "LOGIN_BAD_CREDENTIALS") {
+              errorDetails['email'] = 'Неверный логин или пароль';
+              errorDetails['password'] = 'Неверный логин или пароль';
+            } else if (errorData.detail === "LOGIN_USER_NOT_VERIFIED") {
+              errorDetails['email'] = 'Почта не подтверждена';
+            }
+            setErrors(errorDetails);
           }
 
     };
@@ -44,6 +53,7 @@ const Login = () => {
         <div className="container">
             <div className="modal">
                 <Form
+                    errors={errors}
                     title={"Авторизация"}
                     textBtn={'Войти в систему'}
                     isLogin={true}

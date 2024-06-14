@@ -18,6 +18,7 @@ const Profile = ({currentUserData}) => {
   const [optionsIsOpen, setOptionsIsOpen] = useState(false);
   const [isUpdateForm, setIsUpdateForm] = useState(false);
   const [openConfirmForm, setOpenConfirmForm] = useState(false);
+  const [errors, setErrors] = useState({});
 
 
   const params = useParams();
@@ -70,8 +71,15 @@ const Profile = ({currentUserData}) => {
                     });
         setUserData(response.data);
         setIsUpdateForm(false);
+        setErrors({});
     } catch(error) {
-        console.error('Update User Error:', error);
+        const errorData = error.response.data;
+        const errorDetails = {};
+        errorData.detail.forEach((error) => {
+            const field = error.loc[1];
+            errorDetails[field] = error.msg.split(',')[1];
+        });
+        setErrors(errorDetails);
     }
   }
 
@@ -162,6 +170,7 @@ const Profile = ({currentUserData}) => {
                       isUpdateForm={isUpdateForm}
                       isAdmin={currentUserData.is_superuser}
                       isDoctor={userData.specialization_id}
+                      errors={errors}
                     />
                   </div>
                   <div className="profile__btns">

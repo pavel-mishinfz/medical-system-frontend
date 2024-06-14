@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export function MenuItem({data: {title, nav}}) {
   return (
     <button className="menu__item">
-        <Link to={nav}>{title}</Link>
+        <Link to="#" onClick={() => window.location.replace(nav)}>{title}</Link>
     </button>
   );
 }

@@ -18,9 +18,12 @@ const Templates = () => {
     const [currentPage, setCurrentPage] = useState(1);
 
     const templateSlice = useMemo(() => {
-        const firstPageIndex = (currentPage - 1) * PageSize;
-        const lastPageIndex = firstPageIndex + PageSize;
-        return templates.slice(firstPageIndex, lastPageIndex);
+        if (templates.length > 0) {
+            const firstPageIndex = (currentPage - 1) * PageSize;
+            const lastPageIndex = firstPageIndex + PageSize;
+            return templates.slice(firstPageIndex, lastPageIndex);
+        }
+        return [];
     }, [currentPage, templates]);
 
     useEffect(() => {
@@ -31,7 +34,7 @@ const Templates = () => {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 },
                             });
-                setTemplates(response.data);             
+                setTemplates(response.data.filter(template => template.is_deleted === false));             
             } catch(error) {
                 console.error('Get List Templates Error:', error);
             }
@@ -56,7 +59,7 @@ const Templates = () => {
                         />
                         <section className="section section--templates">
                             <Header title={'Шаблоны страниц медицинской карты'} />
-                            {templateSlice && templateSlice.map(template =>
+                            {templateSlice.length > 0 && templateSlice.map(template =>
                                 <Template key={template.id} template={template} setTemplates={data => {
                                     let updatedTemplates = [...templates];
                                     const idx = updatedTemplates.indexOf(template);
@@ -66,7 +69,8 @@ const Templates = () => {
                                     } else {
                                         setTemplates(updatedTemplates.filter(tmp => tmp.id !== template.id));
                                     }
-                                }} />
+                                }}
+                                />
                             )}
                             {(templatesIsLoading && !addNewTemplate && currentPage === Math.ceil((templates.length + 1) / PageSize)) && (
                                 <Button

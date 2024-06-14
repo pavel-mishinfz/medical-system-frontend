@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Options from '../Options/Options';
 
 
-const TemplateHeader = ({value, setValue, readTemplate, setReadTemplate, beforeDeleteTemplate}) => {
+const TemplateHeader = ({value, setValue, readTemplate, setReadTemplate, beforeDeleteTemplate, error}) => {
     const [openOptions, setOpenOptions] = useState(false);
 
     const handleOutsideClick = (e) => {
@@ -45,7 +45,12 @@ const TemplateHeader = ({value, setValue, readTemplate, setReadTemplate, beforeD
             )}
             </>
             :
+            <>
             <input type="text" name="name" value={value} placeholder="Название шаблона" onChange={(e) => setValue(e.target.value)}/>
+            {error && (
+                <p style={{color: 'red'}}>{error}</p>
+            )}
+            </>
             }
         </div>
     );

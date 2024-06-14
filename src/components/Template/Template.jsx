@@ -24,6 +24,7 @@ const Template = ({template, setAddNewTemplate, setTemplates}) => {
         fields: [field],
     }
     const [rows, setRows] = useState(template ? template.structure.map(tmp => ({ id: uuid(), row: tmp })) : []);
+    const [errors, setErrors] = useState({});
 
     const handleCreateTemplate = async () => {
         const requestBody = {
@@ -39,7 +40,16 @@ const Template = ({template, setAddNewTemplate, setTemplates}) => {
             });
             window.location.reload();
         } catch (error) {
-            console.error('Create Template Error:', error);
+            const errorData = error.response.data;
+            const errorDetails = {};
+            errorData.detail.forEach((error) => {
+                if (error.loc.length == 2) {
+                    errorDetails['name'] = error.msg.split(',')[1];    
+                } else {
+                    errorDetails['any'] = error.msg.split(',')[1];
+                }
+            });
+            setErrors(errorDetails);
         }
     }
 
@@ -58,7 +68,16 @@ const Template = ({template, setAddNewTemplate, setTemplates}) => {
             setTemplates(response.data);
             setReadTemplate(true);
         } catch (error) {
-            console.error('Update Template Error:', error);
+            const errorData = error.response.data;
+            const errorDetails = {};
+            errorData.detail.forEach((error) => {
+                if (error.loc.length == 2) {
+                    errorDetails['name'] = error.msg.split(',')[1];    
+                } else {
+                    errorDetails['any'] = error.msg.split(',')[1];
+                }
+            });
+            setErrors(errorDetails);
         }
     }
 
@@ -81,7 +100,7 @@ const Template = ({template, setAddNewTemplate, setTemplates}) => {
         {(!template || !readTemplate) && (
             <>
             <div className="template">
-                <TemplateHeader value={templateName} setValue={setTemplateName} />
+                <TemplateHeader value={templateName} setValue={setTemplateName} error={errors['name']}/>
                 {rows.map((elem, index) => (
                     <div className="template__structure" key={elem.id}>
                         <div className="template__structure-delete">
@@ -125,6 +144,9 @@ const Template = ({template, setAddNewTemplate, setTemplates}) => {
                         />
                     </div>
                 ))}
+                {errors && errors['any'] && (
+                    <p style={{color: 'red'}}>{errors['any']}</p>
+                )}
                 <div className="template__add">
                     <Button text={'+ Добавить строку'} onHandleClick={() => setRows([...rows, { id: uuid(), row: row }])} />
                 </div>

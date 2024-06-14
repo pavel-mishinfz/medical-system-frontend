@@ -13,11 +13,14 @@ const Register = ({isOpenModal, closeModal}) => {
     const [surname, setSurname] = useState('');
     const [patronymic, setPatronymic] = useState('');
     const [birthday, setBirthday] = useState('');
-
+    const [errors, setErrors] = useState({});
+    const errorDetails = {};
 
     const handleRegister = async () => {
         if (password !== passwordConfirm) {
-            console.log('Пароли должны совпадать!');
+          errorDetails['password_confirm'] = 'Пароли должны совпадать';
+          setErrors(errorDetails);
+          return;
         }
 
         const requestBody = {
@@ -55,7 +58,18 @@ const Register = ({isOpenModal, closeModal}) => {
     
           })
           .catch(error => {
-            console.error('Registration failed:', error);
+            const errorData = error.response.data;
+            if (errorData.detail === "REGISTER_USER_ALREADY_EXISTS") {
+              errorDetails['email'] = 'Пользователь с такой почтой уже существует';
+            } else if (errorData.detail.code === "REGISTER_INVALID_PASSWORD") {
+              errorDetails['password'] = errorData.detail.reason;
+            } else {
+              errorData.detail.forEach((error) => {
+                  const field = error.loc[1];
+                  errorDetails[field] = error.msg.split(',')[1];
+              });
+            }
+            setErrors(errorDetails);
           });
     };
 
@@ -63,6 +77,7 @@ const Register = ({isOpenModal, closeModal}) => {
     return (
         <div className="modal">
             <Form 
+            errors={errors}
             title={'Регистрация'}
             inputListData={[
                 {

@@ -62,7 +62,7 @@ export function getMedcardItems(cardData, familyStatusList, educationList, busyn
             ${cardData.address.district ? cardData.address.district + ', ' : ''}
             ${cardData.address.locality + ', '}
             ${cardData.address.street + ', '}
-            ${cardData.address.house + ', '}
+            ${cardData.address.house}${cardData.address.apartment ? ', ' : ''}
             ${cardData.address.apartment ? cardData.address.apartment : ''}`, 
             fields: [
                 {
@@ -254,7 +254,7 @@ export function getMedcardItems(cardData, familyStatusList, educationList, busyn
             title: 'Инвалидность', 
             body: cardData.disability && `${cardData.disability.name ? cardData.disability.name + ', ' : ''}
             ${cardData.disability.group ? cardData.disability.group + ', ' : ''} 
-            ${cardData.disability.create_date ? moment(cardData.disability.create_date).utc(true).format('DD/MM/YYYY') + ', ' : ''}`,
+            ${cardData.disability.create_date ? moment(cardData.disability.create_date).utc(true).format('DD/MM/YYYY') + '' : ''}`,
             fields: [
                 {
                     title: 'Наименование',
@@ -317,7 +317,7 @@ export function getMedcardItems(cardData, familyStatusList, educationList, busyn
         },
         { 
             title: 'Резус-фактор', 
-            body: `${cardData.blood_type && (cardData.rh_factor_is_pos ? 'положительный' : 'отрицательный')}`,
+            body: `${cardData.blood_type ? cardData.rh_factor_is_pos ? 'положительный' : 'отрицательный' : ''}`,
             fields: [
                 {
                     title: null,

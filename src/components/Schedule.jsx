@@ -20,6 +20,7 @@ const Schedule = () => {
     const [openUpdateForm, setOpenUpdateForm] = useState(false);
     const [fieldIsDisable, setFieldIsDisable] = useState(true);
     const [isNewSchedule, setIsNewSchedule] = useState(false);
+    const [errors, setErrors] = useState({});
 
     const params = useParams();
     const userId = params.id;
@@ -76,8 +77,16 @@ const Schedule = () => {
             setScheduleData(response.data);
             setOpenUpdateForm(false);
             setIsNewSchedule(false);
+            setErrors({});
         } catch (error) {
-            console.error('Get Doctor Error:', error);
+            const errorData = error.response.data;
+            const errorDetails = {};
+            errorData.detail.forEach((error) => {
+                const field = error.loc[1];
+                errorDetails[field] = error.msg.split(',')[1];
+            });
+            setErrors(errorDetails);
+            setFieldIsDisable(false);
         }
     }
 
@@ -97,8 +106,16 @@ const Schedule = () => {
 
             setScheduleData(response.data);
             setOpenUpdateForm(false);
+            setErrors({});
         } catch (error) {
-            console.error('Get Doctor Error:', error);
+            const errorData = error.response.data;
+            const errorDetails = {};
+            errorData.detail.forEach((error) => {
+                const field = error.loc[1];
+                errorDetails[field] = error.msg.split(',')[1];
+            });
+            setErrors(errorDetails);
+            setFieldIsDisable(false);
         }
     }
     
@@ -146,13 +163,16 @@ const Schedule = () => {
                                                 fieldIsDisable={fieldIsDisable}
                                             />
                                         )}
+                                        {errors && Object.entries(errors).map(([key, value]) => 
+                                            <p style={{ color: 'red' }}>{value}</p>
+                                        )}
                                     </div>
                                     {!scheduleData && (
                                         <div className="schedule__btns">
                                             <Button text={'Создать'} onHandleClick={() => {
                                                 setScheduleData({
                                                     schedule: {},
-                                                    time_per_patient: '',
+                                                    time_per_patient: null,
                                                     id_doctor: userId
                                                 })
                                                 setOpenUpdateForm(true);
@@ -172,6 +192,7 @@ const Schedule = () => {
                                                 setScheduleData(JSON.parse(JSON.stringify(scheduleInitData)));
                                                 setOpenUpdateForm(false);
                                                 setFieldIsDisable(true);
+                                                setErrors({});
                                             }}/>
                                         </div>
                                     )}

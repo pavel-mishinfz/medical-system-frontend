@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Select({options, value, onChangeSelect}) {
+export default function Select({options, value, onChangeSelect, error}) {
 
   return (
     <div className="form__fields-item">
@@ -9,6 +9,9 @@ export default function Select({options, value, onChangeSelect}) {
             <option key={option.id} value={option.id}>{option.name}</option>
           )}
         </select>
+        {error && (
+          <p style={{color: 'red'}}>{error}</p>
+        )}
     </div>
   );
 }

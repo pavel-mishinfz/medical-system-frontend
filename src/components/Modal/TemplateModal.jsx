@@ -13,7 +13,7 @@ const TemplateModal = ({onCloseModal, addNewPage, getTemplate, getTemplateData})
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 },
                             });
-                setTemplates(response.data);             
+                setTemplates(response.data.filter(template => template.is_deleted === false));             
             } catch(error) {
                 console.error('Get List Templates Error:', error);
             }
