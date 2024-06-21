@@ -19,7 +19,7 @@ const Specialization = ({ isAuthenticated }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://' + window.location.hostname + `:8006/specializations/${specId}`,
+        const response = await axios.get('http://' + window.location.hostname + `:5000/specializations/${specId}`,
           {
             headers: {
               Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
@@ -34,7 +34,7 @@ const Specialization = ({ isAuthenticated }) => {
       }
 
       try {
-        const response = await axios.get('http://' + window.location.hostname + `:8006/users/specialization/${specId}`, {
+        const response = await axios.get('http://' + window.location.hostname + `:5000/users/specialization/${specId}`, {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
           }

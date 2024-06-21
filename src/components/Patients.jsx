@@ -14,7 +14,7 @@ const Patients = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://' + window.location.hostname + `:8006/users/all/summary`, {
+        const response = await axios.get('http://' + window.location.hostname + `:5000/users/all/summary`, {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
           },
@@ -27,7 +27,7 @@ const Patients = () => {
       }
 
       try {
-        const response = await axios.get('http://' + window.location.hostname + `:8006/cards`, {
+        const response = await axios.get('http://' + window.location.hostname + `:5000/cards`, {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
           },

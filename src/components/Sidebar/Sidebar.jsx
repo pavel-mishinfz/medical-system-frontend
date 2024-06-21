@@ -25,7 +25,7 @@ const Sidebar = ({ sidebarIsOpen, setSidebarIsOpen }) => {
 
 
   const handleLogout = async () => {
-    axios.post('http://' + window.location.hostname + `:8006/auth/jwt/logout`, '', {
+    axios.post('http://' + window.location.hostname + `:5000/auth/jwt/logout`, '', {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
       },

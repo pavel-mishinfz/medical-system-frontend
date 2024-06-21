@@ -17,7 +17,7 @@ const ConfirmRecord = ({currentUserData}) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://' + window.location.hostname + `:8006/users/user/${doctorId}/summary`, {
+                const response = await axios.get('http://' + window.location.hostname + `:5000/users/user/${doctorId}/summary`, {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                     },

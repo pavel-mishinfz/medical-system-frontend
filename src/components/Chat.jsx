@@ -28,7 +28,7 @@ const Chat = ({ currentUser }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://${window.location.hostname}:8006/chats/${currentUser.id}`, {
+                const response = await axios.get(`http://${window.location.hostname}:5000/chats/${currentUser.id}`, {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                     },
@@ -39,7 +39,7 @@ const Chat = ({ currentUser }) => {
             }
 
             try {
-                const response = await axios.get(`http://${window.location.hostname}:8006/users/all/summary`, {
+                const response = await axios.get(`http://${window.location.hostname}:5000/users/all/summary`, {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                     },
@@ -130,7 +130,7 @@ const Chat = ({ currentUser }) => {
         setSelectedChatId(chatId);
         setTargetUserId(userId);
 
-        ws = new WebSocket(`ws://${window.location.hostname}:8006/ws/${chatId}/${currentUser.id}?token=${sessionStorage.getItem('authToken')}`);
+        ws = new WebSocket(`ws://${window.location.hostname}:5000/ws/${chatId}/${currentUser.id}?token=${sessionStorage.getItem('authToken')}`);
 
         ws.onopen = function () {
             console.log("Connected to the session.");
@@ -151,7 +151,7 @@ const Chat = ({ currentUser }) => {
     const getLastMessages = async (chatId) => {
         if (ws && ws.readyState === WebSocket.OPEN) {
             try {
-                const response = await axios.get(`http://${window.location.hostname}:8006/messages/last/${chatId}`, {
+                const response = await axios.get(`http://${window.location.hostname}:5000/messages/last/${chatId}`, {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                     },

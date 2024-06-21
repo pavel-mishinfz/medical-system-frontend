@@ -14,7 +14,7 @@ const ForgotPassword = () => {
           email: email
         };
 
-        axios.post('http://' + window.location.hostname + ':8006/auth/forgot-password', requestBody)
+        axios.post('http://' + window.location.hostname + ':5000/auth/forgot-password', requestBody)
         .then(response => {
             setTextBtn('Сообщение успешно отправлено!');
             setModify('btn--success');

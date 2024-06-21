@@ -29,9 +29,9 @@ const MedicalCard = ({currentUserData}) => {
     const paramsId = params.id;
     let url = '';
     if (paramsId && Number.isInteger(Number(paramsId))) {
-        url = `http://${window.location.hostname}:8006/cards/${paramsId}`
+        url = `http://${window.location.hostname}:5000/cards/${paramsId}`
     } else if (!paramsId) {
-        url = `http://${window.location.hostname}:8006/cards/me/${currentUserData.id}`
+        url = `http://${window.location.hostname}:5000/cards/me/${currentUserData.id}`
     }
 
     useEffect(() => {
@@ -52,7 +52,7 @@ const MedicalCard = ({currentUserData}) => {
             }
 
             try {
-                const response = await axios.get('http://'+ window.location.hostname + `:8006/family_status`, {
+                const response = await axios.get('http://'+ window.location.hostname + `:5000/family_status`, {
                                 headers: {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 },
@@ -63,7 +63,7 @@ const MedicalCard = ({currentUserData}) => {
             }
 
             try {
-                const response = await axios.get('http://'+ window.location.hostname + `:8006/education`, {
+                const response = await axios.get('http://'+ window.location.hostname + `:5000/education`, {
                                 headers: {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 },
@@ -74,7 +74,7 @@ const MedicalCard = ({currentUserData}) => {
             }
 
             try {
-                const response = await axios.get('http://'+ window.location.hostname + `:8006/busyness`, {
+                const response = await axios.get('http://'+ window.location.hostname + `:5000/busyness`, {
                                 headers: {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 },
@@ -97,7 +97,7 @@ const MedicalCard = ({currentUserData}) => {
         };
 
         try {
-            const response = await axios.post('http://'+ window.location.hostname + `:8006/cards`, requestBody, {
+            const response = await axios.post('http://'+ window.location.hostname + `:5000/cards`, requestBody, {
                                 headers: {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 }
@@ -135,7 +135,7 @@ const MedicalCard = ({currentUserData}) => {
         const requestBody = cardData;
 
         try {
-            const response = await axios.patch('http://'+ window.location.hostname + `:8006/cards/${cardData.id}`, requestBody, {
+            const response = await axios.patch('http://'+ window.location.hostname + `:5000/cards/${cardData.id}`, requestBody, {
                                 headers: {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 }
@@ -169,7 +169,7 @@ const MedicalCard = ({currentUserData}) => {
 
     const handleDeleteMedcard = async () => {
         try {
-            const response = await axios.delete('http://'+ window.location.hostname + `:8006/cards/${cardData.id}`, {
+            const response = await axios.delete('http://'+ window.location.hostname + `:5000/cards/${cardData.id}`, {
                                 headers: {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 }

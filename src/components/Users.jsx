@@ -17,7 +17,7 @@ const Users = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://' + window.location.hostname + `:8006/users/all/summary`, {
+        const response = await axios.get('http://' + window.location.hostname + `:5000/users/all/summary`, {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
           },
@@ -26,7 +26,7 @@ const Users = () => {
         setUsers(response.data.filter(user => user.id !== sessionStorage.getItem('userId')));
 
         try {
-          const response = await axios.get('http://' + window.location.hostname + `:8006/cards`, {
+          const response = await axios.get('http://' + window.location.hostname + `:5000/cards`, {
             headers: {
               Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
             },

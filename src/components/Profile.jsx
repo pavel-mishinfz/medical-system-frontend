@@ -41,7 +41,7 @@ const Profile = ({currentUserData}) => {
     
     const fetchData = async () => {
       try {
-          const response = await axios.get('http://'+ window.location.hostname + `:8006/users/${userId}`, {
+          const response = await axios.get('http://'+ window.location.hostname + `:5000/users/${userId}`, {
                           headers: {
                               Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                           },
@@ -64,7 +64,7 @@ const Profile = ({currentUserData}) => {
     const requestBody = userData;
 
     try {
-        const response = await axios.patch('http://'+ window.location.hostname + `:8006/users/${userId}`, requestBody, {
+        const response = await axios.patch('http://'+ window.location.hostname + `:5000/users/${userId}`, requestBody, {
                         headers: {
                             Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                         },
@@ -86,7 +86,7 @@ const Profile = ({currentUserData}) => {
   const handleDeleteUser = async () => {
 
     try {
-        const response = await axios.delete('http://'+ window.location.hostname + `:8006/users/${userId}`, {
+        const response = await axios.delete('http://'+ window.location.hostname + `:5000/users/${userId}`, {
                         headers: {
                             Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                         },
@@ -103,7 +103,7 @@ const Profile = ({currentUserData}) => {
       email: userData.email
     }
 
-    axios.post('http://' + window.location.hostname + ':8006/auth/request-verify-token', requestBody)
+    axios.post('http://' + window.location.hostname + ':5000/auth/request-verify-token', requestBody)
       .then(response => {
         console.log('Request verify successful:', response.status);
       })

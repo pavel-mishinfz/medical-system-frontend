@@ -15,7 +15,7 @@ const ChangeEmail= () => {
 
     const handleRequestConfirmCode = async () => {
       try {
-        const response = await axios.post('http://'+ window.location.hostname + ':8006/send_confirm_code', '', {
+        const response = await axios.post('http://'+ window.location.hostname + ':5000/send_confirm_code', '', {
                         headers: {
                             Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                         },

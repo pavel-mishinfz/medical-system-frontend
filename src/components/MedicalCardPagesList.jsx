@@ -30,7 +30,7 @@ const MedicalCardPagesList = ({currentUserData}) => {
 
     const getTemplateById = async (templateId) => {
         try {
-            const response = await axios.get('http://'+ window.location.hostname + `:8006/templates/${templateId}`, {
+            const response = await axios.get('http://'+ window.location.hostname + `:5000/templates/${templateId}`, {
                             headers: {
                                 Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                             },
@@ -54,7 +54,7 @@ const MedicalCardPagesList = ({currentUserData}) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://'+ window.location.hostname + `:8006/pages/card/${cardId}`, {
+                const response = await axios.get('http://'+ window.location.hostname + `:5000/pages/card/${cardId}`, {
                                 headers: {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 },
@@ -63,7 +63,7 @@ const MedicalCardPagesList = ({currentUserData}) => {
                 
                 if (currentUserData.specialization_id) {
                     try {
-                        const response = await axios.get('http://'+ window.location.hostname + `:8006/cards/${cardId}`, {
+                        const response = await axios.get('http://'+ window.location.hostname + `:5000/cards/${cardId}`, {
                                         headers: {
                                             Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                         },
@@ -104,7 +104,7 @@ const MedicalCardPagesList = ({currentUserData}) => {
         };
 
         try {
-            const response = await axios.post('http://'+ window.location.hostname + `:8006/pages/card/${cardId}/template/${templateId}`, requestBody, {
+            const response = await axios.post('http://'+ window.location.hostname + `:5000/pages/card/${cardId}/template/${templateId}`, requestBody, {
                                 headers: {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 }
@@ -116,7 +116,7 @@ const MedicalCardPagesList = ({currentUserData}) => {
                     patient_id: patient.id
                 }
     
-                axios.post('http://' + window.location.hostname + `:8006/chats`, requestBody, {
+                axios.post('http://' + window.location.hostname + `:5000/chats`, requestBody, {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                     }
@@ -141,7 +141,7 @@ const MedicalCardPagesList = ({currentUserData}) => {
 
     const deletePage = async (id) => {
         try {
-            const response = await axios.delete('http://'+ window.location.hostname + `:8006/pages/${id}`, {
+            const response = await axios.delete('http://'+ window.location.hostname + `:5000/pages/${id}`, {
                                 headers: {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 }
@@ -163,7 +163,7 @@ const MedicalCardPagesList = ({currentUserData}) => {
         const requestBody = page;
 
         try {
-            const response = await axios.put('http://'+ window.location.hostname + `:8006/pages/${page.id}`, requestBody, {
+            const response = await axios.put('http://'+ window.location.hostname + `:5000/pages/${page.id}`, requestBody, {
                                 headers: {
                                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                                 }

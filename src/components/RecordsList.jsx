@@ -17,7 +17,6 @@ const RecordsList = ({currentUserData, isPatient}) => {
     const [currentPage, setCurrentPage] = useState(1);
 
     const userId = currentUserData.id;
-    const currentUser = isPatient ? 'user' : 'doctor';  
 
     const currentRecords = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * PageSize;
@@ -28,7 +27,7 @@ const RecordsList = ({currentUserData, isPatient}) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://' + window.location.hostname + `:8006/records/${currentUser}/${userId}`, {
+                const response = await axios.get('http://' + window.location.hostname + `:5000/records/user/${userId}`, {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                     },
@@ -39,7 +38,7 @@ const RecordsList = ({currentUserData, isPatient}) => {
                 console.error('Get Records Error:', error);
             }
 
-            axios.get('http://' + window.location.hostname + `:8006/meetings`, {
+            axios.get('http://' + window.location.hostname + `:5000/meetings`, {
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                 },

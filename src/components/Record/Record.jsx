@@ -18,7 +18,7 @@ export default function Record({id, doctor, user, doctorId, userId, day, time, i
         if (doctorId) {
             const fetchData = async () => {
                 try {
-                    const response = await axios.get('http://' + window.location.hostname + `:8006/users/user/${doctorId}/summary`, {
+                    const response = await axios.get('http://' + window.location.hostname + `:5000/users/user/${doctorId}/summary`, {
                         headers: {
                             Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                         },
@@ -35,7 +35,7 @@ export default function Record({id, doctor, user, doctorId, userId, day, time, i
         if (userId) {
             const fetchData = async () => {
                 try {
-                    const response = await axios.get('http://' + window.location.hostname + `:8006/users/user/${userId}/summary`, {
+                    const response = await axios.get('http://' + window.location.hostname + `:5000/users/user/${userId}/summary`, {
                         headers: {
                             Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                         },
@@ -60,8 +60,8 @@ export default function Record({id, doctor, user, doctorId, userId, day, time, i
 
             const timeDifference = Math.abs(currentTime.diff(targetTimeMoment, 'minutes'));
 
-            // if (meeting && meeting.start_date === currentDate && timeDifference <= 15) {
-                axios.get('http://' + window.location.hostname + `:8006/meetings/${meeting.meeting_id}`, {
+            if (meeting && meeting.start_date === currentDate) {
+                axios.get('http://' + window.location.hostname + `:5000/meetings/${meeting.meeting_id}`, {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                     },
@@ -72,13 +72,13 @@ export default function Record({id, doctor, user, doctorId, userId, day, time, i
                     .catch(error => {
                         console.error('Get meeting failed:', error);
                     });
-            // }
+            }
         }
 
     }, []);
     
     const handleDeleteRecord = async () => {
-        axios.delete('http://' + window.location.hostname + `:8006/records/${id}`, {
+        axios.delete('http://' + window.location.hostname + `:5000/records/${id}`, {
             headers: {
                 Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
             },

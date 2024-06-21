@@ -19,7 +19,11 @@ export default function PageItem({title, body, fields, errors, openEditForm}) {
                 errors[field.subname]
               )
             ) : (
-              errors[field.name]
+              errors ? (
+                errors[field.name]
+              ) : (
+                null
+              )
             )}/>
           )
         ) : moment(body, moment.ISO_8601, true).isValid() ? (

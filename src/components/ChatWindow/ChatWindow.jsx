@@ -15,7 +15,7 @@ const ChatWindow = ({ messages, setMessages, chatId, ownerId }) => {
 
     const handleShowPrevMessage = async() => {
         try {
-            const response = await axios.get(`http://${window.location.hostname}:8006/messages/last/${chatId}?skip=${skip+20}`, {
+            const response = await axios.get(`http://${window.location.hostname}:5000/messages/last/${chatId}?skip=${skip+20}`, {
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                 },

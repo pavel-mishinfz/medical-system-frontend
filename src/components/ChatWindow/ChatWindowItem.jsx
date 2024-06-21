@@ -9,7 +9,7 @@ const ChatWindowItem = ({ messageId, message, sendDate, setMessages, isOwner, do
 
     const handleMessageDelete = async () => {
         try {
-            const response = await axios.delete(`http://${window.location.hostname}:8006/messages/${messageId}`, {
+            const response = await axios.delete(`http://${window.location.hostname}:5000/messages/${messageId}`, {
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                 },
@@ -32,7 +32,7 @@ const ChatWindowItem = ({ messageId, message, sendDate, setMessages, isOwner, do
     const handleMouseDown = (event, path_to_file) => {
         if (event.button === 0) {
             event.preventDefault();
-            const url = `http://${window.location.hostname}:8006/${path_to_file}`;
+            const url = `http://${window.location.hostname}:5000/${path_to_file}`;
             openFileInNewWindow(url, sessionStorage.getItem('authToken'));
         }
     };
@@ -40,7 +40,7 @@ const ChatWindowItem = ({ messageId, message, sendDate, setMessages, isOwner, do
     const handleAuxClick = (event, path_to_file) => {
         if (event.button === 1) {
             event.preventDefault();
-            const url = `http://${window.location.hostname}:8006/${path_to_file}`;
+            const url = `http://${window.location.hostname}:5000/${path_to_file}`;
             openFileInNewWindow(url, sessionStorage.getItem('authToken'));
         }
     };
@@ -98,7 +98,7 @@ const ChatWindowItem = ({ messageId, message, sendDate, setMessages, isOwner, do
                         <div key={document.path_to_file} className="chat__files-item">
                             <img src="img/chat/file.svg" alt="file" />
                             <Link
-                                to={`http://${window.location.hostname}:8006/${document.path_to_file}`}
+                                to={`http://${window.location.hostname}:5000/${document.path_to_file}`}
                                 onClick={(e) => handleMouseDown(e, document.path_to_file)}
                                 onAuxClick={(e) => handleAuxClick(e, document.path_to_file)}
                                 download={true}

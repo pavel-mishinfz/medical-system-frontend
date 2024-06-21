@@ -36,7 +36,7 @@ const Register = ({isOpenModal, closeModal}) => {
           birthday,
         };
     
-        axios.post('http://' + window.location.hostname + ':8006/auth/register', requestBody)
+        axios.post('http://' + window.location.hostname + ':5000/auth/register', requestBody)
           .then(response => {
             console.log('Registration successful:', response.status);
             
@@ -46,7 +46,7 @@ const Register = ({isOpenModal, closeModal}) => {
               email: email
             };
         
-            axios.post('http://' + window.location.hostname + ':8006/auth/request-verify-token', requestBody)
+            axios.post('http://' + window.location.hostname + ':5000/auth/request-verify-token', requestBody)
               .then(response => {
                 console.log('Request verify successful:', response.status);
               })

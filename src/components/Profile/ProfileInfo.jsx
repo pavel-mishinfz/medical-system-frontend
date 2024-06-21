@@ -13,7 +13,7 @@ const ProfileInfo = ({userInfo, setUserInfo, errors, isUpdateForm, isAdmin, isDo
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://' + window.location.hostname + `:8006/specializations`)
+        const response = await axios.get('http://' + window.location.hostname + `:5000/specializations`)
         setSpecializationsList(response.data);
       } catch (error) {
         console.error('Get Specializations List Error:', error);

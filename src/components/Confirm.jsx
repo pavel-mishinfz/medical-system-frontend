@@ -21,7 +21,7 @@ const Confirm = () => {
     };
 
     useEffect(() => {
-        axios.post('http://' + window.location.hostname + ':8006/auth/verify', requestBody)
+        axios.post('http://' + window.location.hostname + ':5000/auth/verify', requestBody)
         .then(response => {
             console.log('Verify successful:', response.status);
             navigate('/');
@@ -45,7 +45,7 @@ const Confirm = () => {
         email: email
         };
 
-        axios.post('http://' + window.location.hostname + ':8006/auth/request-verify-token', requestBody)
+        axios.post('http://' + window.location.hostname + ':5000/auth/request-verify-token', requestBody)
         .then(response => {
             setTextBtn('Сообщение успешно отправлено!');
             setModify('btn--success');

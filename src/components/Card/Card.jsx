@@ -14,7 +14,7 @@ const Card = ({title, subtitle, fields, modify, textBtn, handleClick}) => {
 
     const handleChangeConfirmCode = (value) => {
         if (value.length >= 6) {
-            axios.post('http://' + window.location.hostname + `:8006/check_confirm_code?code=${value}`, '', {
+            axios.post('http://' + window.location.hostname + `:5000/check_confirm_code?code=${value}`, '', {
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
                 },
